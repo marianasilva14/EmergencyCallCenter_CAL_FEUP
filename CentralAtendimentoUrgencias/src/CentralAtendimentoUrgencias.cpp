@@ -1,8 +1,32 @@
 #include <cstdio>
 #include "graphviewer.h"
+#include "Graph.h"
+#include <cmath>
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <string>
+
+class NoInfo{
+public:
+	long long idNo;
+	double longitude_radians;
+	double latitude_radians;
+
+	NoInfo(long long idNo, double longitude_radians, double latitude_radians){
+		this->idNo = idNo;
+		this->longitude_radians = longitude_radians;
+		this->latitude_radians = latitude_radians;
+	}
+
+	friend bool operator==(NoInfo const & left,NoInfo const & right){
+		return left.idNo == right.idNo;
+	}
+
+	friend bool operator!=(NoInfo const & left,NoInfo const & right){
+		return left.idNo != right.idNo;
+	}
+};
 
 void exercicio1();
 void exercicio2();
@@ -110,14 +134,14 @@ void exercicio2()
 		Sleep(2000);
 		if (first)
 		{
-		  gv->removeNode(12);
-		  gv->removeNode(13);
-		  first=false;
+			gv->removeNode(12);
+			gv->removeNode(13);
+			first=false;
 		}
 		else
 		{
-		  gv->removeNode(20);
-		  gv->removeNode(21);
+			gv->removeNode(20);
+			gv->removeNode(21);
 		}
 		gv->addNode(14,250,550);
 		gv->addNode(15,350,550);
@@ -169,8 +193,8 @@ void exercicio3()
 	inFile.open("nos.txt");
 
 	if (!inFile) {
-	    cerr << "Unable to open file datafile.txt";
-	    exit(1);   // call system to stop
+		cerr << "Unable to open file datafile.txt";
+		exit(1);   // call system to stop
 	}
 
 	std::string   line;
@@ -181,16 +205,16 @@ void exercicio3()
 
 	while(std::getline(inFile, line))
 	{
-	    std::stringstream linestream(line);
-	    std::string         data;
+		std::stringstream linestream(line);
+		std::string         data;
 
-	    linestream >> idNo;
+		linestream >> idNo;
 
-	    std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
-	    linestream >> X;
-	    std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
-	    linestream >> Y;
-	    gv->addNode(idNo,X,Y);
+		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
+		linestream >> X;
+		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
+		linestream >> Y;
+		gv->addNode(idNo,X,Y);
 
 	}
 
@@ -200,40 +224,156 @@ void exercicio3()
 	//Ler o ficheiro arestas.txt
 	inFile.open("arestas.txt");
 
-		if (!inFile) {
-		    cerr << "Unable to open file datafile.txt";
-		    exit(1);   // call system to stop
-		}
+	if (!inFile) {
+		cerr << "Unable to open file datafile.txt";
+		exit(1);   // call system to stop
+	}
 
-		int idAresta=0;
-		int idNoOrigem=0;
-		int idNoDestino=0;
+	int idAresta=0;
+	int idNoOrigem=0;
+	int idNoDestino=0;
 
-		while(std::getline(inFile, line))
-		{
-		    std::stringstream linestream(line);
-		    std::string data;
+	while(std::getline(inFile, line))
+	{
+		std::stringstream linestream(line);
+		std::string data;
 
 
-		    linestream >> idAresta;
+		linestream >> idAresta;
 
-		    std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
-		    linestream >> idNoOrigem;
-		    std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
-		    linestream >> idNoDestino;
-		    gv->addEdge(idAresta,idNoOrigem,idNoDestino, EdgeType::UNDIRECTED);
+		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
+		linestream >> idNoOrigem;
+		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
+		linestream >> idNoDestino;
+		gv->addEdge(idAresta,idNoOrigem,idNoDestino, EdgeType::UNDIRECTED);
 
-		}
+	}
 
-		inFile.close();
+	inFile.close();
+
+	gv->rearrange();
+
+}
+
+//calculate haversine distance for linear distance // coordinates in radians
+long double haversine_km(long double lat1, long double long1, long double lat2, long double long2) {
+	long double dlong = (long2 - long1);
+	long double dlat = (lat2 - lat1);
+	long double a = pow(sin(dlat / 2.0), 2) + cos(lat1) * cos(lat2) * pow(sin(dlong / 2.0), 2);
+	long double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+	long double d = 6367 * c;
+
+	return d;
+}
+
+void readFiles(GraphViewer *gv, Graph<NoInfo> graf){
+	gv->createWindow(1000, 1000);
+
+	gv->defineEdgeColor("blue");
+	gv->defineVertexColor("yellow");
+
+	ifstream inFile;
+
+	//Ler o ficheiro FileNodes.txt
+	inFile.open("FileNodes.txt");
+
+	if (!inFile) {
+		cerr << "Unable to open file datafile.txt";
+		exit(1);   // call system to stop
+	}
+
+	std::string   line;
+
+	long long idNo=0;
+	double latitude_degrees=0;
+	double longitude_degrees=0;
+	double longitude_radians=0;
+	double latitude_radians=0;
+
+	while(std::getline(inFile, line))
+	{
+		std::stringstream linestream(line);
+		std::string data;
+
+		linestream >> idNo;
+		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
+		linestream >> latitude_degrees;
+		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
+		linestream >> longitude_degrees;
+
+		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
+		linestream >> longitude_radians;
+		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
+		linestream >> latitude_radians;
+
+		gv->addNode(idNo);
+
+		NoInfo no(idNo,longitude_radians, latitude_radians);
+		graf.addVertex(no);
+	}
+
+	ifstream inFile2;
+	//Ler o ficheiro FileConection.txt
+	inFile2.open("FileConection.txt");
+
+	if (!inFile2) {
+		cerr << "Unable to open file datafile.txt";
+		exit(1);   // call system to stop
+	}
+
+	long long roadId=0;
+	long long node1_id=0;
+	long long node2_id=0;
+	long i = 0;
+
+	while(std::getline(inFile2, line))
+	{
+		std::stringstream linestream(line);
+		std::string data;
+
+		linestream >> roadId;
+		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
+		linestream >> node1_id;
+		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
+		linestream >> node2_id;
+
+
+		gv->addEdge(i, node1_id, node2_id, EdgeType::DIRECTED);
+		NoInfo origem = graf.getVertex(NoInfo(node1_id,0,0))->getInfo();
+		NoInfo destino = graf.getVertex(NoInfo(node2_id,0,0))->getInfo();
+		graf.addEdge(origem,destino,haversine_km(origem.latitude_radians,origem.longitude_radians,destino.latitude_radians,destino.longitude_radians));
+		i++;
+
+	}
 
 	gv->rearrange();
 }
 
 int main() {
+	GraphViewer *gv = new GraphViewer(1000, 1000, true);
+	Graph<NoInfo> graf;
+	readFiles(gv, graf);
 	//exercicio1();
-	exercicio2();
+	//exercicio2();
 	//exercicio3();
+
+	vector<NoInfo> caminho = graf.getPath(NoInfo(25620759,0,0),NoInfo(25620960,0,0));
+
+	//		for(unsigned int i = 0; i <caminho.size(); i++){
+	//			cout << caminho[i].idNo << endl;
+	//			gv->setVertexColor(caminho[i].idNo,GREEN);
+	//		}
+
+	for(unsigned int i = 0; i <caminho.size(); i++){
+		Sleep(100);
+		cout << caminho[i].idNo << endl;
+		gv->setVertexColor(caminho[i].idNo,GREEN);
+	}
+
+//	for(unsigned int i = 0; i < 20 ; i++)
+//		gv->setEdgeColor(i,GREEN);
+
 	getchar();
+	cout << "END";
 	return 0;
 }
