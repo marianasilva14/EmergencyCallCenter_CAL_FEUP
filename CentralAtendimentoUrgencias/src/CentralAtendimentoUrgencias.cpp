@@ -337,7 +337,6 @@ void readFiles(GraphViewer *gv, Graph<NoInfo> graf){
 		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
 		linestream >> node2_id;
 
-
 		gv->addEdge(i, node1_id, node2_id, EdgeType::DIRECTED);
 		NoInfo origem = graf.getVertex(NoInfo(node1_id,0,0))->getInfo();
 		NoInfo destino = graf.getVertex(NoInfo(node2_id,0,0))->getInfo();
@@ -357,21 +356,19 @@ int main() {
 	//exercicio2();
 	//exercicio3();
 
-	vector<NoInfo> caminho = graf.getPath(NoInfo(25620759,0,0),NoInfo(25620960,0,0));
+	if(graf.getVertex(NoInfo(25632365,0,0)) != NULL){
+		vector<NoInfo> caminho = graf.getPath(NoInfo(25632365,0,0),NoInfo(421576155,0,0));
 
-	//		for(unsigned int i = 0; i <caminho.size(); i++){
-	//			cout << caminho[i].idNo << endl;
-	//			gv->setVertexColor(caminho[i].idNo,GREEN);
-	//		}
+		for(unsigned int i = 0; i <caminho.size(); i++){
+			Sleep(100);
 
-	for(unsigned int i = 0; i <caminho.size(); i++){
-		Sleep(100);
-		cout << caminho[i].idNo << endl;
-		gv->setVertexColor(caminho[i].idNo,GREEN);
+			cout << caminho[i].idNo << endl;
+			gv->setVertexColor(caminho[i].idNo,GREEN);
+		}
+
+//		for(unsigned int i = 0; i < 20 ; i++)
+//			gv->setEdgeColor(i,GREEN);
 	}
-
-//	for(unsigned int i = 0; i < 20 ; i++)
-//		gv->setEdgeColor(i,GREEN);
 
 	getchar();
 	cout << "END";
