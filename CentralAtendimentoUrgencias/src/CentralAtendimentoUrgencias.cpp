@@ -7,6 +7,13 @@
 #include <sstream>
 #include <string>
 
+#define xwindow 1000
+#define ywindow 1000
+#define latitude_max 41.15020
+#define latitude_min 41.14859
+#define longitude_max -8.61153
+#define longitude_min -8.61398
+
 class NoInfo{
 public:
 	long long idNo;
@@ -284,7 +291,7 @@ void readFiles(GraphViewer *gv, Graph<NoInfo> graf){
 
 	std::string   line;
 
-	long long idNo=0;
+	long long id_No=0;
 	double latitude_degrees=0;
 	double longitude_degrees=0;
 	double longitude_radians=0;
@@ -295,7 +302,7 @@ void readFiles(GraphViewer *gv, Graph<NoInfo> graf){
 		std::stringstream linestream(line);
 		std::string data;
 
-		linestream >> idNo;
+		linestream >> id_No;
 		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
 		linestream >> latitude_degrees;
 		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
@@ -306,9 +313,20 @@ void readFiles(GraphViewer *gv, Graph<NoInfo> graf){
 		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
 		linestream >> latitude_radians;
 
-		gv->addNode(idNo);
+		int xw,yw;
+		int delta_x, delta_y;
 
-		NoInfo no(idNo,longitude_radians, latitude_radians);
+		delta_x= xwindow/(longitude_max-longitude_min);
+		delta_y= ywindow/(latitude_max-latitude_min);
+
+		xw=(longitude_radians-longitude_min)*delta_x;
+		yw=(latitude_radians-latitude_min)*delta_y;
+
+		gv->addNode(id_No%100000000, xw,ywindow-yw);
+
+		NoInfo no(id_No,longitude_radians, latitude_radians);
+
+		//gv->addNode(id_No%100000000);
 		graf.addVertex(no);
 	}
 
@@ -336,8 +354,9 @@ void readFiles(GraphViewer *gv, Graph<NoInfo> graf){
 		linestream >> node1_id;
 		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
 		linestream >> node2_id;
+		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
 
-		gv->addEdge(i, node1_id, node2_id, EdgeType::DIRECTED);
+		gv->addEdge(i, node1_id%100000000, node2_id%100000000, EdgeType::DIRECTED);
 		NoInfo origem = graf.getVertex(NoInfo(node1_id,0,0))->getInfo();
 		NoInfo destino = graf.getVertex(NoInfo(node2_id,0,0))->getInfo();
 		graf.addEdge(origem,destino,haversine_km(origem.latitude_radians,origem.longitude_radians,destino.latitude_radians,destino.longitude_radians));
@@ -350,14 +369,15 @@ void readFiles(GraphViewer *gv, Graph<NoInfo> graf){
 
 int main() {
 	GraphViewer *gv = new GraphViewer(1000, 1000, true);
+	gv->setBackground("/CentralAtendimentoUrgencias/mapa.png");
 	Graph<NoInfo> graf;
 	readFiles(gv, graf);
 	//exercicio1();
 	//exercicio2();
 	//exercicio3();
 
-	if(graf.getVertex(NoInfo(25632365,0,0)) != NULL){
-		vector<NoInfo> caminho = graf.getPath(NoInfo(25632365,0,0),NoInfo(421576155,0,0));
+	if(graf.getVertex(NoInfo(25620947,0,0)) != NULL){
+		vector<NoInfo> caminho = graf.getPath(NoInfo(25620947,0,0),NoInfo(25620737,0,0));
 
 		for(unsigned int i = 0; i <caminho.size(); i++){
 			Sleep(100);

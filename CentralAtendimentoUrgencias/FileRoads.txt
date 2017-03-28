@@ -1,33 +1,7 @@
+8366889;Rua de Ramalho Ortigão;False
 8366893;Rua da Conceição;False
-8366896;Rua de José Falcão;False
-8367070;Rua dos Bragas;False
-8367098;Rua do Alferes Malheiro;False
-31060211;Rua do General Silveira;False
 34607518;Rua do Almada;False
-35203817;Rua das Oliveiras;False
 60175223;Rua de Ricardo Jorge;False
 60175224;Rua da Picaria;False
-128825638;Praça Coronel Pacheco;False
-128825640;Rua do Pinheiro;False
-128825641;Rua dos Mártires da Liberdade;False
-128825643;Travessa de São Carlos;False
-167487388;;False
-167487399;;False
-167487468;;False
-167487536;;False
 229184974;Largo de Mompilher;False
 229194693;Largo de Mompilher;False
-267026311;;False
-280949034;Ilha;False
-280966568;;False
-280966569;;False
-280966571;;False
-281224991;;False
-284770886;;True
-284770887;;False
-284775782;;False
-284775785;;False
-284775786;;False
-284777297;;False
-386286205;Largo do Pinheiro;False
-386286206;Largo do Pinheiro;False
