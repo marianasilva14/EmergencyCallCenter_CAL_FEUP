@@ -1,12 +1,15 @@
-#include <cstdio>
-#include "graphviewer.h"
-#include "Graph.h"
 #include <cmath>
+#include <cstdio>
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
+#include <limits>
 #include <sstream>
 #include <string>
-#include "NoInfo.h"
+
+#include "edgetype.h"
+#include "graphviewer.h"
+#include "Graph.h"
 
 #define xwindow 600
 #define ywindow 600
@@ -14,8 +17,37 @@
 #define latitude_min 41.14859
 #define longitude_max -8.61153
 #define longitude_min -8.61398
+class NoInfo{
+public:
+	long long idNo;
+	double longitude_radians;
+	double latitude_radians;
+	NoInfo(long long idNo, double longitude_radians, double latitude_radians){
+		this->idNo = idNo;
+		this->longitude_radians = longitude_radians;
+		this->latitude_radians = latitude_radians;
+	}
 
+	long long getIdNo(){
+		return idNo;
+	}
 
+	double getLongitude_radians(){
+		return longitude_radians;
+	}
+
+	double getLatitude_radians(){
+		return latitude_radians;
+	}
+
+	friend bool operator==(NoInfo const & left,NoInfo const & right){
+		return left.idNo == right.idNo;
+	}
+
+	friend bool operator!=(NoInfo const & left,NoInfo const & right){
+		return left.idNo != right.idNo;
+	}
+};
 //calculate haversine distance for linear distance // coordinates in radians
 long double haversine_km(long double lat1, long double long1, long double lat2, long double long2) {
 	long double dlong = (long2 - long1);
@@ -51,6 +83,11 @@ void readFiles(GraphViewer *gv, Graph<NoInfo> graf){
 	double longitude_radians=0;
 	double latitude_radians=0;
 
+	double delta_x, delta_y;
+
+	delta_x = longitude_max-longitude_min;
+	delta_y = latitude_max-latitude_min;
+
 	while(std::getline(inFile, line))
 	{
 		std::stringstream linestream(line);
@@ -68,15 +105,11 @@ void readFiles(GraphViewer *gv, Graph<NoInfo> graf){
 		linestream >> latitude_radians;
 
 		int xw,yw;
-		int delta_x, delta_y;
 
-		delta_x= xwindow/(longitude_max-longitude_min);
-		delta_y= ywindow/(latitude_max-latitude_min);
+		xw = (longitude_degrees - longitude_min) / delta_x * xwindow;
+		yw = (latitude_degrees - latitude_min) / delta_y * ywindow;
 
-		xw=(longitude_radians-longitude_min)*delta_x;
-		yw=(latitude_radians-latitude_min)*delta_y;
-
-		gv->addNode(id_No%100000000, xw,ywindow-yw);
+		gv->addNode(id_No % numeric_limits<int>::max(), xw,ywindow-yw);
 
 		NoInfo no(id_No,longitude_radians, latitude_radians);
 
@@ -110,10 +143,10 @@ void readFiles(GraphViewer *gv, Graph<NoInfo> graf){
 		linestream >> node2_id;
 		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
 
-		gv->addEdge(i, node1_id%100000000, node2_id%100000000, EdgeType::DIRECTED);
+		gv->addEdge(i, node1_id % numeric_limits<int>::max(), node2_id % numeric_limits<int>::max(), EdgeType::UNDIRECTED);
 		NoInfo origem =graf.getVertex(NoInfo(node1_id,0,0))->getInfo();
 		NoInfo destino = graf.getVertex(NoInfo(node2_id,0,0))->getInfo();
-		graf.addEdge(origem,destino,haversine_km(origem.getLatitude_radians(),origem.getLongitude_radians(),destino.getLongitude_radians(),destino.getLatitude_radians()));
+//		graf.addEdge(origem,destino,haversine_km(origem.getLatitude_radians(),origem.getLongitude_radians(),destino.getLongitude_radians(),destino.getLatitude_radians()));
 		i++;
 
 	}
@@ -122,24 +155,24 @@ void readFiles(GraphViewer *gv, Graph<NoInfo> graf){
 }
 
 int main() {
-	GraphViewer *gv = new GraphViewer(600, 600, true);
+	GraphViewer *gv = new GraphViewer(600, 600, false);
 	gv->setBackground("mapa.png");
 	Graph<NoInfo> graf;
 	readFiles(gv, graf);
-
-	if((graf.getVertex(NoInfo(25620737,0,0)) != NULL) &&(graf.getVertex(NoInfo(25620516,0,0)) != NULL)){
-		vector<NoInfo> caminho = graf.getPath(NoInfo(25620737,0,0),NoInfo(25620516,0,0));
-
-//		for(unsigned int i = 0; i <caminho.size(); i++){
-//			Sleep(100);
 //
-//			cout << caminho[i].idNo << endl;
-//			gv->setVertexColor(caminho[i].idNo,GREEN);
-//		}
-
-		for(unsigned int i = 0; i < 20 ; i++)
-			gv->setEdgeColor(i,GREEN);
-	}
+//	if((graf.getVertex(NoInfo(25620737,0,0)) != NULL) &&(graf.getVertex(NoInfo(25620516,0,0)) != NULL)){
+//		vector<NoInfo> caminho = graf.getPath(NoInfo(25620737,0,0),NoInfo(25620516,0,0));
+//
+//		//		for(unsigned int i = 0; i <caminho.size(); i++){
+//		//			Sleep(100);
+//		//
+//		//			cout << caminho[i].idNo << endl;
+//		//			gv->setVertexColor(caminho[i].idNo,GREEN);
+//		//		}
+//
+//		for(unsigned int i = 0; i < 20 ; i++)
+//			gv->setEdgeColor(i,GREEN);
+//	}
 
 	getchar();
 	cout << "END";

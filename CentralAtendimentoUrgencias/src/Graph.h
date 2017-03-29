@@ -17,8 +17,7 @@ template <class T> class Graph;
 const int NOT_VISITED = 0;
 const int BEING_VISITED = 1;
 const int DONE_VISITED = 2;
-const int INT_MAX=10000000;
-const int INT_INFINITY = INT_MAX;
+const int INT_INFINITY = numeric_limits<int>::max();
 
 /*
  * Class Vertex
