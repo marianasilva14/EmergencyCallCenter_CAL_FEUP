@@ -1,22 +1,26 @@
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
+#include <conio.h>
 #include <fstream>
 #include <iostream>
 #include <limits>
 #include <sstream>
 #include <string>
-
+#include <queue>
+#include <map>
+#include <iomanip>
 #include "edgetype.h"
 #include "graphviewer.h"
 #include "Graph.h"
 
-#define xwindow 600
-#define ywindow 600
-#define latitude_max 41.15020
-#define latitude_min 41.14859
-#define longitude_max -8.61153
-#define longitude_min -8.61398
+#define xwindow 1000
+#define ywindow 500
+#define latitude_max 41.15094
+#define latitude_min 41.14853
+#define longitude_max -8.61090
+#define longitude_min -8.61728
+
 class NoInfo{
 public:
 	long long idNo;
@@ -60,7 +64,7 @@ long double haversine_km(long double lat1, long double long1, long double lat2, 
 }
 
 void readFiles(GraphViewer *gv, Graph<NoInfo> graf){
-	gv->createWindow(600, 600);
+	gv->createWindow(1000, 500);
 
 	gv->defineEdgeColor("blue");
 	gv->defineVertexColor("yellow");
@@ -111,7 +115,7 @@ void readFiles(GraphViewer *gv, Graph<NoInfo> graf){
 
 		gv->addNode(id_No % numeric_limits<int>::max(), xw,ywindow-yw);
 
-		NoInfo no(id_No,longitude_radians, latitude_radians);
+		NoInfo no(id_No% numeric_limits<int>::max(),longitude_radians, latitude_radians);
 
 		//gv->addNode(id_No%100000000);
 		graf.addVertex(no);
@@ -143,38 +147,79 @@ void readFiles(GraphViewer *gv, Graph<NoInfo> graf){
 		linestream >> node2_id;
 		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
 
-		gv->addEdge(i, node1_id % numeric_limits<int>::max(), node2_id % numeric_limits<int>::max(), EdgeType::UNDIRECTED);
-		NoInfo origem =graf.getVertex(NoInfo(node1_id,0,0))->getInfo();
-		NoInfo destino = graf.getVertex(NoInfo(node2_id,0,0))->getInfo();
-//		graf.addEdge(origem,destino,haversine_km(origem.getLatitude_radians(),origem.getLongitude_radians(),destino.getLongitude_radians(),destino.getLatitude_radians()));
+		gv->addEdge(i, node1_id % numeric_limits<int>::max(), node2_id % numeric_limits<int>::max(), EdgeType::DIRECTED);
+		NoInfo origem =graf.getVertex(NoInfo(node1_id % numeric_limits<int>::max(),0,0))->getInfo();
+		NoInfo destino = graf.getVertex(NoInfo(node2_id % numeric_limits<int>::max(),0,0))->getInfo();
+		//		graf.addEdge(origem,destino,haversine_km(origem.getLatitude_radians(),origem.getLongitude_radians(),destino.getLongitude_radians(),destino.getLatitude_radians()));
 		i++;
 
 	}
 
+	ifstream inFile3;
+	//Ler o ficheiro FileRoads.txt
+	inFile3.open("FileRoads.txt");
+
+	if (!inFile3) {
+		cerr << "Unable to open file datafile.txt";
+		exit(1);   // call system to stop
+	}
+
+	long long roadId=0;
+	string road_name;
+	bool is_two_way;
+	long i = 0;
+
+	map<long,vector<string,bool>> wayInfo;
+
+	while(std::getline(inFile3, line))
+	{
+		std::stringstream linestream(line);
+		std::string data;
+		vector<string,bool> type_road;
+
+		linestream >> roadId;
+		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
+		linestream >> road_name;
+		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
+		linestream >> is_two_way;
+
+		type_road.insert(road_name, is_two_way);
+
+		//gv->addEdge(i, EdgeType::DIRECTED);
+		//NoInfo origem =graf.getVertex(NoInfo(node1_id % numeric_limits<int>::max(),0,0))->getInfo();
+		//NoInfo destino = graf.getVertex(NoInfo(node2_id % numeric_limits<int>::max(),0,0))->getInfo();
+		//		graf.addEdge(origem,destino,haversine_km(origem.getLatitude_radians(),origem.getLongitude_radians(),destino.getLongitude_radians(),destino.getLatitude_radians()));
+		i++;
+
+	}
+
+
 	gv->rearrange();
 }
 
+
 int main() {
-	GraphViewer *gv = new GraphViewer(600, 600, false);
-	gv->setBackground("mapa.png");
+	GraphViewer *gv = new GraphViewer(1000, 500, false);
+	gv->defineEdgeCurved(false);
+	gv->setBackground("map2.png");
 	Graph<NoInfo> graf;
 	readFiles(gv, graf);
-//
-//	if((graf.getVertex(NoInfo(25620737,0,0)) != NULL) &&(graf.getVertex(NoInfo(25620516,0,0)) != NULL)){
-//		vector<NoInfo> caminho = graf.getPath(NoInfo(25620737,0,0),NoInfo(25620516,0,0));
-//
-//		//		for(unsigned int i = 0; i <caminho.size(); i++){
-//		//			Sleep(100);
-//		//
-//		//			cout << caminho[i].idNo << endl;
-//		//			gv->setVertexColor(caminho[i].idNo,GREEN);
-//		//		}
-//
-//		for(unsigned int i = 0; i < 20 ; i++)
-//			gv->setEdgeColor(i,GREEN);
-//	}
+	vector<NoInfo> caminho;
+	if((graf.getVertex(NoInfo(25620653% numeric_limits<int>::max(),0,0)) != NULL) &&(graf.getVertex(NoInfo(747467609% numeric_limits<int>::max(),0,0)) != NULL))
+		caminho = graf.getPath(NoInfo(25620653% numeric_limits<int>::max(),0,0),NoInfo(747467609% numeric_limits<int>::max(),0,0));
+
+	for(unsigned int i = 0; i <caminho.size(); i++){
+		cout << caminho[i].idNo << endl;
+		gv->setVertexColor(caminho[i].idNo,BLACK);
+	}
+
+	for(unsigned int i = 0; i < 20 ; i++)
+		gv->setEdgeColor(i,GREEN);
+	//
+	//	}
 
 	getchar();
 	cout << "END";
 	return 0;
+
 }

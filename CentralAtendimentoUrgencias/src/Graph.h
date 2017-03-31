@@ -8,6 +8,7 @@
 #include <queue>
 #include <list>
 #include <limits>
+#include <algorithm>
 
 using namespace std;
 
@@ -33,8 +34,8 @@ class Vertex {
 
 	//folha pratica 5
 	int indegree;
-	int dist;
 public:
+	int dist;
 	Vertex(T in);
 	friend class Graph<T>;
 
@@ -497,7 +498,6 @@ vector<T> Graph<T>::getPath(const T &origin, const T &dest){
 	}
 	return res;
 }
-
 
 
 #endif /* GRAPH_H_ */
