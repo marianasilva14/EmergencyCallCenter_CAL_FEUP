@@ -122,49 +122,24 @@ void readFiles(GraphViewer *gv, Graph<int> & graf){
 		i++;
 
 	}
-	/*
-	ifstream inFile3;
-	//Ler o ficheiro FileRoads.txt
-	inFile3.open("FileRoads.txt");
 
-	if (!inFile3) {
-		cerr << "Unable to open file datafile.txt";
-		exit(1);   // call system to stop
-	}
-
-	long long roadId=0;
-	string road_name;
-	bool is_two_way;
-	//long i = 0;
-
-//	map<long,vector<string,bool>> wayInfo;
-
-	while(std::getline(inFile3, line))
-	{
-		std::stringstream linestream(line);
-		std::string data;
-		vector<string,bool> type_road;
-
-		linestream >> roadId;
-		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
-		linestream >> road_name;
-		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
-		linestream >> is_two_way;
-
-		//	type_road.insert(road_name, is_two_way);
-
-		//gv->addEdge(i, EdgeType::DIRECTED);
-		//NoInfo origem =graf.getVertex(NoInfo(node1_id % numeric_limits<int>::max(),0,0))->getInfo();
-		//NoInfo destino = graf.getVertex(NoInfo(node2_id % numeric_limits<int>::max(),0,0))->getInfo();
-		//		graf.addEdge(origem,destino,haversine_km(origem.getLatitude_radians(),origem.getLongitude_radians(),destino.getLongitude_radians(),destino.getLatitude_radians()));
-		i++;
-
-	}
-
-	 */
 	gv->rearrange();
 
 
+}
+
+void menu(){
+
+	cout << " WELCOME TO EMERGENCY SERVICE CENTER " << endl;
+	cout << "Make the call!" << endl;
+
+	cout << "Select the priority type: " << endl;
+	cout << "Option a: High" << endl;
+	cout << "Option b: Medium" << endl;
+	cout << "Option c: Low" << endl;
+
+	char option;
+	cin >> option;
 }
 
 
@@ -174,8 +149,10 @@ int main() {
 	gv->defineEdgeCurved(false);
 	gv->setBackground("map2.png");
 	Way way;
+	vector<int> hospitals;
 
 	readFiles(gv, graf);
+	//menu();
 
 	graf.dijkstraShortestPath(25620516);
 
@@ -185,6 +162,8 @@ int main() {
 
 
 	way.printPath(25620516,231594184, graf,gv,BLACK);
+	hospitals= way.selectHospital(graf,gv,RED);
+	way.chooseShortestWay(25620516, graf,gv);
 	for(unsigned int i = 0; i < 20 ; i++)
 		gv->setEdgeColor(i,GREEN);
 

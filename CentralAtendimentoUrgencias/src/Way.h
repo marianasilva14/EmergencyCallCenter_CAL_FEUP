@@ -25,7 +25,8 @@
 class Way{
 public:
 	void printPath(int source, int destiny, Graph<int> graf, GraphViewer *gv, string color);
-
+	vector<int> selectHospital( Graph<int> graf, GraphViewer *gv, string color);
+	void chooseShortestWay(int source,Graph<int> graf, GraphViewer *gv);
 
 };
 #endif /* WAY_H_ */
