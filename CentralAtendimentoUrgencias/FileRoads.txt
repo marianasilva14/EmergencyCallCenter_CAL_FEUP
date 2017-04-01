@@ -1,32 +1,66 @@
-8366889;Rua de Ramalho Ortigao;False
-8366893;Rua da Conceicao;False
-8366896;Rua de Jose Falcao;False
-31060211;Rua do General Silveira;False
-31060242;Rua Sa de Noronha;False
-34607518;Rua do Almada;False
-35203817;Rua das Oliveiras;False
-39658629;;False
-60175223;Rua de Ricardo Jorge;False
-60175224;Rua da Picaria;False
-60175941;Rua do Clube dos Fenianos;False
-112465240;Praca Gen. Humberto Delgado;False
-128825637;Praca de Carlos Alberto;False
-128825640;Rua do Pinheiro;False
-156209004;;False
-198515210;;False
-216972581;Avenida dos Aliados;False
-227888232;;False
-227888233;;False
-227888235;;False
-227888628;;False
-227888748;;False
-229184974;Largo de Mompilher;False
-229194693;Largo de Mompilher;False
-229319074;;False
-229784705;;False
-229818921;Praça de Carlos Alberto;False
-280949034;Ilha;False
-286004317;;False
-374346169;Praca de Carlos Alberto;False
-386286205;Largo do Pinheiro;False
-386286206;Largo do Pinheiro;False
+﻿1;False
+2;False
+3;False
+4;False
+5;True
+6;True
+7;True
+8;True
+9;True
+10;True
+11;True
+12;True
+13;True
+14;True
+15;True
+16;True
+17;True
+18;True
+19;True
+20;True
+21;True
+22;True
+23;True
+24;True
+25;True
+26;True
+27;True
+28;True
+29;True
+30;True
+31;True
+32;True
+33;True
+34;True
+35;True
+36;True
+37;True
+38;True
+39;True
+40;True
+41;True
+42;True
+43;True
+44;True
+45;True
+46;True
+47;True
+48;True
+49;True
+50;True
+51;True
+52;True
+53;True
+54;True
+55;True
+56;True
+57;True
+58;True
+59;True
+60;True
+61;True
+62;True
+63;True
+64;True
+65;True
+66;True

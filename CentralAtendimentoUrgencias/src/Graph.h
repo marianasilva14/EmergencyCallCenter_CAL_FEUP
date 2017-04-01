@@ -32,11 +32,11 @@ class Vertex {
 	bool processing;
 	int indegree;
 	double dist;
-	double longitude_radians;
-	double latitude_radians;
+	int x;
+	int y;
 public:
 
-	Vertex(T in, double longitude_radians, double latitude_radians);
+	Vertex(T in, int x, int y);
 	friend class Graph<T>;
 
 	void addEdge(Vertex<T> *dest, double w);
@@ -48,8 +48,8 @@ public:
 	int getDist() const;
 	int getIndegree() const;
 	long long getIdNo();
-	double getLongitude_radians();
-	double getLatitude_radians();
+	double getX();
+	double getY();
 
 	bool operator<(const Vertex<T> vertex);
 
@@ -82,10 +82,10 @@ bool Vertex<T>::removeEdgeTo(Vertex<T> *d) {
 
 //atualizado pelo exercício 5
 template <class T>
-Vertex<T>::Vertex(T in, double longitude_radians, double latitude_radians): info(in), visited(false), processing(false), indegree(0), dist(0) {
+Vertex<T>::Vertex(T in, int x,int y): info(in), visited(false), processing(false), indegree(0), dist(0) {
 	path = NULL;
-	this->longitude_radians=longitude_radians;
-	this->latitude_radians=latitude_radians;
+	this->x=x;
+	this->y=y;
 }
 
 
@@ -107,12 +107,12 @@ int Vertex<T>::getDist() const {
 }
 
 template <class T>
-double Vertex<T>::getLongitude_radians(){
-	return this->longitude_radians;
+double Vertex<T>::getX(){
+	return this->x;
 }
 template <class T>
-double Vertex<T>::getLatitude_radians(){
-	return this->latitude_radians;
+double Vertex<T>::getY(){
+	return this->y;
 }
 template <class T>
 void Vertex<T>::setInfo(T info) {
@@ -169,7 +169,7 @@ class Graph {
 
 public:
 	bool addVertex(const T &in);
-	bool addVertex(const T &in, double longitude_radians, double latitude_radians);
+	bool addVertex(const T &in, int x,int y);
 	bool addEdge(const T &sourc, const T &dest, double w);
 	bool removeVertex(const T &in);
 	bool removeEdge(const T &sourc, const T &dest);
@@ -232,12 +232,12 @@ bool Graph<T>::addVertex(const T &in) {
 }
 
 template <class T>
-bool Graph<T>::addVertex(const T &in, double longitude_radians, double latitude_radians) {
+bool Graph<T>::addVertex(const T &in, int x, int y) {
 	typename vector<Vertex<T>*>::iterator it= vertexSet.begin();
 	typename vector<Vertex<T>*>::iterator ite= vertexSet.end();
 	for (; it!=ite; it++)
 		if ((*it)->info == in) return false;
-	Vertex<T> *v1 = new Vertex<T>(in, longitude_radians, latitude_radians);
+	Vertex<T> *v1 = new Vertex<T>(in,x,y);
 	vertexSet.push_back(v1);
 	return true;
 }

@@ -16,26 +16,31 @@
 #include "Way.h"
 
 #define xwindow 1000
-#define ywindow 500
-#define latitude_max 41.15094
-#define latitude_min 41.14853
-#define longitude_max -8.61090
-#define longitude_min -8.61728
+#define ywindow 1000
 
+
+class Edge_temp{
+public:
+	bool istwoway;
+	long long idRoad;
+};
 
 //calculate haversine distance for linear distance // coordinates in radians
-long double haversine_km(long double lat1, long double long1, long double lat2, long double long2) {
-	long double dlong = (long2 - long1);
-	long double dlat = (lat2 - lat1);
-	long double a = pow(sin(dlat / 2.0), 2) + cos(lat1) * cos(lat2) * pow(sin(dlong / 2.0), 2);
-	long double c = 2 * atan2(sqrt(a), sqrt(1 - a));
-	long double d = 6367 * c;
+double haversine_km(int x, int y, int x2, int y2) {
+
+	double dx,dy,d;
+
+	dx=x2-x;
+	dy=y2-y;
+
+	d=sqrt(dx*dx+dy*dy);
 
 	return d;
+
 }
 
 void readFiles(GraphViewer *gv, Graph<int> & graf){
-	gv->createWindow(1000, 500);
+	gv->createWindow(xwindow, ywindow);
 
 	gv->defineEdgeColor("blue");
 	gv->defineVertexColor("yellow");
@@ -52,16 +57,8 @@ void readFiles(GraphViewer *gv, Graph<int> & graf){
 
 	std::string   line;
 
-	long long id_No=0;
-	double latitude_degrees=0;
-	double longitude_degrees=0;
-	double longitude_radians=0;
-	double latitude_radians=0;
-
-	double delta_x, delta_y;
-
-	delta_x = longitude_max-longitude_min;
-	delta_y = latitude_max-latitude_min;
+	int id_No=0;
+	int x,y;
 
 	while(std::getline(inFile, line))
 	{
@@ -70,24 +67,57 @@ void readFiles(GraphViewer *gv, Graph<int> & graf){
 
 		linestream >> id_No;
 		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
-		linestream >> latitude_degrees;
+		linestream >> x;
 		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
-		linestream >> longitude_degrees;
+		linestream >> y;
 
-		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
-		linestream >> longitude_radians;
-		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
-		linestream >> latitude_radians;
+		gv->addNode(id_No, x,y );
 
-		int xw,yw;
-
-		xw = (longitude_degrees - longitude_min) / delta_x * xwindow;
-		yw = (latitude_degrees - latitude_min) / delta_y * ywindow;
-
-		gv->addNode(id_No % numeric_limits<int>::max(), xw,ywindow-yw);
-
-		graf.addVertex(id_No % numeric_limits<int>::max(),longitude_radians, latitude_radians);
+		graf.addVertex(id_No,x,y);
 	}
+
+	inFile.close();
+
+
+	ifstream inFile3;
+
+	//Ler o ficheiro FileRoads.txt
+	inFile3.open("FileRoads.txt");
+
+	if (!inFile3) {
+		cerr << "Unable to open file datafile.txt";
+		exit(1);   // call system to stop
+	}
+
+
+	int road_id=0;
+	string isTwoWay;
+	vector<Edge_temp> edge_vector;
+
+
+	while(std::getline(inFile3, line))
+	{
+		std::stringstream linestream(line);
+		std::string data;
+
+		linestream >> road_id;
+		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
+		linestream >> isTwoWay;
+
+		Edge_temp edge;
+		if(isTwoWay=="True")
+			edge.istwoway=true;
+		else
+			edge.istwoway=false;
+
+
+		edge.idRoad=road_id;
+
+		edge_vector.push_back(edge);
+
+	}
+
+	inFile3.close();
 
 	ifstream inFile2;
 	//Ler o ficheiro FileConection.txt
@@ -98,10 +128,10 @@ void readFiles(GraphViewer *gv, Graph<int> & graf){
 		exit(1);   // call system to stop
 	}
 
-	long long roadId=0;
-	long long node1_id=0;
-	long long node2_id=0;
-	long i = 0;
+	int roadId=0;
+	int node1_id=0;
+	int node2_id=0;
+	int i = 0;
 
 	while(std::getline(inFile2, line))
 	{
@@ -115,13 +145,24 @@ void readFiles(GraphViewer *gv, Graph<int> & graf){
 		linestream >> node2_id;
 		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
 
-		gv->addEdge(i, node1_id % numeric_limits<int>::max(), node2_id % numeric_limits<int>::max(), EdgeType::DIRECTED);
-		int source =node1_id % numeric_limits<int>::max();
-		int destiny = node2_id % numeric_limits<int>::max();
-		graf.addEdge(source,destiny,haversine_km(graf.getVertex(source)->getLatitude_radians(),graf.getVertex(source)->getLongitude_radians(),graf.getVertex(destiny)->getLongitude_radians(),graf.getVertex(destiny)->getLatitude_radians()));
+		gv->addEdge(i, node1_id, node2_id, EdgeType::DIRECTED);
+		int source =node1_id;
+		int destiny = node2_id;
+		graf.addEdge(source,destiny,haversine_km(graf.getVertex(source)->getX(),graf.getVertex(source)->getY(),graf.getVertex(destiny)->getX(),graf.getVertex(destiny)->getY()));
 		i++;
 
+		for(int j=0; j < edge_vector.size();j++){
+			if(roadId == edge_vector[j].idRoad){
+				if(edge_vector[j].istwoway){
+					gv->addEdge(i, node2_id, node1_id, EdgeType::DIRECTED);
+					graf.addEdge(destiny,source,haversine_km(graf.getVertex(source)->getX(),graf.getVertex(source)->getY(),graf.getVertex(destiny)->getX(),graf.getVertex(destiny)->getY()));
+					i++;
+				}
+			}
+		}
 	}
+
+	inFile2.close();
 
 	gv->rearrange();
 
@@ -145,25 +186,23 @@ void menu(){
 
 int main() {
 	Graph<int> graf;
-	GraphViewer *gv = new GraphViewer(1000, 500, false);
+	GraphViewer *gv = new GraphViewer(xwindow, ywindow, false);
 	gv->defineEdgeCurved(false);
-	gv->setBackground("map2.png");
 	Way way;
 	vector<int> hospitals;
 
 	readFiles(gv, graf);
 	//menu();
 
-	graf.dijkstraShortestPath(25620516);
+	graf.dijkstraShortestPath(1);
 
-//	vector<Vertex<NoInfo>*> vet = graf.getVertexSet();
-//	for(unsigned int i = 0; i < vet.size(); i++)
-//		cout << vet[i]->getInfo().idNo  << endl;
+	//	vector<Vertex<NoInfo>*> vet = graf.getVertexSet();
+	//	for(unsigned int i = 0; i < vet.size(); i++)
+	//		cout << vet[i]->getInfo().idNo  << endl;
 
 
-	way.printPath(25620516,231594184, graf,gv,BLACK);
-	hospitals= way.selectHospital(graf,gv,RED);
-	way.chooseShortestWay(25620516, graf,gv);
+	way.printPath(5,18, graf,gv,BLACK);
+	way.chooseShortestWay(21, graf,gv);
 	for(unsigned int i = 0; i < 20 ; i++)
 		gv->setEdgeColor(i,GREEN);
 
