@@ -16,7 +16,7 @@ public:
 		AMBULANCE,
 		CAR,
 		MOTORCYCLE
-	}Type;
+	}transport;
 	//static vector<Type> whoareAvailable();
 };
 

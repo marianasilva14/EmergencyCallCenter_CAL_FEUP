@@ -15,12 +15,25 @@ void Way::printPath(int source, int destiny, Graph<int> graf, GraphViewer *gv, s
 
 	for(unsigned int i = 0; i <path.size()-1; i++){
 		cout << path[i]<< endl;
-		gv->setVertexColor(path[i], color);
+		if(color.find('.')!=std::string::npos)
+			gv->setVertexIcon(path[i], color);
+		else
+			gv->setVertexColor(path[i], color);
 	}
 
 }
 
-vector<int> Way::selectHospital( Graph<int> graf, GraphViewer *gv, string color){
+void Way::selectVertexIcon(Graph<int> graf, GraphViewer *gv, string image, int nr_images){
+	int random_vertex;
+
+	for(unsigned int i=0; i <= nr_images;i++){
+		random_vertex= rand() % nr_images;
+		cout << "lalalal   " << graf.getVertexSet()[random_vertex]->getInfo() << endl;
+		gv->setVertexIcon(graf.getVertexSet()[random_vertex]->getInfo(),image);
+	}
+}
+
+vector<int> Way::selectHospital( Graph<int> graf, GraphViewer *gv){
 
 	vector<Vertex<int>*> vet = graf.getVertexSet();
 	int random_vertex;
@@ -29,7 +42,7 @@ vector<int> Way::selectHospital( Graph<int> graf, GraphViewer *gv, string color)
 	for(unsigned int i=0; i < 5;i++){
 		random_vertex= rand() % vet.size();
 		hospitals.push_back(vet[random_vertex]->getInfo());
-		gv->setVertexColor(vet[random_vertex]->getInfo(), color);
+		gv->setVertexIcon(vet[random_vertex]->getInfo(),"hospital.png");
 	}
 
 	return hospitals;
@@ -38,7 +51,7 @@ vector<int> Way::selectHospital( Graph<int> graf, GraphViewer *gv, string color)
 void  Way::chooseShortestWay(int source, Graph<int> graf, GraphViewer *gv){
 
 
-	vector<int> hospitals =selectHospital(graf,gv,RED);
+	vector<int> hospitals =selectHospital(graf,gv);
 
 	graf.dijkstraShortestPath(source);
 
@@ -57,6 +70,7 @@ void  Way::chooseShortestWay(int source, Graph<int> graf, GraphViewer *gv){
 		}
 	}
 
-	printPath(source, vertex, graf,gv,BLUE);
+	printPath(source, vertex, graf,gv,"ambulance.png");
+
 }
 

@@ -41,9 +41,12 @@ double haversine_km(int x, int y, int x2, int y2) {
 
 void readFiles(GraphViewer *gv, Graph<int> & graf){
 	gv->createWindow(xwindow, ywindow);
+	Way way;
 
 	gv->defineEdgeColor("blue");
 	gv->defineVertexColor("yellow");
+
+
 
 	ifstream inFile;
 
@@ -163,7 +166,7 @@ void readFiles(GraphViewer *gv, Graph<int> & graf){
 	}
 
 	inFile2.close();
-
+	way.selectVertexIcon(graf,gv, "shop.png", 3);
 	gv->rearrange();
 
 
@@ -174,13 +177,27 @@ void menu(){
 	cout << " WELCOME TO EMERGENCY SERVICE CENTER " << endl;
 	cout << "Make the call!" << endl;
 
-	cout << "Select the priority type: " << endl;
-	cout << "Option a: High" << endl;
-	cout << "Option b: Medium" << endl;
-	cout << "Option c: Low" << endl;
+	cout << "Select the emergency type: " << endl;
+	cout << "1: High" << endl;
+	cout << "2: Medium" << endl;
+	cout << "3: Low" << endl;
 
-	char option;
-	cin >> option;
+	int option;
+	while(option !=1 | option!=2 | option !=3)
+		cin >> option;
+
+
+	cout << "Select the transport type: " << endl;
+	cout << "1: Ambulance" << endl;
+	cout << "2: Car" << endl;
+	cout << "3: Motorcycle" << endl;
+
+	int option2;
+	while(option2 !=1 | option2!=2 | option2 !=3)
+		cin >> option2;
+
+
+
 }
 
 
