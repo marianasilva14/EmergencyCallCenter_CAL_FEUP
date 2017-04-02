@@ -23,14 +23,18 @@ void Way::printPath(int source, int destiny, Graph<int> graf, GraphViewer *gv, s
 
 }
 
-void Way::selectVertexIcon(Graph<int> graf, GraphViewer *gv, string image, int nr_images){
+vector<int> Way::selectVertexIcon(Graph<int> graf, GraphViewer *gv, string image, int nr_images){
 	int random_vertex;
+	vector<int> places;
 
 	for(unsigned int i=0; i <= nr_images;i++){
 		random_vertex= rand() % nr_images;
-		cout << "lalalal   " << graf.getVertexSet()[random_vertex]->getInfo() << endl;
 		gv->setVertexIcon(graf.getVertexSet()[random_vertex]->getInfo(),image);
+		places.push_back(random_vertex);
 	}
+
+	return places;
+
 }
 
 vector<int> Way::selectHospital( Graph<int> graf, GraphViewer *gv){

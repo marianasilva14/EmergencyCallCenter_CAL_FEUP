@@ -8,6 +8,9 @@
 #ifndef EMERGENCYEVENT_H_
 #define EMERGENCYEVENT_H_
 
+#include "Graph.h"
+
+
 class Emergency{
 public:
 	typedef enum {
@@ -20,11 +23,12 @@ public:
 class EmergencyEvent {
 private:
 	Emergency::emergency emergency_type;
-	//Transport::transport transport_type;
+	Transport::transport transport_type;
 public:
 	EmergencyEvent();
-//	EmergencyEvent(Emergency::emergency e, Transport::transport t);
+	EmergencyEvent(Emergency::emergency e, Transport::transport t);
 	virtual ~EmergencyEvent();
+	int raflleEmergency(Graph<int> graf, GraphViewer *gv);
 
 };
 

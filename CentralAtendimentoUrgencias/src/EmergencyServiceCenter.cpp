@@ -8,8 +8,8 @@
 #include <sstream>
 #include <string>
 #include <queue>
-#include <map>
 #include <iomanip>
+#include <unistd.h>
 #include "edgetype.h"
 #include "graphviewer.h"
 #include "Graph.h"
@@ -25,7 +25,7 @@ public:
 	long long idRoad;
 };
 
-//calculate haversine distance for linear distance // coordinates in radians
+//calculate haversine distance for linear distance
 double haversine_km(int x, int y, int x2, int y2) {
 
 	double dx,dy,d;
@@ -50,7 +50,7 @@ void readFiles(GraphViewer *gv, Graph<int> & graf){
 
 	ifstream inFile;
 
-	//Ler o ficheiro FileNodes.txt
+	//Read the FileNodes.txt
 	inFile.open("FileNodes.txt");
 
 	if (!inFile) {
@@ -82,12 +82,12 @@ void readFiles(GraphViewer *gv, Graph<int> & graf){
 	inFile.close();
 
 
-	ifstream inFile3;
+	ifstream inFile2;
 
-	//Ler o ficheiro FileRoads.txt
-	inFile3.open("FileRoads.txt");
+	//Read the FileRoads.txt
+	inFile2.open("FileRoads.txt");
 
-	if (!inFile3) {
+	if (!inFile2) {
 		cerr << "Unable to open file datafile.txt";
 		exit(1);   // call system to stop
 	}
@@ -98,7 +98,7 @@ void readFiles(GraphViewer *gv, Graph<int> & graf){
 	vector<Edge_temp> edge_vector;
 
 
-	while(std::getline(inFile3, line))
+	while(std::getline(inFile2, line))
 	{
 		std::stringstream linestream(line);
 		std::string data;
@@ -120,13 +120,13 @@ void readFiles(GraphViewer *gv, Graph<int> & graf){
 
 	}
 
-	inFile3.close();
+	inFile2.close();
 
-	ifstream inFile2;
-	//Ler o ficheiro FileConection.txt
-	inFile2.open("FileConection.txt");
+	ifstream inFile3;
+	//Read the FileConection.txt
+	inFile3.open("FileConection.txt");
 
-	if (!inFile2) {
+	if (!inFile3) {
 		cerr << "Unable to open file datafile.txt";
 		exit(1);   // call system to stop
 	}
@@ -136,7 +136,7 @@ void readFiles(GraphViewer *gv, Graph<int> & graf){
 	int node2_id=0;
 	int i = 0;
 
-	while(std::getline(inFile2, line))
+	while(std::getline(inFile3, line))
 	{
 		std::stringstream linestream(line);
 		std::string data;
@@ -165,13 +165,14 @@ void readFiles(GraphViewer *gv, Graph<int> & graf){
 		}
 	}
 
-	inFile2.close();
-	way.selectVertexIcon(graf,gv, "shop.png", 3);
+	inFile3.close();
+	//way.selectVertexIcon(graf,gv, "shop.png", 3);
+
 	gv->rearrange();
 
 
 }
-
+/*
 void menu(){
 
 	cout << " WELCOME TO EMERGENCY SERVICE CENTER " << endl;
@@ -186,19 +187,9 @@ void menu(){
 	while(option !=1 | option!=2 | option !=3)
 		cin >> option;
 
-
-	cout << "Select the transport type: " << endl;
-	cout << "1: Ambulance" << endl;
-	cout << "2: Car" << endl;
-	cout << "3: Motorcycle" << endl;
-
-	int option2;
-	while(option2 !=1 | option2!=2 | option2 !=3)
-		cin >> option2;
-
-
-
 }
+*/
+
 
 
 int main() {
@@ -206,9 +197,21 @@ int main() {
 	GraphViewer *gv = new GraphViewer(xwindow, ywindow, false);
 	gv->defineEdgeCurved(false);
 	Way way;
-	vector<int> hospitals;
+	EmergencyEvent emergency;
+	vector<int> hospitals, ambulances,motorcycles,cars;
+	int position_emergency;
+	unsigned int microseconds=50;
 
 	readFiles(gv, graf);
+	ambulances=way.selectVertexIcon(graf,gv, "ambulance.png", 2);
+	motorcycles=way.selectVertexIcon(graf,gv, "motorcycle.png", 2);
+	cars=way.selectVertexIcon(graf,gv, "car.png", 2);
+
+	for(int i=0; i < 3;i++){
+		position_emergency=emergency.raflleEmergency(graf,gv);
+		way.chooseShortestWay(position_emergency,graf,gv);
+		usleep(microseconds);
+	}
 	//menu();
 
 	graf.dijkstraShortestPath(1);
@@ -216,13 +219,6 @@ int main() {
 	//	vector<Vertex<NoInfo>*> vet = graf.getVertexSet();
 	//	for(unsigned int i = 0; i < vet.size(); i++)
 	//		cout << vet[i]->getInfo().idNo  << endl;
-
-
-	way.printPath(5,18, graf,gv,BLACK);
-	way.chooseShortestWay(21, graf,gv);
-	for(unsigned int i = 0; i < 20 ; i++)
-		gv->setEdgeColor(i,GREEN);
-
 
 	getchar();
 	cout << "END";
