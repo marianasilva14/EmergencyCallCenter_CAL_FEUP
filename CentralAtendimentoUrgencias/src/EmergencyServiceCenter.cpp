@@ -7,6 +7,8 @@
 #include <limits>
 #include <sstream>
 #include <string>
+#include <sys/types.h>
+#include <stdio.h>
 #include <queue>
 #include <iomanip>
 #include <unistd.h>
@@ -15,6 +17,7 @@
 #include "graphviewer.h"
 #include "Graph.h"
 #include "Way.h"
+#include "Transport.h"
 
 #define xwindow 1000
 #define ywindow 1000
@@ -23,7 +26,7 @@
 class Edge_temp{
 public:
 	bool istwoway;
-	long long idRoad;
+	int idRoad;
 };
 
 //calculate haversine distance for linear distance
@@ -155,7 +158,7 @@ void readFiles(GraphViewer *gv, Graph<int> & graf){
 		graf.addEdge(source,destiny,haversine_km(graf.getVertex(source)->getX(),graf.getVertex(source)->getY(),graf.getVertex(destiny)->getX(),graf.getVertex(destiny)->getY()));
 		i++;
 
-		for(int j=0; j < edge_vector.size();j++){
+		for(unsigned int j=0; j < edge_vector.size();j++){
 			if(roadId == edge_vector[j].idRoad){
 				if(edge_vector[j].istwoway){
 					gv->addEdge(i, node2_id, node1_id, EdgeType::DIRECTED);
@@ -207,7 +210,7 @@ int main() {
 
 	for(int i=0; i < 3;i++){
 		position_emergency=emergency.raflleEmergency(graf,gv);
-		//way.chooseShortestWayTransport(position_emergency,graf,gv);
+		way.chooseShortestWayTransport(position_emergency,graf,gv);
 		//usleep(microseconds);
 	}
 	//menu();

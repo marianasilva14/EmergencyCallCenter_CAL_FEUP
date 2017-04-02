@@ -82,7 +82,7 @@ void  Way::chooseShortestWayHospital(int source, Graph<int> graf, GraphViewer *g
 void Way::chooseShortestWayTransport(int source, Graph<int> graf, GraphViewer *gv){
 
 	Transport t;
-	//vector<Transport::transport> transports = t.positionsTransport(graf,gv);
+	vector<pair<Transport::transport,int>> transports = t.positionsTransport(graf,gv);
 
 	graf.dijkstraShortestPath(source);
 
@@ -92,16 +92,17 @@ void Way::chooseShortestWayTransport(int source, Graph<int> graf, GraphViewer *g
 	string transport_type;
 
 	path= graf.getVertexSet();
-//
-//	for(int i=0; i < path.size();i++){
-//		for(int j=0; j < transports.size();j++){
-//			if(path[i]->getDist() < dist && path[i]->getInfo()== j){
-//				dist=path[i]->getDist();
-//				vertex=transports[j];
-//			}
-//		}
-//	}
 
+	for(int i=0; i < path.size();i++){
+		for(int j=0; j < transports.size();j++){
+			if(path[i]->getDist() < dist && path[i]->getInfo() == transports[j].second){
+				dist=path[i]->getDist();
+				vertex =transports[j].first;
+			}
+		}
+	}
+
+	transport_type=t.associateImageTransport(vertex);
 	printPath(source, vertex, graf,gv,transport_type);
 
 }
