@@ -8,7 +8,19 @@
 #ifndef EMERGENCYEVENT_H_
 #define EMERGENCYEVENT_H_
 
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <conio.h>
+#include <fstream>
+#include <iostream>
+#include <limits>
+#include <sstream>
+#include <string>
+#include <iomanip>
 #include "Graph.h"
+#include "graphviewer.h"
+#include "Transport.h"
 
 
 class Emergency{

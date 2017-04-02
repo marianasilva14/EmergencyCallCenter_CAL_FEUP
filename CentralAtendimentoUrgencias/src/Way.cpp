@@ -7,6 +7,7 @@
 
 #include "Way.h"
 
+
 void Way::printPath(int source, int destiny, Graph<int> graf, GraphViewer *gv, string color){
 	vector<int> path;
 
@@ -52,7 +53,7 @@ vector<int> Way::selectHospital( Graph<int> graf, GraphViewer *gv){
 	return hospitals;
 }
 
-void  Way::chooseShortestWay(int source, Graph<int> graf, GraphViewer *gv){
+void  Way::chooseShortestWayHospital(int source, Graph<int> graf, GraphViewer *gv){
 
 
 	vector<int> hospitals =selectHospital(graf,gv);
@@ -75,6 +76,33 @@ void  Way::chooseShortestWay(int source, Graph<int> graf, GraphViewer *gv){
 	}
 
 	printPath(source, vertex, graf,gv,"ambulance.png");
+
+}
+
+void Way::chooseShortestWayTransport(int source, Graph<int> graf, GraphViewer *gv){
+
+	Transport t;
+	vector<Transport::transport> transports = t.positionsTransport(graf,gv);
+
+	graf.dijkstraShortestPath(source);
+
+	vector<Vertex<int>*> path;
+	double dist=1000000;
+	Transport::transport vertex;
+	string transport_type;
+
+	path= graf.getVertexSet();
+
+	for(int i=0; i < path.size();i++){
+		for(int j=0; j < transports.size();j++){
+			if(path[i]->getDist() < dist && path[i]->getInfo()== j){
+				dist=path[i]->getDist();
+				vertex=transports[j];
+			}
+		}
+	}
+
+	printPath(source, vertex, graf,gv,transport_type);
 
 }
 

@@ -11,6 +11,7 @@
 #include <iomanip>
 #include <unistd.h>
 #include "edgetype.h"
+#include "EmergencyEvent.h"
 #include "graphviewer.h"
 #include "Graph.h"
 #include "Way.h"
@@ -198,18 +199,15 @@ int main() {
 	gv->defineEdgeCurved(false);
 	Way way;
 	EmergencyEvent emergency;
-	vector<int> hospitals, ambulances,motorcycles,cars;
+	vector<int> hospitals;
 	int position_emergency;
 	unsigned int microseconds=50;
 
 	readFiles(gv, graf);
-	ambulances=way.selectVertexIcon(graf,gv, "ambulance.png", 2);
-	motorcycles=way.selectVertexIcon(graf,gv, "motorcycle.png", 2);
-	cars=way.selectVertexIcon(graf,gv, "car.png", 2);
 
 	for(int i=0; i < 3;i++){
 		position_emergency=emergency.raflleEmergency(graf,gv);
-		way.chooseShortestWay(position_emergency,graf,gv);
+		way.chooseShortestWayTransport(position_emergency,graf,gv);
 		usleep(microseconds);
 	}
 	//menu();
