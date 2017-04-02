@@ -20,11 +20,12 @@
 #include <queue>
 #include <iomanip>
 #include <unistd.h>
-//#include <utility>
+#include <utility>
 #include "edgetype.h"
 #include "graphviewer.h"
 #include "Graph.h"
 #include "Way.h"
+
 
 class Transport {
 public:
@@ -33,6 +34,8 @@ public:
 	enum transport {AMBULANCE,CAR,MOTORCYCLE};
 	vector<pair<Transport::transport,int>> positionsTransport(Graph<int> graf, GraphViewer *gv);
 	string associateImageTransport(Transport::transport);
+	pair<transport,int> chooseTransportShortestWay(int source, Graph<int> graf, GraphViewer *gv, vector<pair<Transport::transport,int>> transports);
+	void printEmergencyPath(int priority, int source, int destiny, Graph<int> graf, GraphViewer *gv, Transport::transport transport);
 };
 
 #endif /* TRANSPORT_H_ */

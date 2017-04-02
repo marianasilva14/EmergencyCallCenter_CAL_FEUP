@@ -20,7 +20,6 @@ vector<pair<Transport::transport,int>> Transport::positionsTransport(Graph<int> 
 
 	vector<pair<transport,int>> transports;
 
-
 	Way way;
 	vector<int> ambulances,motorcycles,cars;
 
@@ -64,4 +63,49 @@ string Transport::associateImageTransport(Transport::transport t){
 	return NULL;
 }
 
+pair<Transport::transport,int> Transport::chooseTransportShortestWay(int source, Graph<int> graf, GraphViewer *gv, vector<pair<Transport::transport,int>> transports){
 
+	Transport t;
+	pair<Transport::transport,int> destiny_choosed;
+	graf.dijkstraShortestPath(source);
+
+	vector<Vertex<int>*> path;
+	double dist=1000000;
+	int destiny;
+	string transport_type;
+	Transport::transport transport;
+
+	path= graf.getVertexSet();
+
+	for(int i=0; i < path.size();i++){
+		for(int j=0; j < transports.size();j++){
+			if(path[i]->getDist() < dist && path[i]->getInfo() == transports[j].second){
+				dist=path[i]->getDist();
+				destiny =transports[j].second;
+				transport=transports[j].first;
+
+			}
+		}
+	}
+
+	destiny_choosed.first=transport;
+	destiny_choosed.second=destiny;
+
+	return destiny_choosed;
+
+}
+
+/*
+void  Transport::printEmergencyPath(int priority, int source, int hospital, Graph<int> graf, GraphViewer *gv, Transport::transport transport){
+	Way way;
+
+
+	if(priority==1)
+		way.printPath(source,hospital, graf,gv,RED);
+	else if(priority==2)
+		way.printPath(source, hospital, graf,gv,YELLOW);
+	else
+		way.printPath(source, hospital, graf,gv,GREEN);
+}
+
+*/

@@ -52,11 +52,9 @@ vector<int> Way::selectHospital( Graph<int> graf, GraphViewer *gv){
 	return hospitals;
 }
 
-void  Way::chooseShortestWayHospital(int source, Graph<int> graf, GraphViewer *gv){
+int  Way::chooseHospitalShortestWay(int source, Graph<int> graf, GraphViewer *gv, vector<int> hospitals){
 
-
-	vector<int> hospitals =selectHospital(graf,gv);
-
+	int hospital_choosed;
 	graf.dijkstraShortestPath(source);
 
 	vector<Vertex<int>*> path;
@@ -74,38 +72,6 @@ void  Way::chooseShortestWayHospital(int source, Graph<int> graf, GraphViewer *g
 		}
 	}
 
-	printPath(source, vertex, graf,gv,"ambulance.png");
-
-}
-
-void Way::chooseShortestWayTransport(int source, Graph<int> graf, GraphViewer *gv){
-
-	Transport t;
-	vector<pair<Transport::transport,int>> transports = t.positionsTransport(graf,gv);
-
-	graf.dijkstraShortestPath(source);
-
-	vector<Vertex<int>*> path;
-	double dist=1000000;
-	int destiny;
-	string transport_type;
-	Transport::transport transport;
-
-	path= graf.getVertexSet();
-
-	for(int i=0; i < path.size();i++){
-		for(int j=0; j < transports.size();j++){
-			if(path[i]->getDist() < dist && path[i]->getInfo() == transports[j].second){
-				dist=path[i]->getDist();
-				destiny =transports[j].second;
-				transport=transports[j].first;
-
-			}
-		}
-	}
-
-	transport_type=t.associateImageTransport(transport);
-	printPath(source, destiny, graf,gv,transport_type);
-
+	return hospital_choosed;
 }
 

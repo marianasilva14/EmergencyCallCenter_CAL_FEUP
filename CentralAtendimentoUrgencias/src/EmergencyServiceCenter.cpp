@@ -222,6 +222,10 @@ int main() {
 	EmergencyEvent emergency;
 	vector<int> hospitals;
 	vector<pair<int,unsigned int>> emergencies;
+	Transport t;
+	vector<pair<Transport::transport,int>> transports;
+	pair<Transport::transport,int> transport;
+	int hospital;
 
 	unsigned int microseconds=50;
 
@@ -237,11 +241,15 @@ int main() {
 			break;
 		emergencies.push_back(call);
 	}
-
+	getchar();
 	emergencies= emergency.sortPriorityVector(emergencies);
 
+	hospitals= way.selectHospital(graf,gv);
+	transports=t.positionsTransport(graf,gv);
 	for(unsigned int i=0; i < emergencies.size();i++){
-		way.chooseShortestWayTransport(emergencies[i].second,graf,gv);
+		transport= t.chooseTransportShortestWay(emergencies[i].first,graf,gv, transports);
+		hospital= way.chooseHospitalShortestWay(emergencies[i].first,graf,gv,hospitals);
+		//mandar pintar o caminho
 		usleep(microseconds);
 	}
 
