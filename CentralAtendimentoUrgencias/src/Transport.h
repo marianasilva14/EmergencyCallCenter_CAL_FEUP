@@ -19,9 +19,8 @@
 #include <string>
 #include <queue>
 #include <iomanip>
-#include <pair>
 #include <unistd.h>
-#include <utility>
+//#include <utility>
 #include "edgetype.h"
 #include "graphviewer.h"
 #include "Graph.h"

@@ -43,13 +43,14 @@ vector<pair<Transport::transport,int>> Transport::positionsTransport(Graph<int> 
 	return transports;
 }
 
-string associateImageTransport(Transport::transport t){
+string Transport::associateImageTransport(Transport::transport t){
+
 
 	switch(t){
 	case AMBULANCE:
 		return "ambulance.png";
 		break;
-	case MOTORCYLE:
+	case MOTORCYCLE:
 		return "motorcycle.png";
 		break;
 	case CAR:

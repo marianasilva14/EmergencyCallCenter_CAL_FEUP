@@ -207,8 +207,8 @@ int main() {
 
 	for(int i=0; i < 3;i++){
 		position_emergency=emergency.raflleEmergency(graf,gv);
-		way.chooseShortestWayTransport(position_emergency,graf,gv);
-		usleep(microseconds);
+		//way.chooseShortestWayTransport(position_emergency,graf,gv);
+		//usleep(microseconds);
 	}
 	//menu();
 
