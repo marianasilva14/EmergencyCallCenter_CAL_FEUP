@@ -176,8 +176,11 @@ void readFiles(GraphViewer *gv, Graph<int> & graf){
 
 
 }
-/*
-void menu(){
+
+void menu(Graph<int> graf, pair<int,unsigned int> &call){
+
+	string option = "";
+	unsigned int local=1000000;
 
 	cout << " WELCOME TO EMERGENCY SERVICE CENTER " << endl;
 	cout << "Make the call!" << endl;
@@ -187,12 +190,27 @@ void menu(){
 	cout << "2: Medium" << endl;
 	cout << "3: Low" << endl;
 
-	int option;
-	while(option !=1 | option!=2 | option !=3)
-		cin >> option;
 
+	while(option != "1" && option!="2" && option !="3"){
+		cin >> option;
+		if(option=="end"){
+			call.first=-1;
+			call.second=0;
+			return;
+		}
+	}
+
+	cout << "Select the local: " << endl;
+	while(local > graf.getVertexSet().size())
+		cin >> local;
+
+	stringstream teste(option);
+	int op;
+	teste >> op;
+	call.first= op;
+	call.second=local;
 }
-*/
+
 
 
 
@@ -203,23 +221,29 @@ int main() {
 	Way way;
 	EmergencyEvent emergency;
 	vector<int> hospitals;
-	int position_emergency;
+	vector<pair<int,unsigned int>> emergencies;
+
 	unsigned int microseconds=50;
 
 	readFiles(gv, graf);
+	string end;
+	pair<int,unsigned int> call;
+	call.first=1;
+	call.second=2;
 
-	for(int i=0; i < 3;i++){
-		position_emergency=emergency.raflleEmergency(graf,gv);
-		way.chooseShortestWayTransport(position_emergency,graf,gv);
-		//usleep(microseconds);
+	while(true) {
+		menu(graf,call);
+		if(call.first == -1)
+			break;
+		emergencies.push_back(call);
 	}
-	//menu();
 
-	graf.dijkstraShortestPath(1);
+	emergencies= emergency.sortPriorityVector(emergencies);
 
-	//	vector<Vertex<NoInfo>*> vet = graf.getVertexSet();
-	//	for(unsigned int i = 0; i < vet.size(); i++)
-	//		cout << vet[i]->getInfo().idNo  << endl;
+	for(unsigned int i=0; i < emergencies.size();i++){
+		way.chooseShortestWayTransport(emergencies[i].second,graf,gv);
+		usleep(microseconds);
+	}
 
 	getchar();
 	cout << "END";

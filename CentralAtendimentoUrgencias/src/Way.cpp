@@ -15,7 +15,6 @@ void Way::printPath(int source, int destiny, Graph<int> graf, GraphViewer *gv, s
 		path = graf.getPath(source,destiny);
 
 	for(unsigned int i = 0; i <path.size()-1; i++){
-		cout << path[i]<< endl;
 		if(color.find('.')!=std::string::npos)
 			gv->setVertexIcon(path[i], color);
 		else
@@ -28,8 +27,8 @@ vector<int> Way::selectVertexIcon(Graph<int> graf, GraphViewer *gv, string image
 	int random_vertex;
 	vector<int> places;
 
-	for(unsigned int i=0; i <= nr_images;i++){
-		random_vertex= rand() % nr_images;
+	for(unsigned int i=0; i < nr_images;i++){
+		random_vertex= rand() % graf.getVertexSet().size()-1;
 		gv->setVertexIcon(graf.getVertexSet()[random_vertex]->getInfo(),image);
 		places.push_back(random_vertex);
 	}
@@ -88,8 +87,9 @@ void Way::chooseShortestWayTransport(int source, Graph<int> graf, GraphViewer *g
 
 	vector<Vertex<int>*> path;
 	double dist=1000000;
-	Transport::transport vertex;
+	int destiny;
 	string transport_type;
+	Transport::transport transport;
 
 	path= graf.getVertexSet();
 
@@ -97,13 +97,15 @@ void Way::chooseShortestWayTransport(int source, Graph<int> graf, GraphViewer *g
 		for(int j=0; j < transports.size();j++){
 			if(path[i]->getDist() < dist && path[i]->getInfo() == transports[j].second){
 				dist=path[i]->getDist();
-				vertex =transports[j].first;
+				destiny =transports[j].second;
+				transport=transports[j].first;
+
 			}
 		}
 	}
 
-	transport_type=t.associateImageTransport(vertex);
-	printPath(source, vertex, graf,gv,transport_type);
+	transport_type=t.associateImageTransport(transport);
+	printPath(source, destiny, graf,gv,transport_type);
 
 }
 

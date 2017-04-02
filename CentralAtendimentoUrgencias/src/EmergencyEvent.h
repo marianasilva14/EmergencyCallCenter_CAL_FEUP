@@ -41,6 +41,7 @@ public:
 	EmergencyEvent(Emergency::emergency e, Transport::transport t);
 	virtual ~EmergencyEvent();
 	int raflleEmergency(Graph<int> graf, GraphViewer *gv);
+	vector<pair<int,unsigned int>> sortPriorityVector(vector<pair<int,unsigned int>> priority_vector);
 
 };
 

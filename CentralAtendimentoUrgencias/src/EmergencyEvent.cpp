@@ -27,3 +27,17 @@ int EmergencyEvent::raflleEmergency(Graph<int> graf, GraphViewer *gv){
 
 	return random_vertex;
 }
+
+vector<pair<int,unsigned int>> EmergencyEvent::sortPriorityVector(vector<pair<int,unsigned int>> priority_vector){
+
+	vector<pair<int,unsigned int>> sortPriority;
+
+	for(int j=1; j < 4; j++){
+	for(unsigned int i=0; i < priority_vector.size();i++){
+		if(priority_vector[i].first == j)
+			sortPriority.push_back(priority_vector[i]);
+	}
+	}
+
+	return sortPriority;
+}
