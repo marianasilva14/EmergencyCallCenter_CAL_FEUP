@@ -32,7 +32,7 @@ public:
 	Transport();
 	virtual ~Transport();
 	enum transport {AMBULANCE,CAR,MOTORCYCLE};
-	vector<int> positionsTransport(Graph<int> graf, GraphViewer *gv);
+	vector<int> positionsTransport(Graph<int> graf, GraphViewer *gv,vector<int> hospitals);
 	string associateImageTransport(Transport::transport);
 	int chooseClosestTransport(int source, Graph<int> graf, GraphViewer *gv, vector<int> transports);
 	vector<int> transportsLocal(vector<pair<Transport::transport,int>> transports);

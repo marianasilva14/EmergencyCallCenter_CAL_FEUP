@@ -254,10 +254,17 @@ int main() {
 	call.second=2;
 
 	hospitals= way.selectHospital(graf,gv);
-	transports_positions=t.positionsTransport(graf,gv);
+	for(int i=0; i < hospitals.size();i++){
+		cout << endl << hospitals[i] << endl;
+	}
+	transports_positions=t.positionsTransport(graf,gv,hospitals);
 
+	for(int i=0; i < transports_positions.size();i++){
+		cout << endl << transports_positions[i] << endl;
+	}
 
 	 while(menu(graf,call) != 3){
+		 cout << "emergencia aqui "<< call.second << end;
 		emergencies.push_back(call);
 		emergency.printPictureEmergency(gv,call.second);
 	}

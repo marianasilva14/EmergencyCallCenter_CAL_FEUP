@@ -28,12 +28,12 @@ void Way::printPath(int source, int destiny, Graph<int> graf, GraphViewer *gv, s
 	cout << "funcao print path" <<endl;
 	if((graf.getVertex(source) != NULL) && (graf.getVertex(destiny) != NULL)){
 		path = graf.getPath(source,destiny);
-		cout << path.size() << endl;
+		//cout << path.size() << endl;
 		for(unsigned int i = 0; i <path.size()-1; i++){
 			gv->setEdgeColor(graf.getVertex(path[i])->getIdEdge(path[i+1]),color);
 			cout << path[i] << endl;
-			cout << "ligado por " << graf.getVertex(path[i])->getIdEdge(path[i+1]) << endl;
-			cout << path[i+1] << endl;
+			//cout << "ligado por " << graf.getVertex(path[i])->getIdEdge(path[i+1]) << endl;
+			//cout << path[i+1] << endl;
 			gv->setEdgeThickness(graf.getVertex(path[i])->getIdEdge(path[i+1]), 5);
 			gv->rearrange();
 			//sleep(1000);
@@ -41,13 +41,25 @@ void Way::printPath(int source, int destiny, Graph<int> graf, GraphViewer *gv, s
 	}
 
 }
-vector<int> Way::selectVertexIcon(Graph<int> graf, GraphViewer *gv, string image, int nr_images){
+
+bool Way::hospitalAlreadyExist(vector<int> hospitals, int transport){
+	for(int i=0; i < hospitals.size();i++)
+	{
+		if(hospitals[i]==transport)
+			return true;
+	}
+	return false;
+}
+vector<int> Way::selectVertexIcon(Graph<int> graf, GraphViewer *gv, string image, int nr_images, vector<int> hospitals){
 	int random_vertex;
 	vector<int> places;
 
 	for(unsigned int i=0; i < nr_images;i++){
-		random_vertex= rand() % graf.getVertexSet().size()-1;
-		gv->setVertexIcon(graf.getVertexSet()[random_vertex]->getInfo(),image);
+			do{
+				random_vertex= rand() % graf.getVertexSet().size()-1;
+			}while(hospitalAlreadyExist(hospitals,random_vertex));
+
+		gv->setVertexIcon(graf.getVertexSet()[random_vertex-1]->getInfo(),image);
 		places.push_back(random_vertex);
 	}
 
@@ -63,8 +75,8 @@ vector<int> Way::selectHospital( Graph<int> graf, GraphViewer *gv){
 
 	for(unsigned int i=0; i < 5;i++){
 		random_vertex= rand() % vet.size();
-		hospitals.push_back(vet[random_vertex]->getInfo());
-		gv->setVertexIcon(vet[random_vertex]->getInfo(),"hospital.png");
+		hospitals.push_back(vet[random_vertex]->getInfo()-1);
+		gv->setVertexIcon(random_vertex,"hospital.png");
 	}
 
 	return hospitals;

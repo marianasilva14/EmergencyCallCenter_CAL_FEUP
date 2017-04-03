@@ -16,16 +16,16 @@ Transport::~Transport() {
 	// TODO Auto-generated destructor stub
 }
 
-vector<int> Transport::positionsTransport(Graph<int> graf, GraphViewer *gv){
+vector<int> Transport::positionsTransport(Graph<int> graf, GraphViewer *gv,vector<int> hospitals){
 
 	vector<int> transports;
 
 	Way way;
 	vector<int> ambulances,motorcycles,cars;
 
-	ambulances=way.selectVertexIcon(graf,gv, "ambulance.png", 2);
-	motorcycles=way.selectVertexIcon(graf,gv, "motorcycle.png", 2);
-	cars=way.selectVertexIcon(graf,gv, "car.png", 2);
+	ambulances=way.selectVertexIcon(graf,gv, "ambulance.png", 2,hospitals);
+	motorcycles=way.selectVertexIcon(graf,gv, "motorcycle.png", 2,hospitals);
+	cars=way.selectVertexIcon(graf,gv, "car.png", 2,hospitals);
 
 
 	for(int i=0; i < ambulances.size();i++){
