@@ -23,12 +23,14 @@
 #include "Graph.h"
 #include <vector>
 #include <utility>
+#include <unistd.h>
 
 class Way{
 public:
+	//void printVertex(int source, int destiny, Graph<int> graf, GraphViewer *gv, string color);
 	void printPath(int source, int destiny, Graph<int> graf, GraphViewer *gv, string color);
 	vector<int> selectHospital( Graph<int> graf, GraphViewer *gv);
-	int  chooseHospitalShortestWay(int source, Graph<int> graf, GraphViewer *gv, vector<int> hospitals);
+	int  chooseClosestHospital(int source, Graph<int> graf, GraphViewer *gv, vector<int> hospitals);
 	vector<int> selectVertexIcon(Graph<int> graf, GraphViewer *gv, string image, int nr_images);
 
 };

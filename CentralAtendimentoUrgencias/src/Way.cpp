@@ -7,22 +7,40 @@
 
 #include "Way.h"
 
+/*
+void Way::printVertex(int source, int destiny, Graph<int> graf, GraphViewer *gv, string color){
+	vector<int> vertex;
+
+	if((graf.getVertex(source) != NULL) && (graf.getVertex(destiny) != NULL))
+		vertex = graf.getPath(source,destiny);
+
+	for(unsigned int i = 0; i <vertex.size()-1; i++){
+		if(color.find('.')!=std::string::npos)
+			gv->setVertexIcon(vertex[i], color);
+		else
+			gv->setVertexColor(vertex[i], color);
+	}
+
+}*/
 
 void Way::printPath(int source, int destiny, Graph<int> graf, GraphViewer *gv, string color){
 	vector<int> path;
-
-	if((graf.getVertex(source) != NULL) && (graf.getVertex(destiny) != NULL))
+	cout << "funcao print path" <<endl;
+	if((graf.getVertex(source) != NULL) && (graf.getVertex(destiny) != NULL)){
 		path = graf.getPath(source,destiny);
-
-	for(unsigned int i = 0; i <path.size()-1; i++){
-		if(color.find('.')!=std::string::npos)
-			gv->setVertexIcon(path[i], color);
-		else
-			gv->setVertexColor(path[i], color);
+		cout << path.size() << endl;
+		for(unsigned int i = 0; i <path.size()-1; i++){
+			gv->setEdgeColor(graf.getVertex(path[i])->getIdEdge(path[i+1]),color);
+			cout << path[i] << endl;
+			cout << "ligado por " << graf.getVertex(path[i])->getIdEdge(path[i+1]) << endl;
+			cout << path[i+1] << endl;
+			gv->setEdgeThickness(graf.getVertex(path[i])->getIdEdge(path[i+1]), 5);
+			gv->rearrange();
+			//sleep(1000);
+		}
 	}
 
 }
-
 vector<int> Way::selectVertexIcon(Graph<int> graf, GraphViewer *gv, string image, int nr_images){
 	int random_vertex;
 	vector<int> places;
@@ -52,14 +70,14 @@ vector<int> Way::selectHospital( Graph<int> graf, GraphViewer *gv){
 	return hospitals;
 }
 
-int  Way::chooseHospitalShortestWay(int source, Graph<int> graf, GraphViewer *gv, vector<int> hospitals){
+int  Way::chooseClosestHospital(int source, Graph<int> graf, GraphViewer *gv, vector<int> hospitals){
 
 	int hospital_choosed;
 	graf.dijkstraShortestPath(source);
 
 	vector<Vertex<int>*> path;
 	double dist=1000000;
-	int vertex;
+
 
 	path= graf.getVertexSet();
 
@@ -67,7 +85,7 @@ int  Way::chooseHospitalShortestWay(int source, Graph<int> graf, GraphViewer *gv
 		for(int j=0; j < hospitals.size();j++){
 			if(path[i]->getDist() < dist && path[i]->getInfo()== hospitals[j]){
 				dist=path[i]->getDist();
-				vertex=hospitals[j];
+				hospital_choosed=hospitals[j];
 			}
 		}
 	}

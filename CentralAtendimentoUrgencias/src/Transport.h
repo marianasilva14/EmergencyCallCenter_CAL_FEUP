@@ -32,9 +32,10 @@ public:
 	Transport();
 	virtual ~Transport();
 	enum transport {AMBULANCE,CAR,MOTORCYCLE};
-	vector<pair<Transport::transport,int>> positionsTransport(Graph<int> graf, GraphViewer *gv);
+	vector<int> positionsTransport(Graph<int> graf, GraphViewer *gv);
 	string associateImageTransport(Transport::transport);
-	pair<transport,int> chooseTransportShortestWay(int source, Graph<int> graf, GraphViewer *gv, vector<pair<Transport::transport,int>> transports);
+	int chooseClosestTransport(int source, Graph<int> graf, GraphViewer *gv, vector<int> transports);
+	vector<int> transportsLocal(vector<pair<Transport::transport,int>> transports);
 	void printEmergencyPath(int priority, int source, int destiny, Graph<int> graf, GraphViewer *gv, Transport::transport transport);
 };
 

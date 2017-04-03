@@ -34,14 +34,20 @@ public:
 
 class EmergencyEvent {
 private:
-	Emergency::emergency emergency_type;
-	Transport::transport transport_type;
+	vector<int> transports_positions;
+	vector<int> hospitals;
 public:
 	EmergencyEvent();
-	EmergencyEvent(Emergency::emergency e, Transport::transport t);
+	EmergencyEvent(	vector<int> transports_positions,vector<int> hospitals);
 	virtual ~EmergencyEvent();
-	int raflleEmergency(Graph<int> graf, GraphViewer *gv);
+	vector<int> getTransports();
+	vector<int> getHospitals();
+	void setTransports(vector<int> transports);
+	void setHospitals(vector<int> hospitals);
+	void printPictureEmergency(GraphViewer *gv,int local);
 	vector<pair<int,unsigned int>> sortPriorityVector(vector<pair<int,unsigned int>> priority_vector);
+	bool verifyIfPositionOfEmergencyIsValid(vector<int> hospitals, vector<int> transports, int position_emergency);
+
 
 };
 

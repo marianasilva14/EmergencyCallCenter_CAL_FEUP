@@ -20,7 +20,7 @@
 #include "Transport.h"
 
 #define xwindow 1000
-#define ywindow 1000
+#define ywindow 650
 
 
 class Edge_temp{
@@ -47,8 +47,8 @@ void readFiles(GraphViewer *gv, Graph<int> & graf){
 	gv->createWindow(xwindow, ywindow);
 	Way way;
 
-	gv->defineEdgeColor("blue");
-	gv->defineVertexColor("yellow");
+	gv->defineEdgeColor("black");
+	gv->defineVertexColor("gray");
 
 
 
@@ -78,7 +78,7 @@ void readFiles(GraphViewer *gv, Graph<int> & graf){
 		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
 		linestream >> y;
 
-		gv->addNode(id_No, x,y );
+		gv->addNode(id_No, x,y-300 );
 
 		graf.addVertex(id_No,x,y);
 	}
@@ -155,14 +155,17 @@ void readFiles(GraphViewer *gv, Graph<int> & graf){
 		gv->addEdge(i, node1_id, node2_id, EdgeType::DIRECTED);
 		int source =node1_id;
 		int destiny = node2_id;
-		graf.addEdge(source,destiny,haversine_km(graf.getVertex(source)->getX(),graf.getVertex(source)->getY(),graf.getVertex(destiny)->getX(),graf.getVertex(destiny)->getY()));
+
+		graf.addEdge(source,destiny,haversine_km(graf.getVertex(source)->getX(),graf.getVertex(source)->getY(),graf.getVertex(destiny)->getX(),graf.getVertex(destiny)->getY()),i);
+		//gv->setEdgeLabel(i,to_string(i));
 		i++;
 
 		for(unsigned int j=0; j < edge_vector.size();j++){
 			if(roadId == edge_vector[j].idRoad){
 				if(edge_vector[j].istwoway){
 					gv->addEdge(i, node2_id, node1_id, EdgeType::DIRECTED);
-					graf.addEdge(destiny,source,haversine_km(graf.getVertex(source)->getX(),graf.getVertex(source)->getY(),graf.getVertex(destiny)->getX(),graf.getVertex(destiny)->getY()));
+					//gv->setEdgeLabel(i,to_string(i));
+					graf.addEdge(destiny,source,haversine_km(graf.getVertex(source)->getX(),graf.getVertex(source)->getY(),graf.getVertex(destiny)->getX(),graf.getVertex(destiny)->getY()),i);
 					i++;
 				}
 			}
@@ -176,14 +179,11 @@ void readFiles(GraphViewer *gv, Graph<int> & graf){
 
 
 }
-
-void menu(Graph<int> graf, pair<int,unsigned int> &call){
+void priorityMenu(Graph<int> graf, pair<int,unsigned int> &call){
 
 	string option = "";
 	unsigned int local=1000000;
-
-	cout << " WELCOME TO EMERGENCY SERVICE CENTER " << endl;
-	cout << "Make the call!" << endl;
+	EmergencyEvent emergency;
 
 	cout << "Select the emergency type: " << endl;
 	cout << "1: High" << endl;
@@ -191,14 +191,9 @@ void menu(Graph<int> graf, pair<int,unsigned int> &call){
 	cout << "3: Low" << endl;
 
 
-	while(option != "1" && option!="2" && option !="3"){
+	while(option != "1" && option!="2" && option !="3")
 		cin >> option;
-		if(option=="end"){
-			call.first=-1;
-			call.second=0;
-			return;
-		}
-	}
+
 
 	cout << "Select the local: " << endl;
 	while(local > graf.getVertexSet().size())
@@ -211,10 +206,33 @@ void menu(Graph<int> graf, pair<int,unsigned int> &call){
 	call.second=local;
 }
 
+int menu(Graph<int> graf, pair<int,unsigned int> &call){
+	cout << " WELCOME TO EMERGENCY SERVICE CENTER " << endl;
+	cout << "1. Make the call" << endl;
+	cout << "2. Evaluate conectivity"<<endl;
+	cout << "3. Exit"<< endl;
+
+	int option;
+
+	cin >> option;
+
+	switch(option){
+	case 1: priorityMenu(graf,call);
+	break;
+	case 2:
+		break;
+	case 3:
+		break;
+	}
+
+	return option;
+}
+
 
 
 
 int main() {
+	srand(time(NULL));
 	Graph<int> graf;
 	GraphViewer *gv = new GraphViewer(xwindow, ywindow, false);
 	gv->defineEdgeCurved(false);
@@ -223,8 +241,8 @@ int main() {
 	vector<int> hospitals;
 	vector<pair<int,unsigned int>> emergencies;
 	Transport t;
-	vector<pair<Transport::transport,int>> transports;
-	pair<Transport::transport,int> transport;
+	vector<int> transports_positions;
+	int transport;
 	int hospital;
 
 	unsigned int microseconds=50;
@@ -235,22 +253,26 @@ int main() {
 	call.first=1;
 	call.second=2;
 
-	while(true) {
-		menu(graf,call);
-		if(call.first == -1)
-			break;
+	hospitals= way.selectHospital(graf,gv);
+	transports_positions=t.positionsTransport(graf,gv);
+
+
+	 while(menu(graf,call) != 3){
 		emergencies.push_back(call);
+		emergency.printPictureEmergency(gv,call.second);
 	}
 	getchar();
-	emergencies= emergency.sortPriorityVector(emergencies);
 
-	hospitals= way.selectHospital(graf,gv);
-	transports=t.positionsTransport(graf,gv);
+	emergencies= emergency.sortPriorityVector(emergencies);
+	cout <<"tamanho urgencias: " << emergencies.size() <<endl;
 	for(unsigned int i=0; i < emergencies.size();i++){
-		transport= t.chooseTransportShortestWay(emergencies[i].first,graf,gv, transports);
-		hospital= way.chooseHospitalShortestWay(emergencies[i].first,graf,gv,hospitals);
-		//mandar pintar o caminho
-		usleep(microseconds);
+		cout << "dentro do for" << endl;
+		transport= t.chooseClosestTransport(emergencies[i].first,graf,gv, transports_positions);
+		hospital= way.chooseClosestHospital(emergencies[i].first,graf,gv,hospitals);
+		cout << transport << " " << hospital << endl;
+		way.printPath(transport, emergencies[i].first,graf, gv, RED);
+		way.printPath(emergencies[i].first, hospital, graf,gv, RED);
+		//usleep(microseconds);
 	}
 
 	getchar();
