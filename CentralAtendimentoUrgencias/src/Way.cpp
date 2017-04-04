@@ -134,7 +134,7 @@ void Way::inactiveTransport(GraphViewer *gv,vector<unsigned int>& transports, in
 
 	transports.push_back(hospital);
 
-	gv->setVertexIcon(hospital,"shop.png");
+	gv->setVertexIcon(hospital,"hospitalWithTransport.png");
 
 }
 
