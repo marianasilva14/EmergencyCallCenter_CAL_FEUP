@@ -74,6 +74,14 @@ public:
 	 * @return average
 	 */
 	float averageConnectivity(Graph<int> graf,GraphViewer *gv);
+	/**
+	 * Start the emergencies
+	 * @param graf Graph
+	 * @param gv GraphViewer
+	 * @param hospitals hospitals positions
+	 * @param transport_positions transport positions
+	 * @param emergencies pair with the priority and local of the emergency
+	 */
 	void startEmergencies(Graph<int> graf,GraphViewer *gv,vector<unsigned int> hospitals, vector<unsigned int> transports_positions, vector<pair<int,unsigned int>> emergencies);
 
 };
