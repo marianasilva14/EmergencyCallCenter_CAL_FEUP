@@ -17,6 +17,7 @@
 #include <iomanip>
 #include "Graph.h"
 #include "graphviewer.h"
+#include "Way.h"
 
 /**
  * Enumerates that define emergencies priority
@@ -73,6 +74,7 @@ public:
 	 * @return average
 	 */
 	float averageConnectivity(Graph<int> graf,GraphViewer *gv);
+	void startEmergencies(Graph<int> graf,GraphViewer *gv,vector<unsigned int> hospitals, vector<unsigned int> transports_positions, vector<pair<int,unsigned int>> emergencies);
 
 };
 

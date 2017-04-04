@@ -62,7 +62,7 @@ vector<int> EmergencyEvent::connectity(Graph<int> graf,GraphViewer *gv){
 		results.push_back(falhas);
 
 		for(Vertex<int>*elem : graf.getVertexSet())
-				elem->setVisited(false);
+			elem->setVisited(false);
 	}
 
 	return results;
@@ -85,4 +85,21 @@ float EmergencyEvent::averageConnectivity(Graph<int> graf,GraphViewer *gv){
 	return average;
 }
 
+void EmergencyEvent::startEmergencies(Graph<int> graf,GraphViewer *gv,vector<unsigned int> hospitals, vector<unsigned int> transports_positions, vector<pair<int,unsigned int>> emergencies){
+
+	string priority_color;
+	unsigned int nearest_transport, nearest_hospital;
+	Way way;
+	emergencies= sortPriorityVector(emergencies);
+
+	for(unsigned int i=0; i < emergencies.size();i++){
+		priority_color=colorEmergencyPriority(emergencies[i].first);
+		nearest_transport= way.chooseNearestDestiny(emergencies[i].second,graf,gv, transports_positions);
+		nearest_hospital= way.chooseNearestDestiny(emergencies[i].second,graf,gv,hospitals);
+		way.printPath(nearest_transport, emergencies[i].second,graf, gv, priority_color);
+		way.printPath(emergencies[i].second, nearest_hospital, graf,gv, priority_color);
+		way.inactiveTransport(gv,transports_positions, nearest_transport, nearest_hospital,hospitals);
+	}
+
+}
 

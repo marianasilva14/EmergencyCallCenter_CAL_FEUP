@@ -234,7 +234,8 @@ int menu(Graph<int> graf,GraphViewer *gv, pair<int,unsigned int> &call){
 	cout << "1. Make the call" << endl;
 	cout << "2. Evaluate connectivity"<<endl;
 	cout << "3. Calculation of algorithm time" << endl;
-	cout << "4. Exit"<< endl;
+	cout << "4. End the calls"<< endl;
+	cout << "5. Exit"<< endl;
 
 	int option;
 	EmergencyEvent emergency;
@@ -245,11 +246,13 @@ int menu(Graph<int> graf,GraphViewer *gv, pair<int,unsigned int> &call){
 	case 1: priorityMenu(graf,call);
 	break;
 	case 2: emergency.averageConnectivity(graf,gv);
-		break;
+	break;
 	case 3:
 		graf.calculateTime(graf);
 		break;
 	case 4:
+		break;
+	case 5:
 		break;
 	}
 
@@ -264,13 +267,12 @@ int main() {
 	Way way;
 	EmergencyEvent emergency;
 	vector<unsigned int> hospitals,transports_positions;
-	unsigned int nearest_transport, nearest_hospital;
 	vector<pair<int,unsigned int>> emergencies;
-	string priority_color;
+
 	int option;
 	string end;
 	pair<int,unsigned int> call;
-
+	bool end_calls=false;
 	readFiles(gv, graf);
 
 	call.first=1;
@@ -279,38 +281,35 @@ int main() {
 	hospitals= way.selectHospital(graf,gv);
 	transports_positions=way.positionsTransport(graf,gv,hospitals);
 
-	while(option != 4){
-	 switch(menu(graf,gv,call)){
-	 case 1:
-		 option=1;
-		emergencies.push_back(call);
-		emergency.printPictureEmergency(gv,call.second);
-		break;
-	 case 2:
-		 option=2;
-		 break;
-	 case 3:
-		 option=3;
-		 break;
-	 case 4:
-		option=4;
-		break;
-	}
+	while(option != 5){
+		switch(menu(graf,gv,call)){
+		case 1:
+			option=1;
+			if(!end_calls)
+			{
+				emergencies.push_back(call);
+				emergency.printPictureEmergency(gv,call.second);
+			}
+			break;
+		case 2:
+			option=2;
+			break;
+		case 3:
+			option=3;
+			break;
+		case 4:
+			option=4;
+			end_calls=true;
+			emergency.startEmergencies(graf,gv, hospitals, transports_positions, emergencies);
+			break;
+		case 5:
+			option=5;
+			break;
+		}
 	}
 	getchar();
 
-	emergencies= emergency.sortPriorityVector(emergencies);
-	for(unsigned int i=0; i < emergencies.size();i++){
-		priority_color=emergency.colorEmergencyPriority(emergencies[i].first);
-		nearest_transport= way.chooseNearestDestiny(emergencies[i].second,graf,gv, transports_positions);
-		nearest_hospital= way.chooseNearestDestiny(emergencies[i].second,graf,gv,hospitals);
-		way.printPath(nearest_transport, emergencies[i].second,graf, gv, priority_color);
-		way.printPath(emergencies[i].second, nearest_hospital, graf,gv, priority_color);
-		way.inactiveTransport(gv,transports_positions, nearest_transport, nearest_hospital,hospitals);
-	}
-
-	cout << endl << "Emergencies already done!" << endl;
-	getchar();
+	//getchar();
 	cout << "END";
 	return 0;
 
