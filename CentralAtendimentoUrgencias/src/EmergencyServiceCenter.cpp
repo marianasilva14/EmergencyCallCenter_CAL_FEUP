@@ -17,7 +17,7 @@
 #include "graphviewer.h"
 #include "Graph.h"
 #include "Way.h"
-#include "Transport.h"
+
 
 #define xwindow 1000
 #define ywindow 650
@@ -206,22 +206,27 @@ void priorityMenu(Graph<int> graf, pair<int,unsigned int> &call){
 	call.second=local;
 }
 
-int menu(Graph<int> graf, pair<int,unsigned int> &call){
-	cout << " WELCOME TO EMERGENCY SERVICE CENTER " << endl;
+int menu(Graph<int> graf,GraphViewer *gv, pair<int,unsigned int> &call){
+	cout << endl << " WELCOME TO EMERGENCY SERVICE CENTER " << endl << endl;
 	cout << "1. Make the call" << endl;
-	cout << "2. Evaluate conectivity"<<endl;
-	cout << "3. Exit"<< endl;
+	cout << "2. Evaluate connectivity"<<endl;
+	cout << "3. Calculation of algorithm time" << endl;
+	cout << "4. Exit"<< endl;
 
 	int option;
+	EmergencyEvent emergency;
 
 	cin >> option;
 
 	switch(option){
 	case 1: priorityMenu(graf,call);
 	break;
-	case 2:
+	case 2: emergency.averageConnectivity(graf,gv);
 		break;
 	case 3:
+		graf.calculateTime(graf);
+		break;
+	case 4:
 		break;
 	}
 
@@ -235,26 +240,39 @@ int main() {
 	gv->defineEdgeCurved(false);
 	Way way;
 	EmergencyEvent emergency;
-	vector<unsigned int> hospitals;
-	vector<pair<int,unsigned int>> emergencies;
-	Transport t;
-	vector<unsigned int> transports_positions;
+	vector<unsigned int> hospitals,transports_positions;
 	unsigned int nearest_transport, nearest_hospital;
+	vector<pair<int,unsigned int>> emergencies;
 	string priority_color;
-	unsigned int microseconds=50;
-
-	readFiles(gv, graf);
+	int option;
 	string end;
 	pair<int,unsigned int> call;
+
+	readFiles(gv, graf);
+
 	call.first=1;
 	call.second=2;
 
 	hospitals= way.selectHospital(graf,gv);
-	transports_positions=t.positionsTransport(graf,gv,hospitals);
+	transports_positions=way.positionsTransport(graf,gv,hospitals);
 
-	 while(menu(graf,call) != 3){
+	while(option != 4){
+	 switch(menu(graf,gv,call)){
+	 case 1:
+		 option=1;
 		emergencies.push_back(call);
 		emergency.printPictureEmergency(gv,call.second);
+		break;
+	 case 2:
+		 option=2;
+		 break;
+	 case 3:
+		 option=3;
+		 break;
+	 case 4:
+		option=4;
+		break;
+	}
 	}
 	getchar();
 
@@ -266,7 +284,6 @@ int main() {
 		way.printPath(nearest_transport, emergencies[i].second,graf, gv, priority_color);
 		way.printPath(emergencies[i].second, nearest_hospital, graf,gv, priority_color);
 		way.inactiveTransport(gv,transports_positions, nearest_transport, nearest_hospital,hospitals);
-		//usleep(microseconds);
 	}
 
 	getchar();

@@ -9,6 +9,9 @@
 #include <list>
 #include <limits>
 #include <cmath>
+#include <unistd.h>
+#include <time.h>
+#include "graphviewer.h"
 using namespace std;
 
 template <class T> class Edge;
@@ -53,6 +56,11 @@ public:
 	double getY();
 
 	bool operator<(const Vertex<T> vertex);
+	void setVisited(bool b){
+			this->visited = b;
+		}
+
+	bool getVisited(){ return visited;}
 
 	Vertex* path;
 };
@@ -191,7 +199,7 @@ public:
 	bool removeVertex(const T &in);
 	bool removeEdge(const T &sourc, const T &dest);
 	vector<T> dfs() const;
-	vector<T> bfs(Vertex<T> *v) const;
+	vector<T> bfs(Vertex<T> *v, GraphViewer *gv) const;
 	int maxNewChildren(Vertex<T> *v, T &inf) const;
 	vector<Vertex<T> * > getVertexSet() const;
 	int getNumVertex() const;
@@ -213,6 +221,8 @@ public:
 	int edgeCost(int vOrigIndex, int vDestIndex);
 	vector<T> getfloydWarshallPath(const T &origin, const T &dest);
 	void getfloydWarshallPathAux(int index1, int index2, vector<T> & res);
+	void calculateTime(Graph<int> graf);
+
 };
 
 
@@ -358,7 +368,7 @@ void Graph<T>::dfs(Vertex<T> *v,vector<T> &res) const {
 }
 
 template <class T>
-vector<T> Graph<T>::bfs(Vertex<T> *v) const {
+vector<T> Graph<T>::bfs(Vertex<T> *v, GraphViewer *gv) const {
 	vector<T> res;
 	queue<Vertex<T> *> q;
 	q.push(v);
@@ -373,6 +383,9 @@ vector<T> Graph<T>::bfs(Vertex<T> *v) const {
 			Vertex<T> *d = it->dest;
 			if (d->visited==false) {
 				d->visited=true;
+				//sleep(1);
+				gv->setVertexColor(d->info, "ORANGE");
+				gv->rearrange();
 				q.push(d);
 			}
 		}
@@ -659,10 +672,24 @@ void Graph<T>::bellmanFordShortestPath(const T &s) {
 		}
 	}
 }
+template<class T>
+void Graph<T>::calculateTime(Graph<int> graf){
 
+	vector<int> path;
+	clock_t t_start;
 
+	t_start = clock();
 
+	for(int i=0; i <10000;i++){
+		graf.dijkstraShortestPath(2);
+		graf.getPath(2,21);
+	}
 
+	t_start = clock() - t_start;
+
+	cout << endl << "Time of Dijkstra: " << t_start << " clicks (" << ((float) t_start)/CLOCKS_PER_SEC << " seconds)" << endl << endl;
+
+}
 
 template<class T>
 void Graph<T>::dijkstraShortestPath(const T &s) {

@@ -29,10 +29,10 @@
 
 class Way{
 public:
-	//void printVertex(int source, int destiny, Graph<int> graf, GraphViewer *gv, string color);
 	void printPath(int source, int destiny, Graph<int> graf, GraphViewer *gv, string color);
 	vector<unsigned int> selectHospital( Graph<int> graf, GraphViewer *gv);
 	bool hospitalAlreadyExist(vector<unsigned int> hospitals,unsigned int transport);
+	vector<unsigned int> positionsTransport(Graph<int> graf, GraphViewer *gv,vector<unsigned int> hospitals);
 	unsigned int  chooseNearestDestiny(int source, Graph<int> graf, GraphViewer *gv, vector<unsigned int> destinies);
 	vector<unsigned int> selectVertexIcon(Graph<int> graf, GraphViewer *gv, string image, int nr_images,vector<unsigned int> hospitals);
 	void inactiveTransport(GraphViewer *gv,vector<unsigned int>& destinies,int destiny_choosed,unsigned int hospital,vector<unsigned int> hospitals);

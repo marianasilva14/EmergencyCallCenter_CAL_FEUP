@@ -14,7 +14,7 @@ void Way::printPath(int source, int destiny, Graph<int> graf, GraphViewer *gv, s
 		graf.dijkstraShortestPath(source);
 		path = graf.getPath(source,destiny);
 		for(unsigned int i = 0; i <path.size()-1; i++){
-			sleep(3);
+			sleep(1);
 			gv->setEdgeColor(graf.getVertex(path[i])->getIdEdge(path[i+1]),color);
 			gv->setEdgeThickness(graf.getVertex(path[i])->getIdEdge(path[i+1]), 3);
 			gv->rearrange();
@@ -36,9 +36,9 @@ vector<unsigned int> Way::selectVertexIcon(Graph<int> graf, GraphViewer *gv, str
 	vector<unsigned int> places;
 
 	for(unsigned int i=0; i < nr_images;i++){
-			do{
-				random_vertex= rand() % graf.getVertexSet().size()-1;
-			}while(hospitalAlreadyExist(hospitals,random_vertex));
+		do{
+			random_vertex= rand() % graf.getVertexSet().size()+1;
+		}while(hospitalAlreadyExist(hospitals,random_vertex));
 
 		gv->setVertexIcon(graf.getVertexSet()[random_vertex-1]->getInfo(),image);
 		places.push_back(random_vertex);
@@ -63,6 +63,32 @@ vector<unsigned int> Way::selectHospital( Graph<int> graf, GraphViewer *gv){
 	return hospitals;
 }
 
+vector<unsigned int> Way::positionsTransport(Graph<int> graf, GraphViewer *gv,vector<unsigned int> hospitals){
+
+	vector<unsigned int> transports;
+
+	Way way;
+	vector<unsigned int> ambulances,motorcycles,cars;
+
+	ambulances=way.selectVertexIcon(graf,gv, "ambulance.png", 2,hospitals);
+	motorcycles=way.selectVertexIcon(graf,gv, "motorcycle.png", 2,hospitals);
+	cars=way.selectVertexIcon(graf,gv, "car.png", 2,hospitals);
+
+
+	for(int i=0; i < ambulances.size();i++){
+		transports.push_back(ambulances[i]);
+	}
+	for(int i=0; i < motorcycles.size();i++){
+		transports.push_back(motorcycles[i]);
+	}
+	for(int i=0; i < cars.size();i++){
+		transports.push_back(cars[i]);
+	}
+
+
+	return transports;
+
+}
 unsigned int  Way::chooseNearestDestiny(int source, Graph<int> graf, GraphViewer *gv, vector<unsigned int> destinies){
 
 	unsigned int destiny_choosed;
@@ -102,13 +128,13 @@ void Way::inactiveTransport(GraphViewer *gv,vector<unsigned int>& destinies, int
 	}
 
 	auto destinies1 = find(destinies.begin(), destinies.end(), destiny_choosed);
-		if(destinies1 == destinies.end())
-			cout << "Não encontrou" << endl;
-		destinies.erase(destinies1);
+	if(destinies1 == destinies.end())
+		cout << "Não encontrou" << endl;
+	destinies.erase(destinies1);
 
-		destinies.push_back(hospital);
+	destinies.push_back(hospital);
 
-		gv->setVertexIcon(hospital,"shop.png");
+	gv->setVertexIcon(hospital,"shop.png");
 
 }
 

@@ -13,26 +13,6 @@ EmergencyEvent::EmergencyEvent() {
 EmergencyEvent::~EmergencyEvent() {
 }
 
-EmergencyEvent::EmergencyEvent(	vector<int> transports_positions,vector<int> hospitals){
-	this->transports_positions=transports_positions;
-	this->hospitals=hospitals;
-}
-
-vector<int> EmergencyEvent::getTransports(){
-	return transports_positions;
-}
-
-vector<int> EmergencyEvent::getHospitals(){
-	return hospitals;
-}
-
-void  EmergencyEvent::setTransports(vector<int> transports){
-	 this->transports_positions= transports;
-}
-void EmergencyEvent::setHospitals(vector<int> hospitals){
-	this->hospitals=hospitals;
-}
-
 void EmergencyEvent::printPictureEmergency(GraphViewer *gv, int local){
 	gv->setVertexIcon(local, "emergency.png");
 }
@@ -68,7 +48,6 @@ bool EmergencyEvent::verifyIfPositionOfEmergencyIsValid(vector<int> hospitals, v
 }
 
 string EmergencyEvent::colorEmergencyPriority(int priority){
-	Way way;
 	string color;
 
 	if(priority==1)
@@ -81,8 +60,47 @@ string EmergencyEvent::colorEmergencyPriority(int priority){
 	return color;
 }
 
-void EmergencyEvent::conectity(GraphViewer *gv, Graph<int> graf){
+vector<int> EmergencyEvent::connectity(Graph<int> graf,GraphViewer *gv){
+	vector<int> results;
 
+	for(Vertex<int>*elem : graf.getVertexSet())
+		elem->setVisited(false);
+
+
+	for(int i=0; i < graf.getVertexSet().size();i++){
+		graf.bfs(graf.getVertexSet()[i],gv);
+		int falhas = 0;
+		for(Vertex<int>*elem : graf.getVertexSet()){
+
+			if(!elem->getVisited()){
+				falhas++;
+			}
+		}
+
+		results.push_back(falhas);
+
+		for(Vertex<int>*elem : graf.getVertexSet())
+				elem->setVisited(false);
+	}
+
+	return results;
+}
+
+float EmergencyEvent::averageConnectivity(Graph<int> graf,GraphViewer *gv){
+
+	float average;
+	int sum = 0;
+
+	vector<int> falhas;
+	falhas = connectity(graf,gv);
+
+	for(int i = 0; i < falhas.size(); i++)
+		sum += falhas[i];
+
+	average = (double)sum/falhas.size();
+	cout << endl << "Graph's connectivity: " << average << endl << endl;
+
+	return average;
 }
 
 
