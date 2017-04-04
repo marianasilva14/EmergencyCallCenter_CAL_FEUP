@@ -309,7 +309,6 @@ int main() {
 	}
 	getchar();
 
-	//getchar();
 	cout << "END";
 	return 0;
 
