@@ -31,7 +31,7 @@ bool Way::hospitalAlreadyExist(vector<unsigned int> hospitals, unsigned int tran
 	}
 	return false;
 }
-vector<unsigned int> Way::selectVertexIcon(Graph<int> graf, GraphViewer *gv, string image, int nr_images, vector<unsigned int> hospitals){
+vector<unsigned int> Way::rafflePositions(Graph<int> graf, GraphViewer *gv, string image, int nr_images, vector<unsigned int> hospitals){
 	int random_vertex;
 	vector<unsigned int> places;
 
@@ -70,9 +70,9 @@ vector<unsigned int> Way::positionsTransport(Graph<int> graf, GraphViewer *gv,ve
 	Way way;
 	vector<unsigned int> ambulances,motorcycles,cars;
 
-	ambulances=way.selectVertexIcon(graf,gv, "ambulance.png", 2,hospitals);
-	motorcycles=way.selectVertexIcon(graf,gv, "motorcycle.png", 2,hospitals);
-	cars=way.selectVertexIcon(graf,gv, "car.png", 2,hospitals);
+	ambulances=way.rafflePositions(graf,gv, "ambulance.png", 2,hospitals);
+	motorcycles=way.rafflePositions(graf,gv, "motorcycle.png", 2,hospitals);
+	cars=way.rafflePositions(graf,gv, "car.png", 2,hospitals);
 
 
 	for(int i=0; i < ambulances.size();i++){
@@ -111,7 +111,7 @@ unsigned int  Way::chooseNearestDestiny(int source, Graph<int> graf, GraphViewer
 	return destiny_choosed;
 }
 
-void Way::inactiveTransport(GraphViewer *gv,vector<unsigned int>& destinies, int destiny_choosed,unsigned int hospital, vector<unsigned int> hospitals){
+void Way::inactiveTransport(GraphViewer *gv,vector<unsigned int>& transports, int destiny_choosed,unsigned int hospital, vector<unsigned int> hospitals){
 
 	bool changeHospitalIcon;
 	for(int i=0; i < hospitals.size();i++){
@@ -127,12 +127,12 @@ void Way::inactiveTransport(GraphViewer *gv,vector<unsigned int>& destinies, int
 		gv->rearrange();
 	}
 
-	auto destinies1 = find(destinies.begin(), destinies.end(), destiny_choosed);
-	if(destinies1 == destinies.end())
+	auto destinies1 = find(transports.begin(), transports.end(), destiny_choosed);
+	if(destinies1 == transports.end())
 		cout << "Não encontrou" << endl;
-	destinies.erase(destinies1);
+	transports.erase(destinies1);
 
-	destinies.push_back(hospital);
+	transports.push_back(hospital);
 
 	gv->setVertexIcon(hospital,"shop.png");
 

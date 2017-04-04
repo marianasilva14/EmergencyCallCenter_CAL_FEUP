@@ -50,23 +50,27 @@ public:
 	/**
 	 * Sort emergencies according to the priority
 	 * @param priority_vector priority emergencies vector
+	 * @return priority vector sorted
 	 */
 	vector<pair<int,unsigned int>> sortPriorityVector(vector<pair<int,unsigned int>> priority_vector);
 	/**
 	 * Find the color of the path
 	 * @param priority emergency priority
+	 * @return color of the path
 	 */
 	string colorEmergencyPriority(int priority);
 	/**
 	 * Calculate the connectivity of the graph
 	 * @param graf Graph
 	 * @param gv GraphViewer
+	 * @return vector with the nodes that aren't connected
 	 */
 	vector<int> connectity(Graph<int> graf,GraphViewer *gv);
 	/**
 	 * Calculate the average connectivity
 	 * @param graf Graph
 	 * @param gv GraphViewer
+	 * @return average
 	 */
 	float averageConnectivity(Graph<int> graf,GraphViewer *gv);
 

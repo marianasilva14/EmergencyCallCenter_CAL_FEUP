@@ -27,7 +27,14 @@ public:
 	int idRoad;
 };
 
-//calculate haversine distance for linear distance
+/**
+ * Calculate the distance between two nodes
+ * @param x x position of source
+ * @param y y position of source
+ * @param x2 x position of destiny
+ * @param y2 y position of destiny
+ * @return distance between two nodes
+ */
 double haversine_km(int x, int y, int x2, int y2) {
 
 	double dx,dy,d;
@@ -41,6 +48,11 @@ double haversine_km(int x, int y, int x2, int y2) {
 
 }
 
+/**
+ * Read the files that represents the graph
+ * @param gv GraphViewer
+ * @param graf Graph
+ */
 void readFiles(GraphViewer *gv, Graph<int> & graf){
 	gv->createWindow(xwindow, ywindow);
 	Way way;
@@ -177,6 +189,12 @@ void readFiles(GraphViewer *gv, Graph<int> & graf){
 
 
 }
+
+/**
+ * Priority menu
+ * @param graf Graph
+ * @param call pair that saves the priority and location of the emergency
+ */
 void priorityMenu(Graph<int> graf, pair<int,unsigned int> &call){
 
 	string option = "";
@@ -204,6 +222,13 @@ void priorityMenu(Graph<int> graf, pair<int,unsigned int> &call){
 	call.second=local;
 }
 
+/**
+ * Main menu
+ * @param graf Graph
+ * @param gv GraphViewer
+ * @param call pair that saves the priority and location of the emergency
+ * @return option the option selected by the user
+ */
 int menu(Graph<int> graf,GraphViewer *gv, pair<int,unsigned int> &call){
 	cout << endl << " WELCOME TO EMERGENCY SERVICE CENTER " << endl << endl;
 	cout << "1. Make the call" << endl;
@@ -284,6 +309,7 @@ int main() {
 		way.inactiveTransport(gv,transports_positions, nearest_transport, nearest_hospital,hospitals);
 	}
 
+	cout << endl << "Emergencies already done!" << endl;
 	getchar();
 	cout << "END";
 	return 0;
