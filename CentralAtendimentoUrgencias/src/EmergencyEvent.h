@@ -47,7 +47,8 @@ public:
 	void printPictureEmergency(GraphViewer *gv,int local);
 	vector<pair<int,unsigned int>> sortPriorityVector(vector<pair<int,unsigned int>> priority_vector);
 	bool verifyIfPositionOfEmergencyIsValid(vector<int> hospitals, vector<int> transports, int position_emergency);
-
+	string colorEmergencyPriority(int priority);
+	void conectity(GraphViewer *gv, Graph<int> graf);
 
 };
 

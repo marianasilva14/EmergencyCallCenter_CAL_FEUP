@@ -66,3 +66,23 @@ bool EmergencyEvent::verifyIfPositionOfEmergencyIsValid(vector<int> hospitals, v
 	return true;
 
 }
+
+string EmergencyEvent::colorEmergencyPriority(int priority){
+	Way way;
+	string color;
+
+	if(priority==1)
+		color="RED";
+	else if(priority==2)
+		color="YELLOW";
+	else
+		color="GREEN";
+
+	return color;
+}
+
+void EmergencyEvent::conectity(GraphViewer *gv, Graph<int> graf){
+
+}
+
+

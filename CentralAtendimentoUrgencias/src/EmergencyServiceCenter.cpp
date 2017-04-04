@@ -228,9 +228,6 @@ int menu(Graph<int> graf, pair<int,unsigned int> &call){
 	return option;
 }
 
-
-
-
 int main() {
 	srand(time(NULL));
 	Graph<int> graf;
@@ -238,13 +235,12 @@ int main() {
 	gv->defineEdgeCurved(false);
 	Way way;
 	EmergencyEvent emergency;
-	vector<int> hospitals;
+	vector<unsigned int> hospitals;
 	vector<pair<int,unsigned int>> emergencies;
 	Transport t;
-	vector<int> transports_positions;
-	int transport;
-	int hospital;
-
+	vector<unsigned int> transports_positions;
+	unsigned int nearest_transport, nearest_hospital;
+	string priority_color;
 	unsigned int microseconds=50;
 
 	readFiles(gv, graf);
@@ -254,31 +250,22 @@ int main() {
 	call.second=2;
 
 	hospitals= way.selectHospital(graf,gv);
-	for(int i=0; i < hospitals.size();i++){
-		cout << endl << hospitals[i] << endl;
-	}
 	transports_positions=t.positionsTransport(graf,gv,hospitals);
 
-	for(int i=0; i < transports_positions.size();i++){
-		cout << endl << transports_positions[i] << endl;
-	}
-
 	 while(menu(graf,call) != 3){
-		 cout << "emergencia aqui "<< call.second << end;
 		emergencies.push_back(call);
 		emergency.printPictureEmergency(gv,call.second);
 	}
 	getchar();
 
 	emergencies= emergency.sortPriorityVector(emergencies);
-	cout <<"tamanho urgencias: " << emergencies.size() <<endl;
 	for(unsigned int i=0; i < emergencies.size();i++){
-		cout << "dentro do for" << endl;
-		transport= t.chooseClosestTransport(emergencies[i].first,graf,gv, transports_positions);
-		hospital= way.chooseClosestHospital(emergencies[i].first,graf,gv,hospitals);
-		cout << transport << " " << hospital << endl;
-		way.printPath(transport, emergencies[i].first,graf, gv, RED);
-		way.printPath(emergencies[i].first, hospital, graf,gv, RED);
+		priority_color=emergency.colorEmergencyPriority(emergencies[i].first);
+		nearest_transport= way.chooseNearestDestiny(emergencies[i].second,graf,gv, transports_positions);
+		nearest_hospital= way.chooseNearestDestiny(emergencies[i].second,graf,gv,hospitals);
+		way.printPath(nearest_transport, emergencies[i].second,graf, gv, priority_color);
+		way.printPath(emergencies[i].second, nearest_hospital, graf,gv, priority_color);
+		way.inactiveTransport(gv,transports_positions, nearest_transport, nearest_hospital,hospitals);
 		//usleep(microseconds);
 	}
 

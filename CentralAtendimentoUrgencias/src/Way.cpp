@@ -7,42 +7,23 @@
 
 #include "Way.h"
 
-/*
-void Way::printVertex(int source, int destiny, Graph<int> graf, GraphViewer *gv, string color){
-	vector<int> vertex;
-
-	if((graf.getVertex(source) != NULL) && (graf.getVertex(destiny) != NULL))
-		vertex = graf.getPath(source,destiny);
-
-	for(unsigned int i = 0; i <vertex.size()-1; i++){
-		if(color.find('.')!=std::string::npos)
-			gv->setVertexIcon(vertex[i], color);
-		else
-			gv->setVertexColor(vertex[i], color);
-	}
-
-}*/
-
 void Way::printPath(int source, int destiny, Graph<int> graf, GraphViewer *gv, string color){
 	vector<int> path;
-	cout << "funcao print path" <<endl;
+
 	if((graf.getVertex(source) != NULL) && (graf.getVertex(destiny) != NULL)){
+		graf.dijkstraShortestPath(source);
 		path = graf.getPath(source,destiny);
-		//cout << path.size() << endl;
 		for(unsigned int i = 0; i <path.size()-1; i++){
+			sleep(3);
 			gv->setEdgeColor(graf.getVertex(path[i])->getIdEdge(path[i+1]),color);
-			cout << path[i] << endl;
-			//cout << "ligado por " << graf.getVertex(path[i])->getIdEdge(path[i+1]) << endl;
-			//cout << path[i+1] << endl;
-			gv->setEdgeThickness(graf.getVertex(path[i])->getIdEdge(path[i+1]), 5);
+			gv->setEdgeThickness(graf.getVertex(path[i])->getIdEdge(path[i+1]), 3);
 			gv->rearrange();
-			//sleep(1000);
 		}
 	}
 
 }
 
-bool Way::hospitalAlreadyExist(vector<int> hospitals, int transport){
+bool Way::hospitalAlreadyExist(vector<unsigned int> hospitals, unsigned int transport){
 	for(int i=0; i < hospitals.size();i++)
 	{
 		if(hospitals[i]==transport)
@@ -50,9 +31,9 @@ bool Way::hospitalAlreadyExist(vector<int> hospitals, int transport){
 	}
 	return false;
 }
-vector<int> Way::selectVertexIcon(Graph<int> graf, GraphViewer *gv, string image, int nr_images, vector<int> hospitals){
+vector<unsigned int> Way::selectVertexIcon(Graph<int> graf, GraphViewer *gv, string image, int nr_images, vector<unsigned int> hospitals){
 	int random_vertex;
-	vector<int> places;
+	vector<unsigned int> places;
 
 	for(unsigned int i=0; i < nr_images;i++){
 			do{
@@ -67,11 +48,11 @@ vector<int> Way::selectVertexIcon(Graph<int> graf, GraphViewer *gv, string image
 
 }
 
-vector<int> Way::selectHospital( Graph<int> graf, GraphViewer *gv){
+vector<unsigned int> Way::selectHospital( Graph<int> graf, GraphViewer *gv){
 
 	vector<Vertex<int>*> vet = graf.getVertexSet();
 	int random_vertex;
-	vector<int> hospitals;
+	vector<unsigned int> hospitals;
 
 	for(unsigned int i=0; i < 5;i++){
 		random_vertex= rand() % vet.size();
@@ -82,26 +63,52 @@ vector<int> Way::selectHospital( Graph<int> graf, GraphViewer *gv){
 	return hospitals;
 }
 
-int  Way::chooseClosestHospital(int source, Graph<int> graf, GraphViewer *gv, vector<int> hospitals){
+unsigned int  Way::chooseNearestDestiny(int source, Graph<int> graf, GraphViewer *gv, vector<unsigned int> destinies){
 
-	int hospital_choosed;
+	unsigned int destiny_choosed;
 	graf.dijkstraShortestPath(source);
 
 	vector<Vertex<int>*> path;
 	double dist=1000000;
 
-
 	path= graf.getVertexSet();
 
 	for(int i=0; i < path.size();i++){
-		for(int j=0; j < hospitals.size();j++){
-			if(path[i]->getDist() < dist && path[i]->getInfo()== hospitals[j]){
+		for(int j=0; j < destinies.size();j++){
+			if(path[i]->getDist() < dist && path[i]->getInfo()== destinies[j]){
 				dist=path[i]->getDist();
-				hospital_choosed=hospitals[j];
+				destiny_choosed=destinies[j];
 			}
 		}
 	}
 
-	return hospital_choosed;
+	return destiny_choosed;
+}
+
+void Way::inactiveTransport(GraphViewer *gv,vector<unsigned int>& destinies, int destiny_choosed,unsigned int hospital, vector<unsigned int> hospitals){
+
+	bool changeHospitalIcon;
+	for(int i=0; i < hospitals.size();i++){
+		if(destiny_choosed==hospitals[i])
+			changeHospitalIcon=true;
+	}
+
+	if(changeHospitalIcon)
+		gv->setVertexIcon(destiny_choosed,"hospital.png");
+	else{
+		gv->setVertexIcon(destiny_choosed,"");
+		gv->setVertexColor(destiny_choosed,"GRAY");
+		gv->rearrange();
+	}
+
+	auto destinies1 = find(destinies.begin(), destinies.end(), destiny_choosed);
+		if(destinies1 == destinies.end())
+			cout << "Não encontrou" << endl;
+		destinies.erase(destinies1);
+
+		destinies.push_back(hospital);
+
+		gv->setVertexIcon(hospital,"shop.png");
+
 }
 

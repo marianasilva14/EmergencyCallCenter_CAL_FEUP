@@ -16,12 +16,12 @@ Transport::~Transport() {
 	// TODO Auto-generated destructor stub
 }
 
-vector<int> Transport::positionsTransport(Graph<int> graf, GraphViewer *gv,vector<int> hospitals){
+vector<unsigned int> Transport::positionsTransport(Graph<int> graf, GraphViewer *gv,vector<unsigned int> hospitals){
 
-	vector<int> transports;
+	vector<unsigned int> transports;
 
 	Way way;
-	vector<int> ambulances,motorcycles,cars;
+	vector<unsigned int> ambulances,motorcycles,cars;
 
 	ambulances=way.selectVertexIcon(graf,gv, "ambulance.png", 2,hospitals);
 	motorcycles=way.selectVertexIcon(graf,gv, "motorcycle.png", 2,hospitals);
@@ -41,43 +41,9 @@ vector<int> Transport::positionsTransport(Graph<int> graf, GraphViewer *gv,vecto
 
 	return transports;
 
-
 }
 
 
-int Transport::chooseClosestTransport(int source, Graph<int> graf, GraphViewer *gv, vector<int> transports){
-
-	graf.dijkstraShortestPath(source);
-
-	vector<Vertex<int>*> path;
-	double dist=1000000;
-	int destiny;
-
-	path= graf.getVertexSet();
-
-	for(int i=0; i < path.size();i++){
-		for(int j=0; j < transports.size();j++){
-			if(path[i]->getDist() < dist && path[i]->getInfo() == transports[j]){
-				dist=path[i]->getDist();
-				destiny =transports[j];
-			}
-		}
-	}
-	return destiny;
-
-}
-
-/*
-void  Transport::printEmergencyPath(int priority, int source, int hospital, Graph<int> graf, GraphViewer *gv, Transport::transport transport){
-	Way way;
 
 
-	if(priority==1)
-		way.printPath(source,hospital, graf,gv,RED);
-	else if(priority==2)
-		way.printPath(source, hospital, graf,gv,YELLOW);
-	else
-		way.printPath(source, hospital, graf,gv,GREEN);
-}
 
-*/
