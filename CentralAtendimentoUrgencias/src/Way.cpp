@@ -24,7 +24,7 @@ void Way::printPath(int source, int destiny, Graph<int> graf, GraphViewer *gv, s
 }
 
 bool Way::hospitalAlreadyExist(vector<unsigned int> hospitals, unsigned int transport){
-	for(int i=0; i < hospitals.size();i++)
+	for(unsigned int i=0; i < hospitals.size();i++)
 	{
 		if(hospitals[i]==transport)
 			return true;

@@ -1,8 +1,6 @@
 /*
  * EmergencyEvent.cpp
  *
- *  Created on: 01/04/2017
- *
  */
 
 #include "EmergencyEvent.h"
@@ -29,22 +27,6 @@ vector<pair<int,unsigned int>> EmergencyEvent::sortPriorityVector(vector<pair<in
 	}
 
 	return sortPriority;
-}
-
-bool EmergencyEvent::verifyIfPositionOfEmergencyIsValid(vector<int> hospitals, vector<int> transports,  int position_emergency){
-
-	for(int i = 0; i < hospitals.size(); i++){
-		if(hospitals[i] == position_emergency)
-			return false;
-	}
-
-	for(int i = 0; i < transports.size(); i++){
-		if(transports[i] == position_emergency)
-			return false;
-	}
-
-	return true;
-
 }
 
 string EmergencyEvent::colorEmergencyPriority(int priority){

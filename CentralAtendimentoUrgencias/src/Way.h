@@ -18,7 +18,6 @@
 #include <sstream>
 #include <string>
 #include <iomanip>
-//#include <iterator>
 #include <algorithm>
 #include "edgetype.h"
 #include "graphviewer.h"
@@ -29,7 +28,20 @@
 
 class Way{
 public:
+	/**
+	 * Receives the origin and the destination and paints the shortest path between them
+	 * @param source source
+	 * @param destiny destination
+	 * @param graf Graph
+	 * @param gv GraphViewer
+	 * @param color path color
+	 */
 	void printPath(int source, int destiny, Graph<int> graf, GraphViewer *gv, string color);
+	/**
+	 * Selects five hospitals randomly
+	 * @param graf Graph
+	 * @param gv GraphViewer
+	 */
 	vector<unsigned int> selectHospital( Graph<int> graf, GraphViewer *gv);
 	bool hospitalAlreadyExist(vector<unsigned int> hospitals,unsigned int transport);
 	vector<unsigned int> positionsTransport(Graph<int> graf, GraphViewer *gv,vector<unsigned int> hospitals);

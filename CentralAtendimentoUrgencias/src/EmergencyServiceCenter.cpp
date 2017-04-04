@@ -18,10 +18,8 @@
 #include "Graph.h"
 #include "Way.h"
 
-
 #define xwindow 1000
 #define ywindow 650
-
 
 class Edge_temp{
 public:

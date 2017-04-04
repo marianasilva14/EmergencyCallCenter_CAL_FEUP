@@ -1,8 +1,5 @@
 /*
  * EmergencyEvent.h
- *
- *  Created on: 01/04/2017
- *      Author: Sissi
  */
 
 #ifndef EMERGENCYEVENT_H_
@@ -21,7 +18,9 @@
 #include "Graph.h"
 #include "graphviewer.h"
 
-
+/**
+ * Enumerates that define emergencies priority
+ */
 class Emergency{
 public:
 	typedef enum {
@@ -34,26 +33,43 @@ public:
 class EmergencyEvent {
 
 public:
+	/**
+	 * Constructor of class EmergencyEvent
+	 */
 	EmergencyEvent();
+	/**
+	 * Destructor of class EmergencyEvent
+	 */
 	virtual ~EmergencyEvent();
+	/**
+	 * Draw the emergency symbol at the node of the emergency local
+	 * @param gv GraphViewer
+	 * @param local emergency local
+	 */
 	void printPictureEmergency(GraphViewer *gv,int local);
+	/**
+	 * Sort emergencies according to the priority
+	 * @param priority_vector priority emergencies vector
+	 */
 	vector<pair<int,unsigned int>> sortPriorityVector(vector<pair<int,unsigned int>> priority_vector);
-	bool verifyIfPositionOfEmergencyIsValid(vector<int> hospitals, vector<int> transports, int position_emergency);
+	/**
+	 * Find the color of the path
+	 * @param priority emergency priority
+	 */
 	string colorEmergencyPriority(int priority);
+	/**
+	 * Calculate the connectivity of the graph
+	 * @param graf Graph
+	 * @param gv GraphViewer
+	 */
 	vector<int> connectity(Graph<int> graf,GraphViewer *gv);
+	/**
+	 * Calculate the average connectivity
+	 * @param graf Graph
+	 * @param gv GraphViewer
+	 */
 	float averageConnectivity(Graph<int> graf,GraphViewer *gv);
 
 };
-
-
-
-
-
-
-
-
-
-
-
 
 #endif /* EMERGENCYEVENT_H_ */
