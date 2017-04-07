@@ -53,7 +53,7 @@ double haversine_km(int x, int y, int x2, int y2) {
  * @param gv GraphViewer
  * @param graf Graph
  */
-void readFiles(GraphViewer *gv, Graph<int> & graf){
+void readFiles(GraphViewer *gv, Graph<int> & graf, string FileNodes, string FileRoads, string FileConection){
 	gv->createWindow(xwindow, ywindow);
 	Way way;
 
@@ -65,7 +65,7 @@ void readFiles(GraphViewer *gv, Graph<int> & graf){
 	ifstream inFile;
 
 	//Read the FileNodes.txt
-	inFile.open("FileNodes.txt");
+	inFile.open(FileNodes);
 
 	if (!inFile) {
 		cerr << "Unable to open file datafile.txt";
@@ -99,7 +99,7 @@ void readFiles(GraphViewer *gv, Graph<int> & graf){
 	ifstream inFile2;
 
 	//Read the FileRoads.txt
-	inFile2.open("FileRoads.txt");
+	inFile2.open(FileRoads);
 
 	if (!inFile2) {
 		cerr << "Unable to open file datafile.txt";
@@ -138,7 +138,7 @@ void readFiles(GraphViewer *gv, Graph<int> & graf){
 
 	ifstream inFile3;
 	//Read the FileConection.txt
-	inFile3.open("FileConection.txt");
+	inFile3.open(FileConection);
 
 	if (!inFile3) {
 		cerr << "Unable to open file datafile.txt";
@@ -190,6 +190,42 @@ void readFiles(GraphViewer *gv, Graph<int> & graf){
 
 }
 
+/**
+ * Graph Menu
+ */
+vector<string> graphMenu(){
+
+	int option=0;
+	vector<string> files;
+
+	cout << "Select the graph: " << endl;
+	cout << "1: Big" << endl;
+	cout << "2: Medium" << endl;
+	cout << "3: Small" << endl;
+
+	while(option != 1 && option!=2 && option !=3)
+			cin >> option;
+
+	switch(option){
+	case 1:
+		files.push_back("FileNodes.txt");
+		files.push_back("FileRoads.txt");
+		files.push_back("FileConection.txt");
+		break;
+	case 2:
+		files.push_back("FileNodes2.txt");
+		files.push_back("FileRoads2.txt");
+		files.push_back("FileConection2.txt");
+		break;
+	case 3:
+		files.push_back("FileNodes3.txt");
+		files.push_back("FileRoads3.txt");
+		files.push_back("FileConection3.txt");
+		break;
+	}
+
+	return files;
+}
 /**
  * Priority menu
  * @param graf Graph
@@ -268,12 +304,15 @@ int main() {
 	EmergencyEvent emergency;
 	vector<unsigned int> hospitals,transports_positions;
 	vector<pair<int,unsigned int>> emergencies;
+	vector<string> files=graphMenu();
 
 	int option;
 	string end;
 	pair<int,unsigned int> call;
 	bool end_calls=false;
-	readFiles(gv, graf);
+
+
+	readFiles(gv, graf, files[0],files[1],files[2]);
 
 	call.first=1;
 	call.second=2;
