@@ -52,8 +52,11 @@ double haversine_km(int x, int y, int x2, int y2) {
  * Read the files that represents the graph
  * @param gv GraphViewer
  * @param graf Graph
+ * @param FileNodes nodes file
+ * @param FileRoads roads file
+ * @param FileConnection connection file
  */
-void readFiles(GraphViewer *gv, Graph<int> & graf, string FileNodes, string FileRoads, string FileConection){
+void readFiles(GraphViewer *gv, Graph<int> & graf, string FileNodes, string FileRoads, string FileConnection){
 	gv->createWindow(xwindow, ywindow);
 	Way way;
 
@@ -137,8 +140,8 @@ void readFiles(GraphViewer *gv, Graph<int> & graf, string FileNodes, string File
 	inFile2.close();
 
 	ifstream inFile3;
-	//Read the FileConection.txt
-	inFile3.open(FileConection);
+	//Read the FileConnection.txt
+	inFile3.open(FileConnection);
 
 	if (!inFile3) {
 		cerr << "Unable to open file datafile.txt";
@@ -204,23 +207,23 @@ vector<string> graphMenu(){
 	cout << "3: Small" << endl;
 
 	while(option != 1 && option!=2 && option !=3)
-			cin >> option;
+		cin >> option;
 
 	switch(option){
 	case 1:
-		files.push_back("FileNodes.txt");
-		files.push_back("FileRoads.txt");
-		files.push_back("FileConection.txt");
+		files.push_back("FileNodes3.txt");
+		files.push_back("FileRoads3.txt");
+		files.push_back("FileConnection3.txt");
 		break;
 	case 2:
 		files.push_back("FileNodes2.txt");
 		files.push_back("FileRoads2.txt");
-		files.push_back("FileConection2.txt");
+		files.push_back("FileConnection2.txt");
 		break;
 	case 3:
-		files.push_back("FileNodes3.txt");
-		files.push_back("FileRoads3.txt");
-		files.push_back("FileConection3.txt");
+		files.push_back("FileNodes.txt");
+		files.push_back("FileRoads.txt");
+		files.push_back("FileConnection.txt");
 		break;
 	}
 

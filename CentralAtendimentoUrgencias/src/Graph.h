@@ -12,6 +12,7 @@
 #include <unistd.h>
 #include <time.h>
 #include "graphviewer.h"
+#include <chrono>
 using namespace std;
 
 template <class T> class Edge;
@@ -57,8 +58,8 @@ public:
 
 	bool operator<(const Vertex<T> vertex);
 	void setVisited(bool b){
-			this->visited = b;
-		}
+		this->visited = b;
+	}
 
 	bool getVisited(){ return visited;}
 
@@ -68,9 +69,9 @@ public:
 
 template <class T>
 struct vertex_greater_than {
-    bool operator()(Vertex<T> * a, Vertex<T> * b) const {
-        return a->getDist() > b->getDist();
-    }
+	bool operator()(Vertex<T> * a, Vertex<T> * b) const {
+		return a->getDist() > b->getDist();
+	}
 };
 
 
@@ -96,14 +97,7 @@ Vertex<T>::Vertex(T in, int x,int y): info(in), visited(false), processing(false
 	this->x=x;
 	this->y=y;
 }
-/*
-template <class T>
-void Vertex<T>::addEdge(Vertex<T> *dest, double w ) {
-	Edge<T> edgeD(dest,w);
-	adj.push_back(edgeD);
-}
 
-*/
 template <class T>
 void Vertex<T>::addEdge(Vertex<T> *dest, double w, int idEdge ) {
 	Edge<T> edgeD(dest,w,idEdge);
@@ -302,9 +296,9 @@ bool Graph<T>::addEdge(const T &sourc, const T &dest, double w, int idEdge) {
 	Vertex<T> *vS, *vD;
 	while (found!=2 && it!=ite ) {
 		if ( (*it)->info == sourc )
-			{ vS=*it; found++;}
+		{ vS=*it; found++;}
 		if ( (*it)->info == dest )
-			{ vD=*it; found++;}
+		{ vD=*it; found++;}
 		it ++;
 	}
 	if (found!=2) return false;
@@ -324,9 +318,9 @@ bool Graph<T>::removeEdge(const T &sourc, const T &dest) {
 	Vertex<T> *vS, *vD;
 	while (found!=2 && it!=ite ) {
 		if ( (*it)->info == sourc )
-			{ vS=*it; found++;}
+		{ vS=*it; found++;}
 		if ( (*it)->info == dest )
-			{ vD=*it; found++;}
+		{ vD=*it; found++;}
 		it ++;
 	}
 	if (found!=2)
@@ -349,8 +343,8 @@ vector<T> Graph<T>::dfs() const {
 	vector<T> res;
 	it=vertexSet.begin();
 	for (; it !=ite; it++)
-	    if ( (*it)->visited==false )
-	    	dfs(*it,res);
+		if ( (*it)->visited==false )
+			dfs(*it,res);
 	return res;
 }
 
@@ -361,10 +355,10 @@ void Graph<T>::dfs(Vertex<T> *v,vector<T> &res) const {
 	typename vector<Edge<T> >::iterator it= (v->adj).begin();
 	typename vector<Edge<T> >::iterator ite= (v->adj).end();
 	for (; it !=ite; it++)
-	    if ( it->dest->visited == false ){
-	    	//cout << "ok ";
-	    	dfs(it->dest, res);
-	    }
+		if ( it->dest->visited == false ){
+			//cout << "ok ";
+			dfs(it->dest, res);
+		}
 }
 
 template <class T>
@@ -470,8 +464,8 @@ void Graph<T>::dfsVisit() {
 		(*it)->visited=false;
 	it=vertexSet.begin();
 	for (; it !=ite; it++)
-	    if ( (*it)->visited==false )
-	    	dfsVisit(*it);
+		if ( (*it)->visited==false )
+			dfsVisit(*it);
 }
 
 template <class T>
@@ -482,9 +476,9 @@ void Graph<T>::dfsVisit(Vertex<T> *v) {
 	typename vector<Edge<T> >::iterator ite= (v->adj).end();
 	for (; it !=ite; it++) {
 		if ( it->dest->processing == true) numCycles++;
-	    if ( it->dest->visited == false ){
-	    	dfsVisit(it->dest);
-	    }
+		if ( it->dest->visited == false ){
+			dfsVisit(it->dest);
+		}
 	}
 	v->processing = false;
 }
@@ -672,22 +666,25 @@ void Graph<T>::bellmanFordShortestPath(const T &s) {
 		}
 	}
 }
+/**
+ * Calculate the dijkstra algorithm time
+ * @param graf Graph
+ */
 template<class T>
 void Graph<T>::calculateTime(Graph<int> graf){
 
 	vector<int> path;
-	clock_t t_start;
 
-	t_start = clock();
-
+	auto t_start = std::chrono::system_clock::now();
 	for(int i=0; i <10000;i++){
 		graf.dijkstraShortestPath(2);
 		graf.getPath(2,21);
 	}
 
-	t_start = clock() - t_start;
-
-	cout << endl << "Time of Dijkstra: " << t_start << " clicks (" << ((float) t_start)/CLOCKS_PER_SEC << " seconds)" << endl << endl;
+	auto endt_start = std::chrono::system_clock::now();
+	cout << endl << "Time of Dijkstra: " ;
+	cout << (double)std::chrono::duration_cast<std::chrono::milliseconds>(endt_start -  t_start).count();
+	cout <<" miliseconds" << endl;
 
 }
 
@@ -750,36 +747,8 @@ int Graph<T>::edgeCost(int vOrigIndex, int vDestIndex)
 
 	return INT_INFINITY;
 }
-/*
 
-void printSquareArray(int ** arr, unsigned int size)
-{
-	for(unsigned int k = 0; k < size; k++)
-	{
-		if(k == 0)
-		{
-			cout <<  "   ";
-			for(unsigned int i = 0; i < size; i++)
-				cout <<  " " << i+1 << " ";
-			cout << endl;
-		}
 
-		for(unsigned int i = 0; i < size; i++)
-		{
-			if(i == 0)
-				cout <<  " " << k+1 << " ";
-
-			if(arr[k][i] == INT_INFINITY)
-				cout << " - ";
-			else
-				cout <<  " " << arr[k][i] << " ";
-		}
-
-		cout << endl;
-	}
-}
-
-*/
 template<class T>
 void Graph<T>::floydWarshallShortestPath() {
 
