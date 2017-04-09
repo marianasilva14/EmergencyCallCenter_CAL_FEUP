@@ -672,19 +672,23 @@ void Graph<T>::bellmanFordShortestPath(const T &s) {
  */
 template<class T>
 void Graph<T>::calculateTime(Graph<int> graf){
-
 	vector<int> path;
-
+	int random_vertex,random_vertex2;
+	int graf_size= graf.getVertexSet().size();
 	auto t_start = std::chrono::system_clock::now();
-	for(int i=0; i <10000;i++){
-		graf.dijkstraShortestPath(2);
-		graf.getPath(2,21);
+
+	for(int i=0; i <1000;i++){
+		random_vertex= (rand() % (graf_size-1))+1;
+		random_vertex2= (rand() % (graf_size-1))+1;
+
+		graf.dijkstraShortestPath(random_vertex);
+		graf.getPath(random_vertex,random_vertex2);
 	}
 
 	auto endt_start = std::chrono::system_clock::now();
 	cout << endl << "Time of Dijkstra: " ;
 	cout << (double)std::chrono::duration_cast<std::chrono::milliseconds>(endt_start -  t_start).count();
-	cout <<" miliseconds" << endl;
+	cout <<" milliseconds" << endl;
 
 }
 

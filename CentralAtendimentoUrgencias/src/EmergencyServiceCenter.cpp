@@ -280,7 +280,6 @@ int menu(Graph<int> graf,GraphViewer *gv, pair<int,unsigned int> &call){
 	EmergencyEvent emergency;
 
 	cin >> option;
-
 	switch(option){
 	case 1: priorityMenu(graf,call);
 	break;
