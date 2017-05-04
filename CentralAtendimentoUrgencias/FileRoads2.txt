@@ -1,129 +1,129 @@
-1;True
-2;True
-3;True
-4;True
-5;True
-6;True
-7;True
-8;True
-9;True
-10;True
-11;True
-12;True
-13;True
-14;True
-15;True
-16;True
-17;True
-18;True
-19;True
-20;True
-21;True
-22;True
-23;True
-24;True
-25;True
-26;True
-27;True
-28;True
-29;True
-30;True
-31;True
-32;True
-33;True
-34;True
-35;True
-36;True
-37;True
-38;True
-39;True
-40;True
-41;True
-42;True
-43;True
-44;True
-45;True
-46;True
-47;True
-48;True
-49;True
-50;True
-51;True
-52;True
-53;True
-54;True
-55;True
-56;True
-57;True
-58;True
-59;True
-60;True
-61;True
-62;True
-63;True
-64;True
-65;True
-66;True
-67;True
-68;True
-69;True
-70;True
-71;True
-72;True
-73;True
-74;True
-75;True
-76;True
-77;True
-78;True
-79;True
-80;True
-81;True
-82;True
-83;True
-84;True
-85;True
-86;True
-87;True
-88;True
-89;True
-90;True
-91;True
-92;True
-93;True
-94;True
-95;True
-96;True
-97;True
-98;True
-99;True
-100;True
-101;True
-102;True
-103;True
-104;True
-105;True
-106;True
-107;True
-108;True
-109;True
-110;True
-111;True
-112;True
-113;True
-114;True
-115;True
-116;True
-117;True
-118;True
-119;True
-120;True
-121;True
-122;True
-123;True
-124;True
-125;True
-126;True
-127;True
-128;True
-129;True
+1;Rua Dr Sousa Rosas;True
+2;Rua Humberto Delgado;True
+3;Rua Antonio Cardoso;True
+4;Rua Domingos Lopes;True
+5;Avenida da Boavista;True
+6;Rua do Aleixo;True
+7;Rua Marechal Saldanha;True
+8;Rua de Gondarem;True
+9;Rua de Fez;True
+10;Rua 25 de Abril;True
+11;Rua de Castro;True
+12;Rua Garcia da Orta;True
+13;Praça de Liege;True
+14;Praça do Império;True
+15;Rua Maria Feliciana;True
+16;Rua das Flores;True
+17;Rua da Alegria;True
+18;Avenida dos Aliados;True
+19;Rua Duarte Barbosa;True
+20;Rua de Roberto Frias;True
+21;Rua Gomes da Costa;True
+22;Rua Conde Faria;True
+23;Rua de José Falcão;True
+24;Rua do Major David Magno;True
+25;Rua dos Mercadores;True
+26;Rua de Mota Pinto;True
+27;Rua de Nove de Julho;True
+28;Rua de Mouzinho de Silveira;True
+29;Rua de Miguel Bombarda;True
+30;Rua de Passos Manuel;True
+31;Rua dos Caldeireiros;True
+32;Rua do Caminho Novo;True
+33;Rua de Candido dos Reis;True
+34;Rua das Carmelitas;True
+35;Rua do Carvalhido;True
+36;Rua de Cedofeita;True
+37;Rua dos Clérigos;True
+38;Rua do Comércio do Porto;True
+39;Rua da Constituição;True
+40;Rua de Costa Cabral;True
+41;Rua de Dão Hugo;True
+42;Rua Escura;True
+43;Rua do Rosário;True
+44;Rua do Loureiro;True
+45;Rua de Sá da Bandeira;True
+46;Rua de Sant'Ana;True
+47;Rua de Santa Catarina;True
+48;Rua de S.Bento da Vitória;True
+49;Rua de S.Miguel;True
+50;Rua de S.Roque da Lameira;True
+51;Rua das Taipas;True
+52;Rua de Trás;True
+53;Rua de 31 de Janeiro;True
+54;Rua de Pena Ventosa;True
+55;Rua da Banharia;True
+56;Rua da Aldas;True
+57;Rua dos Armazéns;True
+58;Rua de Miragaia;True
+59;Rua de Belomonte;True
+60;Rua da Reboleira;True
+61;Rua do Barredo;True
+62;Rua dos Mercadores;True
+63;Rua de Baixo;True
+64;Rua de Cimo de Vila;True
+65;Rua das Oliveiras;True
+66;Rua Francisco Rocha Soares;True
+67;Rua do Corpo da Guarda;True
+68;Rua da Lada;True
+69;Rua dos Canastreiros;True
+70;Rua de Luis Cruz;True
+71;Rua Fonte Massarelos;True
+72;Rua do Sol;True
+73;Rua do Cativo;True
+74;Rua da Flora;True
+75;Rua Candido dos Reis;True
+76;Rua do Coronel Almeida Valente;True
+77;Rua dos Pelames;True
+78;Rua da Sra. das Verdades;True
+79;Rua da Lomba;True
+80;Rua Fernandes Tomas;True
+81;Rua de S.Dinis;True
+82;Rua de S.João;True
+83;Rua do Pinheiro;True
+84;Rua do Campinho;True
+85;Rua Miguel Bombarda;True
+86;Rua do Arco de Noeda;True
+87;Rua do Freixo;True
+88;Rua da Nau Vitória;True
+89;Rua de Entrequintas;True
+90;Rua Sampaio Bruno;True
+91;Rua de Ceuta;True
+92;Rua de Rodrigues de Faria;True
+93;Rua da Alfandega;True
+94;Rua do Arsenal;True
+95;Rua Augusta;True
+96;Rua dos Bacalhoeiros;True
+97;Rua do Carmo;True
+98;Rua Cidade de Bolama;True
+99;Rua Garret;True
+100;Rua Herois de Quionga;True
+101;Rua do Instituto Bacteriologico;True
+102;Rua da Madalena;True
+103;Rua da Oliveira ao Carmo;True
+104;Rua do Poço dos Mouros;True
+105;Rua da Prata;True
+106;Rua Roberto Duarte Silva;True
+107;Rua Betesga;True
+108;Rua do Comercio;True
+109;Rua da Junqueira;True
+110;Rua dos Franqueiros;True
+111;Rua Ferreira Lapa;True
+112;Rua General Morais Sarmento;True
+113;Rua Julio Cesar Machado;True
+114;Rua Nova do Almada;True
+115;Rua do Salitre;True
+116;Rua de S.Juliao;True
+117;Rua de S.Mamede;True
+118;Rua de Vicente Borga;True
+119;Rua do Sacramento à Lapa;True
+120;Rua Carvalhão Duarte;True
+121;Rua de Barros Queiros;True
+122;Rua da Bica de Duarte Belo;True
+123;Rua Eduardo Coelho;True
+124;Rua José Pinheiro de Melo;True
+125;Rua Paz dos Reis;True
+126;Rua Rosa Araujo;True
+127;Rua Sebastião Saraiva de Lima;True
+128;Rua Luis Pastor de Macedo;True
+129;Rua Luis Pinto Moitinho;True
