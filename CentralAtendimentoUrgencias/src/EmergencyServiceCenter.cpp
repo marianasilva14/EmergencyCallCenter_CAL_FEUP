@@ -25,7 +25,10 @@ class Edge_temp{
 public:
 	bool istwoway;
 	int idRoad;
+	string nameRoad;
+
 };
+vector<Edge_temp> edge_vector;
 
 /**
  * Calculate the distance between two nodes
@@ -62,8 +65,6 @@ void readFiles(GraphViewer *gv, Graph<int> & graf, string FileNodes, string File
 
 	gv->defineEdgeColor("black");
 	gv->defineVertexColor("gray");
-
-
 
 	ifstream inFile;
 
@@ -112,7 +113,8 @@ void readFiles(GraphViewer *gv, Graph<int> & graf, string FileNodes, string File
 
 	int road_id=0;
 	string isTwoWay;
-	vector<Edge_temp> edge_vector;
+	string road_name;
+
 
 
 	while(std::getline(inFile2, line))
@@ -121,6 +123,8 @@ void readFiles(GraphViewer *gv, Graph<int> & graf, string FileNodes, string File
 		std::string data;
 
 		linestream >> road_id;
+		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
+		linestream >> road_name;
 		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
 		linestream >> isTwoWay;
 
@@ -132,7 +136,7 @@ void readFiles(GraphViewer *gv, Graph<int> & graf, string FileNodes, string File
 
 
 		edge.idRoad=road_id;
-
+		edge.nameRoad=road_name;
 		edge_vector.push_back(edge);
 
 	}
@@ -170,14 +174,13 @@ void readFiles(GraphViewer *gv, Graph<int> & graf, string FileNodes, string File
 		int destiny = node2_id;
 
 		graf.addEdge(source,destiny,haversine_km(graf.getVertex(source)->getX(),graf.getVertex(source)->getY(),graf.getVertex(destiny)->getX(),graf.getVertex(destiny)->getY()),i);
-		//gv->setEdgeLabel(i,to_string(i));
+		//gv->setEdgeLabelVisible(i,to_string(i));
 		i++;
 
 		for(unsigned int j=0; j < edge_vector.size();j++){
 			if(roadId == edge_vector[j].idRoad){
 				if(edge_vector[j].istwoway){
 					gv->addEdge(i, node2_id, node1_id, EdgeType::DIRECTED);
-					//gv->setEdgeLabel(i,to_string(i));
 					graf.addEdge(destiny,source,haversine_km(graf.getVertex(source)->getX(),graf.getVertex(source)->getY(),graf.getVertex(destiny)->getX(),graf.getVertex(destiny)->getY()),i);
 					i++;
 				}
@@ -186,11 +189,8 @@ void readFiles(GraphViewer *gv, Graph<int> & graf, string FileNodes, string File
 	}
 
 	inFile3.close();
-	//way.selectVertexIcon(graf,gv, "shop.png", 3);
 
 	gv->rearrange();
-
-
 }
 
 /**
@@ -229,6 +229,50 @@ vector<string> graphMenu(){
 
 	return files;
 }
+unsigned int researchRoad(Graph<int> graf, 	vector<Edge_temp> edge_vector,string road){
+
+	unsigned int local=0;
+	int node;
+	EmergencyEvent emergency;
+
+	for(int i=0; i < edge_vector.size();i++){
+		if(kmp(edge_vector[i].nameRoad,road) > local){
+			local=kmp(edge_vector[i].nameRoad,road);
+			node=edge_vector[i].idRoad;
+		}
+	}
+
+
+
+}
+unsigned int localMenu(Graph<int> graf, pair<int,unsigned int> &call){
+
+	string option = "";
+	unsigned int local=1000000;
+	EmergencyEvent emergency;
+	string road;
+
+	cout << "Select the local: " << endl;
+	cout << "1: By name" << endl;
+	cout << "2: By ID node" << endl;
+
+	while(option != '1' && option!='2')
+		cin >> option;
+
+	switch(option){
+	case '1':
+		cin >> road;
+		local=researchRoad(graf,edge_vector, road);
+		break;
+	case '2':
+		while(local > graf.getVertexSet().size())
+				cin >> local;
+		break;
+	}
+
+	return local;
+
+}
 /**
  * Priority menu
  * @param graf Graph
@@ -250,10 +294,7 @@ void priorityMenu(Graph<int> graf, pair<int,unsigned int> &call){
 		cin >> option;
 
 
-	cout << "Select the local: " << endl;
-	while(local > graf.getVertexSet().size())
-		cin >> local;
-
+	local=localMenu(graf,call);
 	stringstream teste(option);
 	int op;
 	teste >> op;

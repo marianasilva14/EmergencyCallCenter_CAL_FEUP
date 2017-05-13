@@ -100,6 +100,6 @@ void EmergencyEvent::startEmergencies(Graph<int> graf,GraphViewer *gv,vector<uns
 		way.printPath(emergencies[i].second, nearest_hospital, graf,gv, priority_color);
 		way.inactiveTransport(gv,transports_positions, nearest_transport, nearest_hospital,hospitals);
 	}
-
 }
+
 
