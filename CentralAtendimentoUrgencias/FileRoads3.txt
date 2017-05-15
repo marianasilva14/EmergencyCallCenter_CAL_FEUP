@@ -181,6 +181,7 @@
 181;Rua de Caselas;True
 182;Rua do Penalva;True
 183;Rua da Cova da Moura;True
+184;Rua da Sissi;True
 185;Rua de Jesus;True
 186;Rua Arieiro;True
 187;Rua Roma;True
@@ -189,6 +190,7 @@
 190;Rua Sabugosa;True
 191;Rua Campolide;True
 192;Rua da Ponte da Lama;True
+193;Rua da Mariana;True
 194;Rua do Douro;True
 195;Rua dos Ferreiros;True
 196;Rua das Rolas;True
@@ -196,6 +198,7 @@
 198;Rua do Olival;True
 199;Rua dos Aeronautas;True
 200;Rua do Português;True
+201;Rua do Xavier;True
 202;Rua do Tijolo;True
 203;Rua da Feiteira;True
 204;Rua da Rainha;True
@@ -212,3 +215,5 @@
 215;Rua das Amoreiras;True
 216;Rua Grande;True
 217;Rua Caracol da Graça;True
+218;Rua do Vitor;True
+219;Rua de Cal;True

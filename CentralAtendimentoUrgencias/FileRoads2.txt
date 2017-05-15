@@ -127,3 +127,4 @@
 127;Rua Sebastião Saraiva de Lima;True
 128;Rua Luis Pastor de Macedo;True
 129;Rua Luis Pinto Moitinho;True
+130;Rua do Xavier Lindo;True

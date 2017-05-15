@@ -106,110 +106,110 @@ void readFiles(GraphViewer *gv, Graph<int> & graf, string FileNodes, string File
 
 
 
-ifstream inFile2;
+	ifstream inFile2;
 
-//Read the FileRoads.txt
-inFile2.open(FileRoads);
+	//Read the FileRoads.txt
+	inFile2.open(FileRoads);
 
-if (!inFile2) {
-	cerr << "Unable to open file datafile.txt";
-	exit(1);   // call system to stop
-}
-
-
-int road_id=0;
-string isTwoWay;
-string road_name;
-Edge_temp edge;
-line.clear();
+	if (!inFile2) {
+		cerr << "Unable to open file datafile.txt";
+		exit(1);   // call system to stop
+	}
 
 
-while(std::getline(inFile2, line))
-{
-	std::stringstream linestream(line);
-	std::string data;
-	linestream >> road_id;
-	std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
-	std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
-	road_name = data;
-	linestream >> isTwoWay;
+	int road_id=0;
+	string isTwoWay;
+	string road_name;
+	Edge_temp edge;
+	line.clear();
 
 
-	if(isTwoWay=="True")
-		edge.istwoway=true;
-	else
-		edge.istwoway=false;
+	while(std::getline(inFile2, line))
+	{
+		std::stringstream linestream(line);
+		std::string data;
+		linestream >> road_id;
+		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
+		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
+		road_name = data;
+		linestream >> isTwoWay;
 
 
-	edge.idRoad=road_id;
-	edge.nameRoad=road_name;
-
-	map<int,string>::iterator it=edges.begin();
-	edges.insert(it,pair<int,string>(road_id,road_name));
-
-	edge_vector.push_back(edge);
+		if(isTwoWay=="True")
+			edge.istwoway=true;
+		else
+			edge.istwoway=false;
 
 
-}
+		edge.idRoad=road_id;
+		edge.nameRoad=road_name;
 
-map<int,string>::iterator ite;
-for(ite=edges.begin();ite != edges.end();++ite){
-	cout << ite->first << " " << ite->second << endl;
-	gv->setEdgeLabel((2*ite->first+1), ite->second);
-   // gv->setEdgeLabel(2*ite->first, ite->second);
-}
+		map<int,string>::iterator it=edges.begin();
+		edges.insert(it,pair<int,string>(road_id,road_name));
 
-inFile2.close();
+		edge_vector.push_back(edge);
 
-ifstream inFile3;
-//Read the FileConnection.txt
-inFile3.open(FileConnection);
 
-if (!inFile3) {
-	cerr << "Unable to open file datafile.txt";
-	exit(1);   // call system to stop
-}
+	}
 
-int roadId=0;
-int node1_id=0;
-int node2_id=0;
-int i = 0;
+	map<int,string>::iterator ite;
+	for(ite=edges.begin();ite != edges.end();++ite){
+		cout << ite->first << " " << ite->second << endl;
+		gv->setEdgeLabel((2*ite->first+1), ite->second);
+		// gv->setEdgeLabel(2*ite->first, ite->second);
+	}
 
-while(std::getline(inFile3, line))
-{
-	std::stringstream linestream(line);
-	std::string data;
+	inFile2.close();
 
-	linestream >> roadId;
-	std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
-	linestream >> node1_id;
-	std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
-	linestream >> node2_id;
-	std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
+	ifstream inFile3;
+	//Read the FileConnection.txt
+	inFile3.open(FileConnection);
 
-	gv->addEdge(i, node1_id, node2_id, EdgeType::DIRECTED);
+	if (!inFile3) {
+		cerr << "Unable to open file datafile.txt";
+		exit(1);   // call system to stop
+	}
 
-	int source =node1_id;
-	int destiny = node2_id;
+	int roadId=0;
+	int node1_id=0;
+	int node2_id=0;
+	int i = 0;
 
-	graf.addEdge(source,destiny,haversine_km(graf.getVertex(source)->getX(),graf.getVertex(source)->getY(),graf.getVertex(destiny)->getX(),graf.getVertex(destiny)->getY()),i);
-	i++;
+	while(std::getline(inFile3, line))
+	{
+		std::stringstream linestream(line);
+		std::string data;
 
-	for(unsigned int j=0; j < edge_vector.size();j++){
+		linestream >> roadId;
+		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
+		linestream >> node1_id;
+		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
+		linestream >> node2_id;
+		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
 
-		if(roadId == edge_vector[j].idRoad){
+		gv->addEdge(i, node1_id, node2_id, EdgeType::DIRECTED);
 
-			if(edge_vector[j].istwoway){
-				gv->addEdge(i, node2_id, node1_id, EdgeType::DIRECTED);
-				graf.addEdge(destiny,source,haversine_km(graf.getVertex(source)->getX(),graf.getVertex(source)->getY(),graf.getVertex(destiny)->getX(),graf.getVertex(destiny)->getY()),i);
-				i++;
+		int source =node1_id;
+		int destiny = node2_id;
+
+		graf.addEdge(source,destiny,haversine_km(graf.getVertex(source)->getX(),graf.getVertex(source)->getY(),graf.getVertex(destiny)->getX(),graf.getVertex(destiny)->getY()),i);
+		i++;
+
+		for(unsigned int j=0; j < edge_vector.size();j++){
+
+			if(roadId == edge_vector[j].idRoad){
+
+				if(edge_vector[j].istwoway){
+					gv->addEdge(i, node2_id, node1_id, EdgeType::DIRECTED);
+					graf.addEdge(destiny,source,haversine_km(graf.getVertex(source)->getX(),graf.getVertex(source)->getY(),graf.getVertex(destiny)->getX(),graf.getVertex(destiny)->getY()),i);
+					i++;
+				}
 			}
 		}
 	}
-}
 
-inFile3.close();
-gv->rearrange();
+	inFile3.close();
+	gv->rearrange();
 }
 
 /**
@@ -252,14 +252,16 @@ vector<string> graphMenu(){
 vector<int> researchRoadExact(Graph<int> graf, GraphViewer *gv, vector<Edge_temp> edge_vector,string road, int priority){
 
 	unsigned int local=0;
+	unsigned int aux_local;
 	vector<int> edges_choose;
 	EmergencyEvent emergency;
 	Way way;
 
 	map<int,string>::iterator ite;
 	for(ite=edges.begin();ite != edges.end();++ite){
-		if(kmp(ite->second,road) > local){
-			local=kmp(ite->second,road);
+		aux_local=kmp(ite->second,road);
+		if(aux_local > local){
+			local=aux_local;
 			edges_choose.push_back(ite->first);
 		}
 	}
@@ -271,17 +273,17 @@ vector<int> researchRoadExact(Graph<int> graf, GraphViewer *gv, vector<Edge_temp
 
 vector<int> researchRoadApproximate(Graph<int> graf, GraphViewer *gv, vector<Edge_temp> edge_vector,string road, int priority){
 
-	unsigned int local=0;
+	unsigned int dist=100000000;
+	unsigned int aux_dist;
 	vector<int> edges_choose;
 	EmergencyEvent emergency;
 	Way way;
 
 	map<int,string>::iterator ite;
 	for(ite=edges.begin();ite != edges.end();++ite){
-		if(numApproximateStringMatching(ite->second,road) >= local){
-			local=numApproximateStringMatching(ite->second,road);
-			edges_choose.push_back(ite->first);
-		}
+		aux_dist=editDistance(road, ite->second);
+		edges_choose.push_back(ite->first);
+
 	}
 
 	way.printChoosenRoads(graf,gv,edges_choose,priority);
@@ -293,7 +295,7 @@ unsigned int localMenu(Graph<int> graf, GraphViewer *gv, pair<int,unsigned int> 
 
 	char option;
 	int node;
-	vector<int> nodes;
+	vector<int> edges;
 	int local=1000;
 	EmergencyEvent emergency;
 	string road;
@@ -309,8 +311,8 @@ unsigned int localMenu(Graph<int> graf, GraphViewer *gv, pair<int,unsigned int> 
 	case '1':
 		cin.ignore(1000, '\n');
 		getline(cin,road);
-		nodes=researchRoadExact(graf,gv, edge_vector, road,priority);
-		if(nodes.size()==0){
+		edges=researchRoadExact(graf,gv, edge_vector, road,priority);
+		if(edges.size()==0){
 			researchRoadApproximate(graf,gv, edge_vector, road,priority);
 		}
 		return local=-1;
@@ -337,7 +339,7 @@ int priorityMenu(Graph<int> graf,GraphViewer *gv, pair<int,unsigned int> &call){
 	string option = "";
 	unsigned int local=1000000;
 	EmergencyEvent emergency;
-	int node;
+	int userOption;
 
 	cout << "Select the emergency type: " << endl;
 	cout << "1: High" << endl;
@@ -352,14 +354,14 @@ int priorityMenu(Graph<int> graf,GraphViewer *gv, pair<int,unsigned int> &call){
 	stringstream teste(option);
 	int op;
 	teste >> op;
-	node=localMenu(graf,gv,call,op);
+	userOption=localMenu(graf,gv,call,op);
 
-	if(node>0){
+	if(userOption>0){
 		call.first= op;
-		call.second=node;
+		call.second=userOption;
 	}
 
-	return node;
+	return userOption;
 }
 
 /**
@@ -385,7 +387,7 @@ int menu(Graph<int> graf,GraphViewer *gv, pair<int,unsigned int> &call){
 	case 1:
 		if(priorityMenu(graf,gv,call)<0)
 			return 6;
-	break;
+		break;
 	case 2: emergency.averageConnectivity(graf,gv);
 	break;
 	case 3:

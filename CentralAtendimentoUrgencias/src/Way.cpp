@@ -147,6 +147,7 @@ void Way::printChoosenRoads(Graph<int> graf, GraphViewer *gv, vector<int> edges,
 	for(unsigned int i = 0; i <edges.size(); i++){
 		//sleep(1);
 		gv->setEdgeColor(2*edges[i], color);
+		cout << 2*edges[i] << endl;
 		gv->setEdgeThickness(2*edges[i], 3);
 		gv->rearrange();
 	}
