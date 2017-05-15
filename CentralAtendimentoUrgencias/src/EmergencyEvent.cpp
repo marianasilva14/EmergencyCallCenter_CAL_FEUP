@@ -103,3 +103,5 @@ void EmergencyEvent::startEmergencies(Graph<int> graf,GraphViewer *gv,vector<uns
 }
 
 
+
+

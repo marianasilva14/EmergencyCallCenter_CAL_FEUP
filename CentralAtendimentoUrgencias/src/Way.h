@@ -25,6 +25,7 @@
 #include <vector>
 #include <utility>
 #include <unistd.h>
+#include "EmergencyEvent.h"
 
 class Way{
 public:
@@ -87,5 +88,8 @@ public:
 	 * @param hospitals hospitals positions
 	 */
 	void inactiveTransport(GraphViewer *gv,vector<unsigned int>& transports,int destiny_choosed,unsigned int hospital,vector<unsigned int> hospitals);
+
+	void printChoosenRoads(Graph<int> graf, GraphViewer *gv, vector<int> edges,  int priority);
+
 };
 #endif /* WAY_H_ */

@@ -1,4 +1,4 @@
-Ôªø1;Rua Dr Sousa Rosas;True
+1;Rua Dr Sousa Rosas;True
 2;Rua Humberto Delgado;True
 3;Rua Antonio Cardoso;True
 4;Rua Domingos Lopes;True
@@ -10,8 +10,8 @@
 10;Rua 25 de Abril;True
 11;Rua de Castro;True
 12;Rua Garcia da Orta;True
-13;Pra√ßa de Liege;True
-14;Pra√ßa do Imp√©rio;True
+13;PraÁa de Liege;True
+14;PraÁa do ImpÈrio;True
 15;Rua Maria Feliciana;True
 16;Rua das Flores;True
 17;Rua da Alegria;True
@@ -20,7 +20,7 @@
 20;Rua de Roberto Frias;True
 21;Rua Gomes da Costa;True
 22;Rua Conde Faria;True
-23;Rua de Jos√© Falc√£o;True
+23;Rua de JosÈ Falc„o;True
 24;Rua do Major David Magno;True
 25;Rua dos Mercadores;True
 26;Rua de Mota Pinto;True
@@ -34,27 +34,27 @@
 34;Rua das Carmelitas;True
 35;Rua do Carvalhido;True
 36;Rua de Cedofeita;True
-37;Rua dos Cl√©rigos;True
-38;Rua do Com√©rcio do Porto;True
-39;Rua da Constitui√ß√£o;True
+37;Rua dos ClÈrigos;True
+38;Rua do ComÈrcio do Porto;True
+39;Rua da ConstituiÁ„o;True
 40;Rua de Costa Cabral;True
-41;Rua de D√£o Hugo;True
+41;Rua de D„o Hugo;True
 42;Rua Escura;True
-43;Rua do Ros√°rio;True
+43;Rua do Ros·rio;True
 44;Rua do Loureiro;True
-45;Rua de S√° da Bandeira;True
+45;Rua de S· da Bandeira;True
 46;Rua de Sant'Ana;True
 47;Rua de Santa Catarina;True
-48;Rua de S.Bento da Vit√≥ria;True
+48;Rua de S.Bento da VitÛria;True
 49;Rua de S.Miguel;True
 50;Rua de S.Roque da Lameira;True
 51;Rua das Taipas;True
-52;Rua de Tr√°s;True
+52;Rua de Tr·s;True
 53;Rua de 31 de Janeiro;True
 54;Rua de Pena Ventosa;True
 55;Rua da Banharia;True
 56;Rua da Aldas;True
-57;Rua dos Armaz√©ns;True
+57;Rua dos ArmazÈns;True
 58;Rua de Miragaia;True
 59;Rua de Belomonte;True
 60;Rua da Reboleira;True

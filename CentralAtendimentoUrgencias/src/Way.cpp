@@ -138,3 +138,16 @@ void Way::inactiveTransport(GraphViewer *gv,vector<unsigned int>& transports, in
 
 }
 
+void Way::printChoosenRoads(Graph<int> graf, GraphViewer *gv, vector<int> edges, int priority){
+
+	EmergencyEvent emergency;
+	string color;
+	color=emergency.colorEmergencyPriority(priority);
+
+	for(unsigned int i = 0; i <edges.size(); i++){
+		//sleep(1);
+		gv->setEdgeColor(2*edges[i], color);
+		gv->setEdgeThickness(2*edges[i], 3);
+		gv->rearrange();
+	}
+}

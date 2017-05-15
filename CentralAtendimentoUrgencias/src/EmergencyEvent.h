@@ -17,7 +17,6 @@
 #include <iomanip>
 #include "Graph.h"
 #include "graphviewer.h"
-#include "matcher.h"
 #include "Way.h"
 
 /**

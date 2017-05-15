@@ -38,7 +38,7 @@ int kmp(string text, string pattern)
 		if (pattern[q+1]==text[i])
 			q++;
 		if (q==m-1) {
-			cout <<"pattern occurs with shift" << i-m+1 << endl;
+			//cout <<"pattern occurs with shift" << i-m+1 << endl;
 			num++;
 			q=prefix[q];
 		}
