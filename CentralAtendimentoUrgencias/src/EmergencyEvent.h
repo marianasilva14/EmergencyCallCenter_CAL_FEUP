@@ -89,11 +89,13 @@ public:
 
 	int findLeftNode(Graph<int> graf, int edgeID);
 
-	vector<int> researchRoadExact(Graph<int> graf, GraphViewer *gv, string road, int priority, map<int,string> edges,pair<int,unsigned int> &call);
+	boolean checkExistenceOfAppeal(Graph<int> graf, int edgeID,vector<unsigned int> hospitals,vector<unsigned int> transports_positions);
+
+	vector<int> researchRoadExact(Graph<int> graf, GraphViewer *gv, string road, int priority, map<int,string> edges,pair<int,unsigned int> &call,vector<unsigned int> hospitals,vector<unsigned int> transports_positions);
 
 	vector<int> researchRoadApproximate(Graph<int> graf, GraphViewer *gv, string road, int priority, map<int,string> edges);
 
-	void chooseRoad(Graph<int> graf, GraphViewer *gv,map<int,string>  edges,vector<int> edges_choosen, int &priority,pair<int,unsigned int> &call);
+	void chooseRoad(Graph<int> graf, GraphViewer *gv,map<int,string>  edges,vector<int> edges_choosen, int &priority,pair<int,unsigned int> &call,vector<unsigned int> hospitals,vector<unsigned int> transports_positions);
 
 
 

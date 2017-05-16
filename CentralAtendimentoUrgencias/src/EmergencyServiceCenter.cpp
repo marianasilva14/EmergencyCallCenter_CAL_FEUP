@@ -244,7 +244,7 @@ vector<string> graphMenu(){
 	return files;
 }
 
-unsigned int localMenu(Graph<int> graf, GraphViewer *gv, pair<int,unsigned int> &call, int priority){
+unsigned int localMenu(Graph<int> graf, GraphViewer *gv, pair<int,unsigned int> &call, int priority,vector<unsigned int> hospitals,vector<unsigned int> transports_positions){
 
 	char option;
 	int node;
@@ -263,7 +263,7 @@ unsigned int localMenu(Graph<int> graf, GraphViewer *gv, pair<int,unsigned int> 
 	case '1':
 		cin.ignore(1000, '\n');
 		getline(cin,road);
-		emergency.researchRoadExact(graf,gv, road,priority, edges,call);
+		emergency.researchRoadExact(graf,gv, road,priority, edges,call,hospitals,transports_positions);
 		return local=-1;
 		break;
 	case '2':
@@ -283,7 +283,7 @@ unsigned int localMenu(Graph<int> graf, GraphViewer *gv, pair<int,unsigned int> 
  * @param graf Graph
  * @param call pair that saves the priority and location of the emergency
  */
-int priorityMenu(Graph<int> graf,GraphViewer *gv, pair<int,unsigned int> &call){
+int priorityMenu(Graph<int> graf,GraphViewer *gv, pair<int,unsigned int> &call,vector<unsigned int> hospitals,vector<unsigned int> transports_positions){
 
 	string option = "";
 	unsigned int local=1000000;
@@ -303,7 +303,7 @@ int priorityMenu(Graph<int> graf,GraphViewer *gv, pair<int,unsigned int> &call){
 	stringstream teste(option);
 	int op;
 	teste >> op;
-	userOption=localMenu(graf,gv,call,op);
+	userOption=localMenu(graf,gv,call,op,hospitals,transports_positions);
 
 	if(userOption>0){
 		call.first= op;
@@ -320,7 +320,7 @@ int priorityMenu(Graph<int> graf,GraphViewer *gv, pair<int,unsigned int> &call){
  * @param call pair that saves the priority and location of the emergency
  * @return option the option selected by the user
  */
-int menu(Graph<int> graf,GraphViewer *gv, pair<int,unsigned int> &call){
+int menu(Graph<int> graf,GraphViewer *gv, pair<int,unsigned int> &call,vector<unsigned int> hospitals,vector<unsigned int> transports_positions){
 	cout << endl << " WELCOME TO EMERGENCY SERVICE CENTER " << endl << endl;
 	cout << "1. Make the call" << endl;
 	cout << "2. Evaluate connectivity"<<endl;
@@ -334,7 +334,7 @@ int menu(Graph<int> graf,GraphViewer *gv, pair<int,unsigned int> &call){
 	cin >> option;
 	switch(option){
 	case 1:
-		priorityMenu(graf,gv,call);
+		priorityMenu(graf,gv,call,hospitals,transports_positions);
 		break;
 	case 2: emergency.averageConnectivity(graf,gv);
 	break;
@@ -376,7 +376,7 @@ int main() {
 	transports_positions=way.positionsTransport(graf,gv,hospitals);
 
 	while(option != 5){
-		switch(menu(graf,gv,call)){
+		switch(menu(graf,gv,call,hospitals,transports_positions)){
 		case 1:
 			option=1;
 			if(!end_calls)

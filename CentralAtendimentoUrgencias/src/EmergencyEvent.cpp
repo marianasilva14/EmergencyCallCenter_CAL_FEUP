@@ -112,7 +112,30 @@ int EmergencyEvent::findLeftNode(Graph<int> graf, int edgeID){
 
 	}
 }
-vector<int> EmergencyEvent::researchRoadExact(Graph<int> graf, GraphViewer *gv, string road, int priority, map<int,string> edges, pair<int,unsigned int> &call){
+
+boolean EmergencyEvent::checkExistenceOfAppeal(Graph<int> graf, int edgeID, vector<unsigned int> hospitals,vector<unsigned int> transports_positions){
+
+	int leftNode, rightNode;
+
+	leftNode=findLeftNode(graf,edgeID);
+	rightNode=leftNode++;
+
+
+	for(int i=0; i < hospitals.size();i++){
+		if(hospitals[i]==leftNode || hospitals[i]==rightNode)
+			return true;
+	}
+
+	for(int i=0; i < transports_positions.size();i++){
+		if(transports_positions[i]==leftNode || transports_positions[i] == rightNode)
+			return true;
+	}
+
+	return false;
+
+}
+vector<int> EmergencyEvent::researchRoadExact(Graph<int> graf, GraphViewer *gv, string road, int priority, map<int,string> edges, pair<int,unsigned int> &call,
+		vector<unsigned int> hospitals,vector<unsigned int> transports_positions){
 
 	unsigned int local=0;
 	unsigned int aux_local;
@@ -142,17 +165,19 @@ vector<int> EmergencyEvent::researchRoadExact(Graph<int> graf, GraphViewer *gv, 
 			call.first=priority;
 			call.second=node;
 		}
+		cout << "Exact research" << endl << endl;
 	}
-	cout << "Exact research" << endl << endl;
 
+	if(edges_choosen.size()>1)
+		chooseRoad(graf, gv,edges, edges_choosen,priority,call,hospitals,transports_positions);
 
-way.printChoosenRoads(graf,gv,edges_choosen,priority,edges);
+	for(int i=0; i < edges_choosen.size();i++){
+		if(checkExistenceOfAppeal(graf,edges_choosen[i]*2,hospitals,transports_positions))
+			cout << endl << "At the intersection between a street there is an emergency feature" << endl;
+	}
+	way.printChoosenRoads(graf,gv,edges_choosen,priority,edges);
 
-if(edges_choosen.size()>1)
-	chooseRoad(graf, gv,edges, edges_choosen,priority,call);
-
-
-return edges_choosen;
+	return edges_choosen;
 }
 
 vector<int> EmergencyEvent::researchRoadApproximate(Graph<int> graf, GraphViewer *gv, string road, int priority, map<int,string> edges){
@@ -171,7 +196,8 @@ vector<int> EmergencyEvent::researchRoadApproximate(Graph<int> graf, GraphViewer
 	return edges_choosen;
 }
 
-void EmergencyEvent::chooseRoad(Graph<int> graf, GraphViewer *gv,map<int,string>  edges,vector<int> edges_choosen,int &priority,pair<int,unsigned int> &call){
+void EmergencyEvent::chooseRoad(Graph<int> graf, GraphViewer *gv,map<int,string>  edges,vector<int> edges_choosen,int &priority,pair<int,unsigned int> &call,
+		vector<unsigned int> hospitals,vector<unsigned int> transports_positions){
 
 	string name;
 	for(unsigned int i = 0; i <edges_choosen.size(); i++){
@@ -187,7 +213,7 @@ void EmergencyEvent::chooseRoad(Graph<int> graf, GraphViewer *gv,map<int,string>
 
 	priority=4;
 
-	researchRoadExact(graf,gv,name,priority,edges,call);
+	researchRoadExact(graf,gv,name,priority,edges,call,hospitals,transports_positions);
 
 }
 
