@@ -7,12 +7,12 @@
 #include <algorithm>
 #include <fstream>
 #include <sstream>
+
 using namespace std;
 
 void pre_kmp(string pattern, vector<int> & prefix);
 
 int kmp(string text, string pattern);
-
 
 int numStringMatching(string filename,string toSearch);
 

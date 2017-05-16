@@ -218,5 +218,64 @@ void EmergencyEvent::chooseRoad(Graph<int> graf, GraphViewer *gv,map<int,string>
 }
 
 
+/**
+ * Calculate the kmp algorithm time
+ * @param edges edges map
+ */
+void EmergencyEvent::calculateKmpTime(map<int,string> edges){
+	vector<string> roads;
+	int random_edge;
+	string random_road;
+	auto t_start = std::chrono::system_clock::now();
 
+	map<int,string>::iterator it;
+	for(it=edges.begin();it != edges.end();++it){
+		roads.push_back(it->second);
+	}
 
+	for(int i=0; i <1000;i++){
+		random_edge= rand() % roads.size();
+		random_road = roads[random_edge];
+
+		map<int,string>::iterator ite;
+		for(ite=edges.begin();ite != edges.end();++ite)
+			kmp(ite->second,random_road);
+
+	}
+	auto endt_start = std::chrono::system_clock::now();
+	cout << endl << "Time of kmp: " ;
+	cout << (double)std::chrono::duration_cast<std::chrono::milliseconds>(endt_start -  t_start).count();
+	cout <<" milliseconds" << endl;
+
+}
+
+/**
+ * Calculate the kmp algorithm time
+ * @param edges edges map
+ */
+void EmergencyEvent::calculateEditDistanceTime(map<int,string> edges){
+	vector<string> roads;
+	int random_edge;
+	string random_road;
+	auto t_start = std::chrono::system_clock::now();
+
+	map<int,string>::iterator it;
+	for(it=edges.begin();it != edges.end();++it){
+		roads.push_back(it->second);
+	}
+
+	for(int i=0; i <1000;i++){
+		random_edge= rand() % roads.size();
+		random_road = roads[random_edge];
+
+		map<int,string>::iterator ite;
+		for(ite=edges.begin();ite != edges.end();++ite)
+			editDistance(random_road,ite->second);
+
+	}
+	auto endt_start = std::chrono::system_clock::now();
+	cout << endl << "Time of edit distance:  " ;
+	cout << (double)std::chrono::duration_cast<std::chrono::milliseconds>(endt_start -  t_start).count();
+	cout <<" milliseconds" << endl;
+
+}

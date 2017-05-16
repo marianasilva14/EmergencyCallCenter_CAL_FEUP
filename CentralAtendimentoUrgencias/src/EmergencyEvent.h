@@ -97,8 +97,9 @@ public:
 
 	void chooseRoad(Graph<int> graf, GraphViewer *gv,map<int,string>  edges,vector<int> edges_choosen, int &priority,pair<int,unsigned int> &call,vector<unsigned int> hospitals,vector<unsigned int> transports_positions);
 
+	void calculateKmpTime(map<int,string> edges);
 
-
+	void calculateEditDistanceTime(map<int,string> edges);
 };
 
 #endif /* EMERGENCYEVENT_H_ */

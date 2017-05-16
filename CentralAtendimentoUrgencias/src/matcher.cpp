@@ -13,6 +13,8 @@ void pre_kmp(string pattern, vector<int> & prefix)
 	}
 }
 
+
+
 int kmp(string text, string pattern)
 {
 	int num=0;
@@ -37,7 +39,6 @@ int kmp(string text, string pattern)
 	return num;
 }
 
-
 int numStringMatching(string filename,string toSearch)
 {
 	ifstream fich(filename.c_str());
@@ -54,7 +55,6 @@ int numStringMatching(string filename,string toSearch)
 	fich.close();
 	return num;
 }
-
 
 int editDistance(string pattern, string text)
 {

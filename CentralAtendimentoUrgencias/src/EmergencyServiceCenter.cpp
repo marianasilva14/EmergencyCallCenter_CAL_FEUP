@@ -313,6 +313,35 @@ int priorityMenu(Graph<int> graf,GraphViewer *gv, pair<int,unsigned int> &call,v
 	return userOption;
 }
 
+void algorithmsMenu(Graph<int> graf){
+	cout << endl << "Choose the algorithm: " << endl;
+	cout << "1. Dijkstra" << endl;
+	cout << "2. Kmp"<< endl;
+	cout << "3. Edit distance"<<endl;
+	cout << "4. Naive" << endl;
+
+	int option;
+	cin >> option;
+
+	EmergencyEvent emergency;
+
+	switch(option){
+	case 1:
+		graf.calculateTime(graf);
+		break;
+	case 2:
+		emergency.calculateKmpTime(edges);
+	break;
+	case 3:
+		emergency.calculateEditDistanceTime(edges);
+		break;
+	case 4:
+		break;
+	case 5:
+		break;
+	}
+
+}
 /**
  * Main menu
  * @param graf Graph
@@ -323,9 +352,9 @@ int priorityMenu(Graph<int> graf,GraphViewer *gv, pair<int,unsigned int> &call,v
 int menu(Graph<int> graf,GraphViewer *gv, pair<int,unsigned int> &call,vector<unsigned int> hospitals,vector<unsigned int> transports_positions){
 	cout << endl << " WELCOME TO EMERGENCY SERVICE CENTER " << endl << endl;
 	cout << "1. Make the call" << endl;
-	cout << "2. Evaluate connectivity"<<endl;
-	cout << "3. Calculation of algorithm time" << endl;
-	cout << "4. End the calls"<< endl;
+	cout << "2. End the calls"<< endl;
+	cout << "3. Evaluate connectivity"<<endl;
+	cout << "4. Calculation of algorithms time" << endl;
 	cout << "5. Exit"<< endl;
 
 	int option;
@@ -339,9 +368,9 @@ int menu(Graph<int> graf,GraphViewer *gv, pair<int,unsigned int> &call,vector<un
 	case 2: emergency.averageConnectivity(graf,gv);
 	break;
 	case 3:
-		graf.calculateTime(graf);
 		break;
 	case 4:
+		algorithmsMenu(graf);
 		break;
 	case 5:
 		break;
@@ -387,14 +416,14 @@ int main() {
 			break;
 		case 2:
 			option=2;
+			end_calls=true;
+			emergency.startEmergencies(graf,gv, hospitals, transports_positions, emergencies);
 			break;
 		case 3:
 			option=3;
 			break;
 		case 4:
 			option=4;
-			end_calls=true;
-			emergency.startEmergencies(graf,gv, hospitals, transports_positions, emergencies);
 			break;
 		case 5:
 			option=5;
