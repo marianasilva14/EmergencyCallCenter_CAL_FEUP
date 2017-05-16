@@ -183,10 +183,10 @@ void EmergencyEvent::chooseRoad(Graph<int> graf, GraphViewer *gv,map<int,string>
 	}
 
 	cout << endl << "Choose the road you want the emergency to occur: " << endl;
-	cin.ignore(1000, '\n');
 	getline(cin,name);
 
 	priority=4;
+
 	researchRoadExact(graf,gv,name,priority,edges,call);
 
 }

@@ -143,7 +143,7 @@ void Way::printChoosenRoads(Graph<int> graf, GraphViewer *gv, vector<int> edges_
 	EmergencyEvent emergency;
 	string color;
 	if(priority==4)
-		color="ORANGE";
+		color="BLACK";
 	else
 		color=emergency.colorEmergencyPriority(priority);
 
