@@ -55,6 +55,9 @@ public:
 	long long getIdNo();
 	double getX();
 	double getY();
+	vector<Edge<T>> getAdj(){
+		return adj;
+	}
 
 	bool operator<(const Vertex<T> vertex);
 	void setVisited(bool b){
@@ -158,6 +161,7 @@ class Edge {
 	double weight;
 public:
 	int idEdge;
+	Vertex<T> * getDest(){return dest;};
 	Edge(Vertex<T> *d, double w, int idEdge);
 	friend class Graph<T>;
 	friend class Vertex<T>;

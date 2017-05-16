@@ -15,9 +15,11 @@
 #include <sstream>
 #include <string>
 #include <iomanip>
+#include <map>
 #include "Graph.h"
 #include "graphviewer.h"
 #include "Way.h"
+#include "matcher.h"
 
 /**
  * Enumerates that define emergencies priority
@@ -30,6 +32,7 @@ public:
 		LOW
 	}emergency;
 };
+
 
 class EmergencyEvent {
 
@@ -83,6 +86,14 @@ public:
 	 * @param emergencies pair with the priority and local of the emergency
 	 */
 	void startEmergencies(Graph<int> graf,GraphViewer *gv,vector<unsigned int> hospitals, vector<unsigned int> transports_positions, vector<pair<int,unsigned int>> emergencies);
+
+	int findLeftNode(Graph<int> graf, int edgeID);
+
+	vector<int> researchRoadExact(Graph<int> graf, GraphViewer *gv, string road, int priority, map<int,string> edges,pair<int,unsigned int> &call);
+
+	vector<int> researchRoadApproximate(Graph<int> graf, GraphViewer *gv, string road, int priority, map<int,string> edges);
+
+	void chooseRoad(Graph<int> graf, GraphViewer *gv,map<int,string>  edges,vector<int> edges_choosen, int &priority,pair<int,unsigned int> &call);
 
 
 

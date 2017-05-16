@@ -19,6 +19,7 @@
 #include <string>
 #include <iomanip>
 #include <algorithm>
+#include <map>
 #include "edgetype.h"
 #include "graphviewer.h"
 #include "Graph.h"
@@ -89,7 +90,7 @@ public:
 	 */
 	void inactiveTransport(GraphViewer *gv,vector<unsigned int>& transports,int destiny_choosed,unsigned int hospital,vector<unsigned int> hospitals);
 
-	void printChoosenRoads(Graph<int> graf, GraphViewer *gv, vector<int> edges,  int priority);
+	void printChoosenRoads(Graph<int> graf, GraphViewer *gv, vector<int> edges_choosen,  int priority, map<int,string> edges);
 
 };
 #endif /* WAY_H_ */

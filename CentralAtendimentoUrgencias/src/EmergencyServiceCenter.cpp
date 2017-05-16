@@ -18,7 +18,6 @@
 #include "graphviewer.h"
 #include "Graph.h"
 #include "Way.h"
-#include "matcher.h"
 
 #define xwindow 1000
 #define ywindow 650
@@ -102,10 +101,6 @@ void readFiles(GraphViewer *gv, Graph<int> & graf, string FileNodes, string File
 	inFile.close();
 
 
-
-
-
-
 	ifstream inFile2;
 
 	//Read the FileRoads.txt
@@ -154,9 +149,8 @@ void readFiles(GraphViewer *gv, Graph<int> & graf, string FileNodes, string File
 
 	map<int,string>::iterator ite;
 	for(ite=edges.begin();ite != edges.end();++ite){
-		cout << ite->first << " " << ite->second << endl;
 		gv->setEdgeLabel((2*ite->first+1), ite->second);
-		// gv->setEdgeLabel(2*ite->first, ite->second);
+		//gv->setEdgeLabel(2*ite->first, ite->second);
 	}
 
 	inFile2.close();
@@ -188,7 +182,7 @@ void readFiles(GraphViewer *gv, Graph<int> & graf, string FileNodes, string File
 		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
 
 		gv->addEdge(i, node1_id, node2_id, EdgeType::DIRECTED);
-
+		//gv->setEdgeLabel(i, to_string(i));
 		int source =node1_id;
 		int destiny = node2_id;
 
@@ -201,6 +195,7 @@ void readFiles(GraphViewer *gv, Graph<int> & graf, string FileNodes, string File
 
 				if(edge_vector[j].istwoway){
 					gv->addEdge(i, node2_id, node1_id, EdgeType::DIRECTED);
+					//gv->setEdgeLabel(i, to_string(i));
 					graf.addEdge(destiny,source,haversine_km(graf.getVertex(source)->getX(),graf.getVertex(source)->getY(),graf.getVertex(destiny)->getX(),graf.getVertex(destiny)->getY()),i);
 					i++;
 				}
@@ -249,53 +244,10 @@ vector<string> graphMenu(){
 	return files;
 }
 
-vector<int> researchRoadExact(Graph<int> graf, GraphViewer *gv, vector<Edge_temp> edge_vector,string road, int priority){
-
-	unsigned int local=0;
-	unsigned int aux_local;
-	vector<int> edges_choose;
-	EmergencyEvent emergency;
-	Way way;
-
-	map<int,string>::iterator ite;
-	for(ite=edges.begin();ite != edges.end();++ite){
-		aux_local=kmp(ite->second,road);
-		if(aux_local > local){
-			local=aux_local;
-			edges_choose.push_back(ite->first);
-		}
-	}
-
-	way.printChoosenRoads(graf,gv,edges_choose,priority);
-
-	return edges_choose;
-}
-
-vector<int> researchRoadApproximate(Graph<int> graf, GraphViewer *gv, vector<Edge_temp> edge_vector,string road, int priority){
-
-	unsigned int dist=100000000;
-	unsigned int aux_dist;
-	vector<int> edges_choose;
-	EmergencyEvent emergency;
-	Way way;
-
-	map<int,string>::iterator ite;
-	for(ite=edges.begin();ite != edges.end();++ite){
-		aux_dist=editDistance(road, ite->second);
-		edges_choose.push_back(ite->first);
-
-	}
-
-	way.printChoosenRoads(graf,gv,edges_choose,priority);
-
-	return edges_choose;
-}
-
 unsigned int localMenu(Graph<int> graf, GraphViewer *gv, pair<int,unsigned int> &call, int priority){
 
 	char option;
 	int node;
-	vector<int> edges;
 	int local=1000;
 	EmergencyEvent emergency;
 	string road;
@@ -311,10 +263,7 @@ unsigned int localMenu(Graph<int> graf, GraphViewer *gv, pair<int,unsigned int> 
 	case '1':
 		cin.ignore(1000, '\n');
 		getline(cin,road);
-		edges=researchRoadExact(graf,gv, edge_vector, road,priority);
-		if(edges.size()==0){
-			researchRoadApproximate(graf,gv, edge_vector, road,priority);
-		}
+		emergency.researchRoadExact(graf,gv, road,priority, edges,call);
 		return local=-1;
 		break;
 	case '2':
@@ -385,8 +334,7 @@ int menu(Graph<int> graf,GraphViewer *gv, pair<int,unsigned int> &call){
 	cin >> option;
 	switch(option){
 	case 1:
-		if(priorityMenu(graf,gv,call)<0)
-			return 6;
+		priorityMenu(graf,gv,call);
 		break;
 	case 2: emergency.averageConnectivity(graf,gv);
 	break;
@@ -451,8 +399,6 @@ int main() {
 		case 5:
 			option=5;
 			break;
-		case 6:
-			option=6;
 		}
 	}
 	getchar();

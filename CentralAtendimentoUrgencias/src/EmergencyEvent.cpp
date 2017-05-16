@@ -103,5 +103,94 @@ void EmergencyEvent::startEmergencies(Graph<int> graf,GraphViewer *gv,vector<uns
 }
 
 
+int EmergencyEvent::findLeftNode(Graph<int> graf, int edgeID){
+
+	for(int i=0; i < graf.getVertexSet().size();i++){
+		for(int j=0; j < graf.getVertexSet()[i]->getAdj().size();j++)
+			if(graf.getVertexSet()[i]->getIdEdge(graf.getVertexSet()[i]->getAdj()[j].getDest()->getInfo()) == edgeID)
+				return graf.getVertexSet()[i]->getInfo();
+
+	}
+}
+vector<int> EmergencyEvent::researchRoadExact(Graph<int> graf, GraphViewer *gv, string road, int priority, map<int,string> edges, pair<int,unsigned int> &call){
+
+	unsigned int local=0;
+	unsigned int aux_local;
+	int node;
+	vector<int> edges_choosen;
+	Way way;
+
+	map<int,string>::iterator ite;
+	for(ite=edges.begin();ite != edges.end();++ite){
+		aux_local=kmp(ite->second,road);
+		if(aux_local > local){
+			local=aux_local;
+			edges_choosen.push_back(ite->first);
+		}
+	}
+
+	if(edges_choosen.size()==0){
+		edges_choosen=researchRoadApproximate(graf,gv,road,priority,edges);
+		if(edges_choosen.size() != 0)
+			cout << "Approximate research" << endl << endl;
+
+	}
+	else{
+		for(int i=0; i < edges_choosen.size();i++){
+			node=findLeftNode(graf,(edges_choosen[i]*2));
+			printPictureEmergency(gv,node);
+			call.first=priority;
+			call.second=node;
+		}
+	}
+	cout << "Exact research" << endl << endl;
+
+
+way.printChoosenRoads(graf,gv,edges_choosen,priority,edges);
+
+if(edges_choosen.size()>1)
+	chooseRoad(graf, gv,edges, edges_choosen,priority,call);
+
+
+return edges_choosen;
+}
+
+vector<int> EmergencyEvent::researchRoadApproximate(Graph<int> graf, GraphViewer *gv, string road, int priority, map<int,string> edges){
+
+	int dist=100000000;
+	int aux_dist;
+	vector<int> edges_choosen;
+
+	map<int,string>::iterator ite;
+	for(ite=edges.begin();ite != edges.end();++ite){
+		aux_dist=editDistance(road, ite->second);
+		edges_choosen.push_back(ite->first);
+
+	}
+
+	return edges_choosen;
+}
+
+void EmergencyEvent::chooseRoad(Graph<int> graf, GraphViewer *gv,map<int,string>  edges,vector<int> edges_choosen,int &priority,pair<int,unsigned int> &call){
+
+	string name;
+	for(unsigned int i = 0; i <edges_choosen.size(); i++){
+		map<int,string>::iterator ite;
+		for(ite=edges.begin();ite != edges.end();++ite){
+			if(ite->first==2*edges_choosen[i])
+				cout << ite->second << endl;
+		}
+	}
+
+	cout << endl << "Choose the road you want the emergency to occur: " << endl;
+	cin.ignore(1000, '\n');
+	getline(cin,name);
+
+	priority=4;
+	researchRoadExact(graf,gv,name,priority,edges,call);
+
+}
+
+
 
 
