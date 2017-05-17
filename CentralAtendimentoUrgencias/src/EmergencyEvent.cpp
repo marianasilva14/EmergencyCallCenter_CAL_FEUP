@@ -120,7 +120,6 @@ int EmergencyEvent::findLeftNode(Graph<int> graf, int edgeID) {
 				break;
 			}
 	}
-
 	return leftNode;
 }
 
@@ -222,17 +221,20 @@ vector<int> EmergencyEvent::researchRoadExact(Graph<int> graf, GraphViewer *gv,
 
 	//If the approximate algorithm finds more than one possible edge
 	if (edges_chosen.size() > 1)
-		choseRoad(graf, gv, edges, edges_chosen, priority, call, hospitals,
+		choseRoad(graf, gv, edges, priority, call, hospitals,
 				transports_positions);
 	else{
 		for (unsigned int i = 0; i < edges_chosen.size(); i++) {
+			//Check if there is any transport or hospital in the left node of the road
 			if (checkExistenceOfAppeal(graf, edges_chosen[i] * 2, hospitals,
 					transports_positions))
 				cout << endl
 				<< "At the intersection between a street there is an emergency feature"
 				<< endl;
 		}
-		way.printChosenRoads(graf, gv, edges_chosen, priority, edges);
+
+		//print the chosen road
+		way.printChosenRoad(graf, gv, edges_chosen, priority, edges);
 	}
 	return edges_chosen;
 }
@@ -254,7 +256,7 @@ map<int, int> EmergencyEvent::researchRoadApproximate(Graph<int> graf,
 }
 
 void EmergencyEvent::choseRoad(Graph<int> graf, GraphViewer *gv,
-		map<int, string> edges, vector<int> edges_chosen, int &priority,
+		map<int, string> edges, int priority,
 		pair<int, unsigned int> &call, vector<unsigned int> hospitals,
 		vector<unsigned int> transports_positions) {
 
@@ -263,8 +265,6 @@ void EmergencyEvent::choseRoad(Graph<int> graf, GraphViewer *gv,
 	cout << endl << "Choose the road you want the emergency to occur: " << endl;
 	getline(cin, name);
 
-	if (edges_chosen.size() == 1)
-		priority = 4;
 
 	researchRoadExact(graf, gv, name, priority, edges, call, hospitals,
 			transports_positions);

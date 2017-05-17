@@ -98,7 +98,7 @@ public:
 	 * @param priority emergency priority
 	 * @param edges map that includes all the streets of the map associating the edge id and the name of the street
 	 */
-	void printChosenRoads(Graph<int> graf, GraphViewer *gv, vector<int> edges_chosen,  int priority, map<int,string> edges);
+	void printChosenRoad(Graph<int> graf, GraphViewer *gv, vector<int> edges_chosen,  int priority, map<int,string> edges);
 
 };
 #endif /* WAY_H_ */

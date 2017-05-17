@@ -147,13 +147,12 @@ public:
 	 * @param graf Graph
 	 * @param gv GraphViewer
 	 * @param edges map that includes all the streets of the map associating the edge id and the name of the street
-	 * @param edges_chosen roads chosen by algorithm
 	 * @param priotity emergency priority
 	 * @param call pair that saves the priority and location of the emergency
 	 * @param hospitals hospitals positions
 	 * @param transports_positions transports positions
 	 */
-	void choseRoad(Graph<int> graf, GraphViewer *gv,map<int,string>  edges,vector<int> edges_chosen, int &priority,pair<int,unsigned int> &call,vector<unsigned int> hospitals,vector<unsigned int> transports_positions);
+	void choseRoad(Graph<int> graf, GraphViewer *gv,map<int,string>  edges, int priority,pair<int,unsigned int> &call,vector<unsigned int> hospitals,vector<unsigned int> transports_positions);
 
 	/**
 	 * Calculate the Kmp algorithm time
