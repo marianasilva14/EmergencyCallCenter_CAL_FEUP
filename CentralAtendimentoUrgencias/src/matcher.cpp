@@ -104,4 +104,21 @@ float numApproximateStringMatching(string filename,string toSearch)
 	return res;
 }
 
+int naiveStringMatch(string input, string toSearch) {
+    unsigned int occ = 0;
+    int maxSize = input.size() - toSearch.size() + 1;
+    for (size_t i = 0; (int)i < maxSize; i++) {
+        bool failed = false;
+        for (size_t j = 0; j < toSearch.size(); j++) {
+            if (input.at(i + j) != toSearch.at(j)) {
+                failed = true;
+                break;
+            }
+        }
+        if (!failed) {
+            occ++;
+        }
+    }
 
+    return occ;
+}

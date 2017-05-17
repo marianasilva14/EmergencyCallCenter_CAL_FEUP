@@ -20,4 +20,5 @@ int editDistance(string pattern, string text);
 
 float numApproximateStringMatching(string filename,string toSearch);
 
+int naiveStringMatch(string input, string toSearch);
 

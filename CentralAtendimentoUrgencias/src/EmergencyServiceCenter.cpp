@@ -62,7 +62,6 @@ double haversine_km(int x, int y, int x2, int y2) {
  */
 void readFiles(GraphViewer *gv, Graph<int> & graf, string FileNodes, string FileRoads, string FileConnection){
 	gv->createWindow(xwindow, ywindow);
-	Way way;
 
 	gv->defineEdgeColor("black");
 	gv->defineVertexColor("gray");
@@ -150,7 +149,6 @@ void readFiles(GraphViewer *gv, Graph<int> & graf, string FileNodes, string File
 	map<int,string>::iterator ite;
 	for(ite=edges.begin();ite != edges.end();++ite){
 		gv->setEdgeLabel((2*ite->first+1), ite->second);
-		//gv->setEdgeLabel(2*ite->first, ite->second);
 	}
 
 	inFile2.close();
@@ -182,7 +180,6 @@ void readFiles(GraphViewer *gv, Graph<int> & graf, string FileNodes, string File
 		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
 
 		gv->addEdge(i, node1_id, node2_id, EdgeType::DIRECTED);
-		//gv->setEdgeLabel(i, to_string(i));
 		int source =node1_id;
 		int destiny = node2_id;
 
@@ -195,7 +192,6 @@ void readFiles(GraphViewer *gv, Graph<int> & graf, string FileNodes, string File
 
 				if(edge_vector[j].istwoway){
 					gv->addEdge(i, node2_id, node1_id, EdgeType::DIRECTED);
-					//gv->setEdgeLabel(i, to_string(i));
 					graf.addEdge(destiny,source,haversine_km(graf.getVertex(source)->getX(),graf.getVertex(source)->getY(),graf.getVertex(destiny)->getX(),graf.getVertex(destiny)->getY()),i);
 					i++;
 				}
@@ -209,6 +205,7 @@ void readFiles(GraphViewer *gv, Graph<int> & graf, string FileNodes, string File
 
 /**
  * Graph Menu
+ * @return vector with the three files : connection, roads and nodes files
  */
 vector<string> graphMenu(){
 
@@ -244,11 +241,20 @@ vector<string> graphMenu(){
 	return files;
 }
 
+/**
+ * Menu that allows the user to choose whether the emergency occurs: on a street or in a location (node)
+ * @param graf Graph
+ * @param gv GraphViewer
+ * @param call pair that saves the priority and location of the emergency
+ * @param priotity emergency priority
+ * @param hospitals hospitals positions
+ * @param transports_positions transports positions
+ * @return option selected by the user (-1 if the option is to put an emergency on a road)
+ */
 unsigned int localMenu(Graph<int> graf, GraphViewer *gv, pair<int,unsigned int> &call, int priority,vector<unsigned int> hospitals,vector<unsigned int> transports_positions){
 
 	char option;
-	int node;
-	int local=1000;
+	unsigned int local=1000;
 	EmergencyEvent emergency;
 	string road;
 
@@ -286,7 +292,6 @@ unsigned int localMenu(Graph<int> graf, GraphViewer *gv, pair<int,unsigned int> 
 int priorityMenu(Graph<int> graf,GraphViewer *gv, pair<int,unsigned int> &call,vector<unsigned int> hospitals,vector<unsigned int> transports_positions){
 
 	string option = "";
-	unsigned int local=1000000;
 	EmergencyEvent emergency;
 	int userOption;
 
@@ -313,7 +318,13 @@ int priorityMenu(Graph<int> graf,GraphViewer *gv, pair<int,unsigned int> &call,v
 	return userOption;
 }
 
+/**
+ * Algorithms Menu
+ * Allows the user to choose which algorithm the user want to calculate the time of this
+ * @param graf Graph
+ */
 void algorithmsMenu(Graph<int> graf){
+
 	cout << endl << "Choose the algorithm: " << endl;
 	cout << "1. Dijkstra" << endl;
 	cout << "2. Kmp"<< endl;
@@ -336,8 +347,7 @@ void algorithmsMenu(Graph<int> graf){
 		emergency.calculateEditDistanceTime(edges);
 		break;
 	case 4:
-		break;
-	case 5:
+		emergency.calculateNaiveTime(edges);
 		break;
 	}
 
@@ -365,9 +375,10 @@ int menu(Graph<int> graf,GraphViewer *gv, pair<int,unsigned int> &call,vector<un
 	case 1:
 		priorityMenu(graf,gv,call,hospitals,transports_positions);
 		break;
-	case 2: emergency.averageConnectivity(graf,gv);
+	case 2:
 	break;
 	case 3:
+		emergency.averageConnectivity(graf,gv);
 		break;
 	case 4:
 		algorithmsMenu(graf);

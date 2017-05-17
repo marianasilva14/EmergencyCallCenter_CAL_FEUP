@@ -80,7 +80,7 @@ public:
 	 * @param hospitals hospitals positions
 	 * @return vector of generated positions
 	 */
-	vector<unsigned int> rafflePositions(Graph<int> graf, GraphViewer *gv, string image, int nr_images,vector<unsigned int> hospitals);
+	vector<unsigned int> rafflePositions(Graph<int> graf, GraphViewer *gv, string image, unsigned int nr_images,vector<unsigned int> hospitals);
 	/**
 	 * Makes transport inactive
 	 * @param gv GraphViewer
@@ -88,9 +88,17 @@ public:
 	 * @param hospital hospital
 	 * @param hospitals hospitals positions
 	 */
-	void inactiveTransport(GraphViewer *gv,vector<unsigned int>& transports,int destiny_choosed,unsigned int hospital,vector<unsigned int> hospitals);
+	void inactiveTransport(GraphViewer *gv,vector<unsigned int>& transports,unsigned int destiny_choosed,unsigned int hospital,vector<unsigned int> hospitals);
 
-	void printChoosenRoads(Graph<int> graf, GraphViewer *gv, vector<int> edges_choosen,  int priority, map<int,string> edges);
+	/**
+	 * Prints the edge of the street where the emergency will take place
+	 * @param graf Graph
+	 * @param gv GraphViewer
+	 * @param edges_chosen roads chosen by algorithm
+	 * @param priority emergency priority
+	 * @param edges map that includes all the streets of the map associating the edge id and the name of the street
+	 */
+	void printChosenRoads(Graph<int> graf, GraphViewer *gv, vector<int> edges_chosen,  int priority, map<int,string> edges);
 
 };
 #endif /* WAY_H_ */

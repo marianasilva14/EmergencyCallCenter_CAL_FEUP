@@ -140,7 +140,7 @@ int Vertex<T>::getIndegree() const {
 template <class T>
 int Vertex<T>::getIdEdge(const T &destiny){
 
-	for(int i=0; i < adj.size();i++){
+	for(unsigned int i=0; i < adj.size();i++){
 		if(adj[i].dest->getInfo() ==destiny)
 			return adj[i].idEdge;
 	}

@@ -31,7 +31,7 @@ bool Way::hospitalAlreadyExist(vector<unsigned int> hospitals, unsigned int tran
 	}
 	return false;
 }
-vector<unsigned int> Way::rafflePositions(Graph<int> graf, GraphViewer *gv, string image, int nr_images, vector<unsigned int> hospitals){
+vector<unsigned int> Way::rafflePositions(Graph<int> graf, GraphViewer *gv, string image, unsigned int nr_images, vector<unsigned int> hospitals){
 	int random_vertex;
 	vector<unsigned int> places;
 
@@ -75,13 +75,13 @@ vector<unsigned int> Way::positionsTransport(Graph<int> graf, GraphViewer *gv,ve
 	cars=way.rafflePositions(graf,gv, "car.png", 2,hospitals);
 
 
-	for(int i=0; i < ambulances.size();i++){
+	for(unsigned int i=0; i < ambulances.size();i++){
 		transports.push_back(ambulances[i]);
 	}
-	for(int i=0; i < motorcycles.size();i++){
+	for(unsigned int i=0; i < motorcycles.size();i++){
 		transports.push_back(motorcycles[i]);
 	}
-	for(int i=0; i < cars.size();i++){
+	for(unsigned int i=0; i < cars.size();i++){
 		transports.push_back(cars[i]);
 	}
 
@@ -99,8 +99,8 @@ unsigned int  Way::chooseNearestDestiny(int source, Graph<int> graf, GraphViewer
 
 	path= graf.getVertexSet();
 
-	for(int i=0; i < path.size();i++){
-		for(int j=0; j < destinies.size();j++){
+	for(unsigned int i=0; i < path.size();i++){
+		for(unsigned int j=0; j < destinies.size();j++){
 			if(path[i]->getDist() < dist && path[i]->getInfo()== destinies[j]){
 				dist=path[i]->getDist();
 				destiny_choosed=destinies[j];
@@ -111,10 +111,10 @@ unsigned int  Way::chooseNearestDestiny(int source, Graph<int> graf, GraphViewer
 	return destiny_choosed;
 }
 
-void Way::inactiveTransport(GraphViewer *gv,vector<unsigned int>& transports, int destiny_choosed,unsigned int hospital, vector<unsigned int> hospitals){
+void Way::inactiveTransport(GraphViewer *gv,vector<unsigned int>& transports,unsigned int destiny_choosed,unsigned int hospital, vector<unsigned int> hospitals){
 
 	bool changeHospitalIcon;
-	for(int i=0; i < hospitals.size();i++){
+	for(unsigned int i=0; i < hospitals.size();i++){
 		if(destiny_choosed==hospitals[i])
 			changeHospitalIcon=true;
 	}
@@ -138,7 +138,7 @@ void Way::inactiveTransport(GraphViewer *gv,vector<unsigned int>& transports, in
 
 }
 
-void Way::printChoosenRoads(Graph<int> graf, GraphViewer *gv, vector<int> edges_choosen, int priority, map<int,string> edges){
+void Way::printChosenRoads(Graph<int> graf, GraphViewer *gv, vector<int> edges_chosen, int priority, map<int,string> edges){
 
 	EmergencyEvent emergency;
 	string color;
@@ -147,10 +147,10 @@ void Way::printChoosenRoads(Graph<int> graf, GraphViewer *gv, vector<int> edges_
 	else
 		color=emergency.colorEmergencyPriority(priority);
 
-	for(unsigned int i = 0; i <edges_choosen.size(); i++){
+	for(unsigned int i = 0; i <edges_chosen.size(); i++){
 		//sleep(1);
-		gv->setEdgeColor(2*edges_choosen[i], color);
-		gv->setEdgeThickness(2*edges_choosen[i], 3);
+		gv->setEdgeColor(2*edges_chosen[i], color);
+		gv->setEdgeThickness(2*edges_chosen[i], 3);
 		gv->rearrange();
 	}
 }
