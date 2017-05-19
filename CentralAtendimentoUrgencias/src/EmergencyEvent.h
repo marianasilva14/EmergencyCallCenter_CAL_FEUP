@@ -171,6 +171,8 @@ public:
 	 * @param edges map that includes all the streets of the map associating the edge id and the name of the street
 	 */
 	void calculateNaiveTime(map<int,string> edges);
+
+	int calculateNumberOfWords(map<int, string> edges);
 };
 
 #endif /* EMERGENCYEVENT_H_ */
